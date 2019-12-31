@@ -1,0 +1,306 @@
+\chapter{Setting Up QED}
+
+\section{The Lagrangian}
+
+Quantum electrodynamics (QED) is the quantum field theory (QFT) of the electromagnetic interactions. As such it is responsible for interactions between electrically charged particles, more specifically Fermions. These interactions as \textit{mediated}\footnote{This is just the technical term for "the thing that causes two charged particles to talk to each other".} by our good friend the \textit{photon}. As such QED is the study of quantising a Lagrangian that marries the Lagrangian of Maxwell theory, 
+\bse 
+    \cL_{\text{Maxwell}} = -\frac{1}{4} F_{\mu\nu}F^{\mu\nu}, \qquad F_{\mu\nu} := \p_{\mu}A_{\nu} - \p_{\nu}A_{\mu},
+\ese 
+where $A_{\mu}$ is the photon field, with the Dirac Lagrangian (which describes Fermion fields) 
+\bse 
+    \cL_{\text{Dirac}} = \overline{\psi} \big(i\slashed{\p} -m\big) \psi, \qquad \overline{\psi} := \psi^{\dagger}\g^0, \qand \slashed{\p} := \g^{\mu}\p_{\mu}.
+\ese 
+In fact the Maxwell Lagrangian we have written above can be adapted to include an additional term, giving us 
+\bse 
+    \cL_{\text{Maxwell}} = -\frac{1}{4} F_{\mu\nu}F^{\mu\nu} - \cL_{GF},
+\ese 
+where "GF" stands for "gauge fixing". This gauge fixing term can be grouped into two types, known as \textit{axial}
+\bse 
+    \cL_{GF}^{\text{Axial}} = n_{\mu}A^{\mu}, \qquad \text{with} \qquad n^2 = 1,
+\ese 
+and \textit{covariant} gauges
+\bse 
+    \cL_{GF}^{\text{Covariant}} = \frac{1}{2\xi} (\p_{\mu} A^{\mu})^2,
+\ese 
+where $\xi$ is a number. It can take three different values and each value corresponds to a different gauge fixing, they are
+\be 
+\label{eqn:XiGaugeChoices}
+    \xi = \begin{cases} 
+        0 & \text{Landau} \\
+        1 & \text{Feynman} \\
+        \infty & \text{Unitary}
+    \end{cases}
+\ee 
+The most commonly chosen gauge fixing Lagrangian is the covariant Feynman gauge. 
+
+\br 
+    The Feynman gauge actually allows us to make a nice observation. Recall that in electromagnetism the Coulomb gauge condition $\nabla \cdot \vec{A} = 0$ results in the equations of motion 
+    \bse 
+        \p^2 \vec{A} = 0. 
+    \ese 
+    This is \textit{not} a Lorentz invariant expression, as we have fixed the value of $A_0$. However in the Feynman gauge the equations of motion that arise from our Lagrangian are 
+    \be 
+    \label{eqn:FeynmanGaugeEOM}
+        \p_{\mu}F^{\mu\nu} + \p^{\nu} (\p_{\mu}A^{\mu}) = \p^2 A^{\nu} = 0,
+    \ee
+    which is a Lorentz quantity (we have a proper Lorentz index $\nu$ here). The claim is that we can reach a similar conclusion even if we let $\xi$ take different values, and this gives us insight to why we call these gauges the \textit{covariant} gauges. 
+\er 
+
+\bbox 
+    Calculate the equations of motion for the Maxwell Lagrangian in the Feynman gauge and prove \Cref{eqn:FeynmanGaugeEOM} holds.
+    
+    \textit{Hint: Integrate the $\cL_{\text{GF}}$ term before finding the equations of motion.}
+\ebox 
+
+We can combine all these Lagrangians together to obtain the QED Lagrangian 
+\mybox{
+    \be 
+    \label{eqn:QEDLagrangian}
+        \cL_{QED} = -\frac{1}{4}F_{\mu\nu}F^{\mu\nu} + \overline{\psi} \big(i \slashed{D}-m\big)\psi - \cL_{GF}, \qquad \slashed{D} := \slashed{\p} + ieQ \slashed{A}.
+    \ee 
+}
+
+\noindent We see that this expression contains a term 
+\bse 
+    -eQ\overline{\psi} \slashed{A} \psi
+\ese 
+this is our interaction term and it corresponds a vertex with two Fermions and one photon (see the Feynman rules below). $e=\pm 1$ here tells us the \textit{sign} of the charge relative to the electron, and $Q$ tells us the magnitude of the charge. For example, the electron has $e=+1$ and $Q=1$, while the up quark $e=-1$ and $Q=2/3$.
+
+\section{Recap On Cross Sections}
+
+Recall that fundamentally what we want to calculate is the probability for a given process to occur. This is given by what we call a \textit{cross section}, and the procedure for obtaining a cross section is as follows:
+\ben[label=(\roman*)]
+    \item Use the Lagrangian (and Dyson's formula + Wick's theorem) to obtain the Feynman rules for your theory, 
+    \item Draw all the Feynman diagrams (up to the perturbation order you care about),
+    \item Calculate the matrix elements from each of these diagrams and combine them to find the total amplitude for the process, 
+    \item Use the general formula 
+    \bse 
+        d\sig = \frac{1}{\text{flux}} |\cM_{if}|^2  (2\pi)^4 \del^{(4)}(p_f - p_i) \prod_{f=1}^n \frac{d^3\vec{p}}{(2\pi)^3 2E_f},
+    \ese 
+    where the bit from $(2\pi)^4$ on wards it the \textit{Lorentz invariant phase space measure} (LIPS) and where $n$ is the number of particles in the final state, to obtain the differential cross section. 
+\een 
+There are two particular interactions that are of high interest to us: $2\to n$ scatterings and $1\to n$ decays. These have differential cross sections given by 
+\bse 
+    d\sig_{2\to n} = \frac{1}{4\sqrt{(p_1\cdot p_2)^2-m_1^2m_2^2}} d\text{LIPS} \big\la |\cM_{fi}|^2\big\ra
+\ese 
+where $1$ and $2$ index the initial state particles, and 
+\bse 
+    d\sig_{1\to n} = d\Gamma = \frac{1}{2m} d\text{LIPS} \big\la |\cM_{fi}|^2\big\ra
+\ese 
+where $m$ is the mass of the initial state particle, respectively. Note we have introduced an averaging notation $\la ... \ra$ which stands for "average over initial state spins/polarisations and sum over final state spins/polarisations". 
+
+For the even more special cases of when we have two final massive state particles with momenta $p_3$ and $p_4$, we get the expressions 
+\be 
+\label{eqn:DifferentialCrossSection2to2}
+    d\sig = \frac{1}{2s} (2\pi)^4 \del^{(4)}(p_3+p_4-p_1-p_2) \frac{d^3\vec{p}_3}{(2\pi)^3} \frac{d^3\vec{p}_4}{(2\pi)^3} \big\la | \cM_{12\to 34}|^2 \big\ra
+\ee    
+where $s = (2E_{CM})^2$, with $E_{CM}$ being the centre of mass energy,\footnote{It gets the name $s$ from the fact that the $s$-channel diagram has this energy flowing into the vertex.} and 
+\bse 
+    d\Gamma = \frac{1}{2m}(2\pi)^4 \del^{(4)}(p_3+p_4-p) \frac{d^3\vec{p}_3}{(2\pi)^3} \frac{d^3\vec{p}_4}{(2\pi)^3} \big\la | \cM_{m\to 34}|^2 \big\ra.
+\ese 
+
+\section{QED Feynman Rules}
+
+Ok so, as per the list of steps above, if we are going to calculate any cross sections at all, we need to be able to draw the Feynman diagrams, and in order to do this we need the Feynman rules. We list these in the table below, but first let's get some index conventions out the way (and one remark):
+\begin{itemize}
+    \item Dirac indices will be labelled by Greek letters from the start of the alphabet, e.g. $\a,\beta$ etc.
+    \item Lorentz indices will be labelled by Greek letters from the middle of the alphabet, e.g. $\mu,\nu$. 
+    \item We will use Greek letters such as $\l$ and $\kappa$ for polarisations. 
+    \item We will use Latin letters such as $s$ and $r$ to label spins.
+\end{itemize}
+
+\br 
+    The polarisation and spin of a particle is only meaningful when it is on-shell, that is when $p^2=m^2$ is satisfied. As we have seen in previous courses, internal propagator lines need not be on shell and so it is not meaningful to give them a polarisation and/or spin index. As such it is only the external (i.e. ingoing and outgoing) particles that get these indices. 
+\er 
+
+\mybox{
+\begin{center}
+	\begin{tabular}{@{} C{4cm} C{4cm} C{4cm} @{}}
+		\toprule
+		 Type & Diagram & Maths Expression \\
+		\midrule 
+		Incoming Fermion & \btik 
+            \midarrow (0,0) -- (2,0);
+            \draw[->] (0.5,0.3) -- (1.5,0.3) node [midway, above] {$\vec{p}$};
+            \draw[fill=black] (2,0) circle [radius=0.07cm];
+            \node at (-0.3,0) {$\a,s$};
+        \etik & $ u_{\a}(p,s) $ \\ \\
+        Incoming Antifermion & \btik 
+            \midarrow (2,0) -- (0,0);
+            \draw[->] (0.5,0.3) -- (1.5,0.3) node [midway, above] {$\vec{p}$};
+            \draw[fill=black] (2,0) circle [radius=0.07cm];
+            \node at (-0.3,0) {$\a,s$};
+        \etik & $ \overline{v}_{\a}(p,s) $ \\ \\
+		Incoming Photon & \btik 
+            \wavey (0,0) -- (2,0);
+            \draw[->] (0.5,0.3) -- (1.5,0.3) node [midway, above] {$\vec{p}$};
+            \draw[fill=black] (2,0) circle [radius=0.07cm];
+            \node at (-0.3,0) {$\mu$};
+        \etik & $ \varepsilon_{\mu}(p,\l) $ \\ \\
+        \midrule
+        Outgoing Fermion & \btik 
+            \midarrow (0,0) -- (2,0);
+            \draw[->] (0.5,0.3) -- (1.5,0.3) node [midway, above] {$\vec{p}$};
+            \draw[fill=black] (0,0) circle [radius=0.07cm];
+            \node at (2.3,0) {$\a,s$};
+        \etik & $ \overline{u}_{\a}(p,s) $ \\ \\
+        Outgoing Antifermion & \btik 
+            \midarrow (2,0) -- (0,0);
+            \draw[->] (0.5,0.3) -- (1.5,0.3) node [midway, above] {$\vec{p}$};
+            \draw[fill=black] (0,0) circle [radius=0.07cm];
+            \node at (2.3,0) {$\a,s$};
+        \etik & $ v_{\a}(p,s) $ \\ \\
+        Outgoing Photon & \btik 
+            \wavey (0,0) -- (2,0);
+            \draw[->] (0.5,0.3) -- (1.5,0.3) node [midway, above] {$\vec{p}$};
+            \draw[fill=black] (0,0) circle [radius=0.07cm];
+            \node at (2.3,0) {$\mu$};
+        \etik & $ \varepsilon^*_{\mu}(p,\l) $ \\ \\
+        \midrule
+        Fermion Propagator & \btik 
+            \midarrow (0,0) -- (2,0);
+            \draw[->] (0.5,0.3) -- (1.5,0.3) node [midway, above] {$\vec{q}$};
+            \draw[fill=black] (0,0) circle [radius=0.07cm] node [left] {$\beta$};
+            \draw[fill=black] (2,0) circle [radius=0.07cm] node [right] {$\a$};
+        \etik & \bse \frac{i(\slashed{q}+m)_{\a\beta}}{q^2 -m^2 + i\epsilon} \ese \\
+        Antifermion Propagator & \btik 
+            \midarrow (2,0) -- (0,0);
+            \draw[->] (0.5,0.3) -- (1.5,0.3) node [midway, above] {$\vec{q}$};
+            \draw[fill=black] (0,0) circle [radius=0.07cm] node [left] {$\beta$};
+            \draw[fill=black] (2,0) circle [radius=0.07cm] node [right] {$\a$};
+        \etik & \bse \frac{i(-\slashed{q}+m)_{\a\beta}}{q^2 -m^2 + i\epsilon} \ese \\
+        Photon Propagator & \btik 
+            \wavey (0,0) -- (2,0);
+            \draw[->] (0.5,0.3) -- (1.5,0.3) node [midway, above] {$\vec{q}$};
+            \draw[fill=black] (0,0) circle [radius=0.07cm] node [left] {$\mu$};
+            \draw[fill=black] (2,0) circle [radius=0.07cm] node [right] {$\nu$};
+        \etik & \bse \frac{-i\big(\eta^{\mu\nu}-(\xi-1)\frac{q^{\mu}q^{\nu}}{q^2}\big)}{q^2 + i\epsilon} \ese \\
+        \midrule
+        Vertex & \btik 
+            \midarrow (-0.5,0.5) -- (0,0);
+            \node at (-0.7,0.7) {$\a$};
+            \midarrow (0,0) -- (-0.5,-0.5);
+            \node at (-0.7,-0.7) {$\beta$};
+            \wavey (0,0) -- (1,0);
+            \node at (1.2,0) {$\mu$};
+            \draw[fill=black] (0,0) circle [radius=0.07cm];
+        \etik & $ -ieQ\g^{\mu}_{\beta\a} $ \\
+		\bottomrule
+	\end{tabular}
+\end{center}
+}
+
+Before finishing to explain what we do with these diagrams/rules to obtain the full mathematical expression, let's make a few comments:
+\begin{itemize}
+    \item The incoming photon symbol is just a $\varepsilon$ while the outgoing one comes with a star, $\varepsilon^*$. 
+    \item The bars for Fermions and Antifermions are flipped, that is \textit{incoming} Antifermions have the bar, $\overline{v}$, while \textit{outgoing} Fermions have the bar $\overline{u}$. As the bar contains a Hermitian conjugate (which itself contains a transpose) the barred objects are row matrices. Pairing this with the fact that the matrix element is meant to just be a number, it follows that we need to always put these furthest to the left in our expressions.\footnote{If this isn't clear, consider the matrix multiplications and you'll see if you order them with the barred at the right and unbarred at the left, your result won't work out properly.} In terms of using the diagrams to reproduce the mathematical expression, this condition translates into us reading \textit{backwards} along the Fermion flow, as indicated in this diagram:
+    \begin{center}
+        \btik 
+            \begin{scope}
+                \draw[->] (0.3,0.2) -- (1.3,0.2) node [midway, above] {\textcolor{orange}{$\vec{p}_1$}};
+                \node at (-0.4,0) {\textcolor{orange}{$\a,s$}};
+                \draw[->] (6.7,0.2) -- (7.7,0.2) node [midway, above] {\textcolor{blue}{$\vec{p}_n$}};
+                \node at (8.4,0) {\textcolor{blue}{$\beta,r$}};
+                \midarrow (0,0) -- (2,0);
+                \midarrow (2,0) -- (4,0);
+                \midarrow (4,0) -- (6,0);
+                \midarrow (6,0) -- (8,0);
+                \draw[thick, dashed] (2,0) -- (2,1);
+                \draw[thick, dashed] (4,0) -- (4,1);
+                \draw[thick, dashed] (6,0) -- (6,1);
+                \draw[ultra thick, red, ->] (8,-0.5) -- (6,-0.5) node [midway, below] {\textcolor{red}{Read This Way}};
+                \node at (10,0.5) {\large{$= \overline{u}_{\textcolor{blue}{\beta}}(\textcolor{blue}{r,\vec{p}_n}) ... u_{\textcolor{orange}{\a}}(\textcolor{orange}{s,\vec{p}_1})$}};
+            \end{scope}
+            \begin{scope}[yshift=-3cm]
+                \draw[->] (0.3,0.2) -- (1.3,0.2) node [midway, above] {\textcolor{orange}{$\vec{p}_1$}};
+                \node at (-0.4,0) {\textcolor{orange}{$\a,s$}};
+                \draw[->] (6.7,0.2) -- (7.7,0.2) node [midway, above] {\textcolor{blue}{$\vec{p}_n$}};
+                \node at (8.4,0) {\textcolor{blue}{$\beta,r$}};
+                \midarrow (2,0) -- (0,0);
+                \midarrow (4,0) -- (2,0);
+                \midarrow (6,0) -- (4,0);
+                \midarrow (8,0) -- (6,0);
+                \draw[thick, dashed] (2,0) -- (2,1);
+                \draw[thick, dashed] (4,0) -- (4,1);
+                \draw[thick, dashed] (6,0) -- (6,1);
+                \draw[ultra thick, red, ->] (0,-0.5) -- (2,-0.5) node [midway, below] {\textcolor{red}{Read This Way}};
+                \node at (10,0.5) {\large{$= \overline{v}_{\textcolor{orange}{\a}}(\textcolor{orange}{s,\vec{p}_1}) ... v_{\textcolor{blue}{\beta}}(\textcolor{blue}{r,\vec{p}_n})$}};
+            \end{scope}
+        \etik 
+    \end{center}
+    \item Be careful about the ordering of the Dirac indices for propagators, you switch the order from diagram to maths expression. That is you take the index at the \textit{end} of the Fermion flow and put it first on the $\g$, as can be seen in the table above.
+    \item Be careful about the sign of the momentum for an Antifermion propagator, it comes with a minus sign. We can remember this easily as "take the momentum that lines up with the Fermion flow on propagators". So for Fermions we get a plus sign, but for Antifermions we get a minus sign. 
+    \item If we use the Feynman gauge the second (ugly looking)\footnote{In my opinion anyway...} term in the numerator vanishes. This is one reason why the Feynman gauge is commonly used. 
+    \item On the vertex we can only have two Fermions of the same type, by which we mean we cannot have an electron and a muon meeting at a vertex. 
+\end{itemize}
+
+\br 
+    A quick remark too... In this course we will take time to flow horizontally in Feynman diagrams. So our initial states are on the left and final states are to the right. 
+\er 
+
+Ok so that's our comments out the way. How do we use these diagrams to obtain the matrix elements $i\cM$? Well we follow the procedure listed now:
+\ben[label=(\roman*)]
+    \item Draw all topologically different\footnote{For those interested, I think the notion of "different" here is homotopy. This could be wrong, so if you think otherwise please feel free to email me.} diagrams. 
+        \ben 
+            \item Do not draw \textit{vacuum bubbles}, which are basically things that have no external lines. For example 
+            \begin{center}
+                \btik 
+                    \midarrow (-1,0.5) -- (0,0.5);
+                    \midarrow (0,0.5) -- (1,0.5);
+                    \wavey (0,0.5) -- (0,-0.5);
+                    \midarrow (-1,-0.5) -- (0,-0.5);
+                    \midarrow (0,-0.5) -- (1,-0.5);
+                    \midarrow (2,0) circle [radius=0.5cm];
+                    \midarrow (2,0) circle [radius=-0.5cm];
+                \etik 
+            \end{center}
+            is not good because of the external loop.
+            \item We only draw connected diagrams\footnote{Note in the IFT course we referred to these as \textit{fully} connected. We mean that you can get from any line to any other line within the diagram.} For example
+            \begin{center}
+                \btik
+                    \midarrow (-1,0) -- (-0.5,0);
+                    \midarrow (-0.5,0) -- (0.5,0);
+                    \draw[thick, dashed] (-0.5,0) .. controls (-0.25,0.5) and (0.25,0.5) .. (0.5,0);
+                    \midarrow (0.5,0) -- (1,0);
+                    \midarrow (-1,-0.75) -- (1,-0.75);
+                \etik  
+            \end{center}
+            is not valid. 
+            \item Only draw the diagrams up to the perturbation theory order you want to consider. The order is given by the number of vertices, so if you wanted to consider up to order third order, you would draw all the diagrams with $1$, $2$ or $3$ vertices.
+        \een 
+    \item Assign momentum to external legs. 
+    \item Assign momentum to internal legs, imposing local momentum conservation at each vertex. For example 
+    \begin{center}
+        \btik 
+            \midarrow (-1,0) -- (0,0);
+            \draw[->] (-0.75, 0.3) -- (-0.25,0.3) node [midway, above] {$p_1$};
+            \midarrow (0,0) -- (1,0);
+            \draw[->] (0.25, 0.3) -- (0.75,0.3) node [midway, above] {$p_2$};
+            \wavey (0,0) -- (0,-1);
+            \draw[->] (-0.3, -0.25) -- (-0.3,-0.75) node [midway, left] {$p_1-p_2$};
+        \etik 
+    \end{center}
+    \item Integrate over all undetermined internal momenta, i.e. include a factor of 
+    \bse 
+        \int \frac{d^4 q_i}{(2\pi)^4}
+    \ese
+    for all undetermined $q_i$.
+        \ben 
+            \item For tree level diagrams there will be no undetermined momenta, so this rule can be forgotten about. 
+            \item For diagrams with $n$ internal loops we will have $n$ undetermined momenta, so we will need $n$ integrals.
+        \een    
+    \item Include numerical factors: 
+        \ben 
+            \item $-1$ for every closed \textit{Fermion} loop.
+            \item Relative factor of $-1$ for diagrams differing only by the exchange of two final state Fermions. 
+            \item Divide by symmetry factor (only for loops). 
+        \een 
+\een 
+
+\br 
+    To be technically correct, the condition (i)(c) is not totally true, by which we mean that it's not always the case that the number of vertices give you the order in perturbation theory. The reason for this is that sometimes you can get vertex factors that go with, for example, the square root of the coupling. Things like this happen when you consider theories that undergo some form of \textit{spontaneous symmetry breaking}, which is discussed in much more detail in the SM course. In these notes we will never encounter a term like this and so we can take this rule of "number of vertices = perturbation order" rule to be valid.
+\er
+
+\br 
+    The conditions in (v) might seem mysterious. Condition (b) is explained in some detail in section 12.2.4 of my IFT notes in terms of Wick contractions, and explained later in these notes more diagrammatically. Condition (c) should be believable given the discussions of symmetry factors in IFT. Condition (a), however, is a more subtle beast and is hard to prove from a canonical view point. You can either take this result to just be true or you can look up a derivation of it from the path integral language. We do this derivation in the QFT II course.\footnote{In case anyone does check my notes on QFT II for this derivation, I haven't got round to typing that up yet as it was part of the unlectured material. I will type it up eventually though and delete this footnote. }
+\er 

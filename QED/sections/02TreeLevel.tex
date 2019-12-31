@@ -1,0 +1,813 @@
+\chapter{Tree Level QED}
+
+Tree level diagrams are those that don't contain any loops. In other words, they are diagrams in which condition (iv) from last lecture is redundant as there is no undetermined momenta. It is clear, then, that these theories are probably the simplest to study and so form a brilliant starting point. Here we are going to consider a bunch of them to get ourselves comfortable with the steps/calculations in order to tackle the harder problems later. 
+
+\section{$e^-\mu^-$ Scattering}
+
+The first process we want to consider is the scattering process between an electron, $e^-$, and a muon, $\mu^-$. Pictorially, what we're doing is considering the diagram 
+\begin{center}
+    \btik 
+        \midarrow (-1.5,1.5) -- (-0.75,0.75);
+        \midarrow (-1.5,-1.5) -- (-0.75,-0.75);
+        \midarrow (0.75,0.75) -- (1.5,1.5);
+        \midarrow (0.75,-0.75) -- (1.5,-1.5);
+        \draw[thick, fill=white] (0,0) circle [radius=1.1cm];
+        \node at (0,0) {\Large{$i\cM$}};
+        \node at (1.7,1.7) {$e^-$};
+        \node at (-1.7,1.7) {$e^-$};
+        \node at (1.7,-1.7) {$\mu^-$};
+        \node at (-1.7,-1.7) {$\mu^-$};
+    \etik 
+\end{center}
+and asking the question "What is $i\cM$ at tree level?" Let's just do this to first non-trivial order.\footnote{By non-trivial order we mean some interaction is actually taking place. So we exclude the case when the $e^-$ just flies along independently of the $\mu^-$ flying along. We have actually taken care of this by stating that we only consider connected diagrams in our Feynman rules, rule (i)(b).} It is reasonably easy to convince yourself that there are no diagrams at first order (i.e. only one vertex) and so the first non-trivial diagram we get is at second order. Now what kinds of things can we have? Well as we mentioned in the last bullet point in the last section, we cannot have a muon and an electron meeting at a vertex, that is we \textit{cannot} connect our initial state particles with something like 
+\begin{center}
+    \btik 
+        \midarrow (-1,1) -- (0,0);
+        \node at (-1.2,1.2) {$e^-$};
+        \midarrow (-1,-1) -- (0,0);
+        \node at (-1.2,-1.2) {$\mu^-$};
+        \wavey (0,0) -- (1,0) node [midway, above] {$\gamma$};
+    \etik  
+\end{center}
+and similarly we cannot connect the final state particles at a vertex. Finally we can also not connect an initial state electron with a final state muon (and same thing reversed), i.e. we cannot draw
+\begin{center}
+    \btik 
+        \midarrow (-1,1) -- (0,1); 
+        \node at (-1.2,1.2) {$e^-$};
+        \midarrow (0,1) -- (1,0);
+        \node at (1.2,-0.2) {$\mu^-$};
+        \wavey (0,1) -- (0,0) node [midway, left] {$\g$};
+    \etik 
+\end{center}
+It follows from this that the only diagram we get at second order is the following:\footnote{This is a little messy, but hopefully it's clear enough.}
+\begin{center}
+    \btik 
+        \midarrow (-2.5,1) -- (0,1);
+        \node at (-2.8,1) {$\beta,s$};
+        \node at (-3.75,1) {$e^-$};
+        \draw[->] (-2,1.3) -- (-1.5,1.3) node [midway, above] {$\Vec{k}_1$};
+        \midarrow (0,1) -- (2.5,1);
+        \node at (2.9,1) {$\a,s'$};
+        \node at (3.75,1) {$e^-$};
+        \draw[->] (1.5,1.3) -- (2,1.3) node [midway, above] {$\Vec{p}_1$};
+        \wavey (0,1) -- (0,-1);
+        \draw[->] (0.2,0.25) -- (0.2,-0.25) node [midway, right] {$\Vec{q}=\Vec{k}_1-\Vec{p}_1$};
+        \midarrow (-2.5,-1) -- (0,-1);
+        \node at (-2.8,-1) {$\del,r$};
+        \node at (-3.75,-1) {$\mu^-$};
+        \draw[->] (-2,-1.3) -- (-1.5,-1.3) node [midway, below] {$\Vec{k}_2$};
+        \midarrow (0,-1) -- (2.5,-1);
+        \node at (2.9,-1) {$\rho,r'$};
+        \node at (3.75,-1) {$\mu^-$};
+        \draw[->] (1.5,-1.3) -- (2,-1.3) node [midway, below] {$\Vec{p}_2$};
+        \draw[fill=black] (0,1) circle [radius=0.07cm];
+        \draw[fill=black] (0,-1) circle [radius=0.07cm];
+        \node at (0.2,0.8) {$\mu$};
+        \node at (0.2,-0.8) {$\nu$};
+    \etik 
+\end{center}
+This gives us the matrix element 
+\bse 
+    i\cM = \overline{u}_{\a}(p_1,s') (-ie) \g^{\mu}_{\a\beta} u_{\beta}(k_1,s) \frac{-i\big(\eta_{\mu\nu}-(\xi-1)\frac{q_{\mu}q_{\nu}}{q^2}\big)}{q^2 + i\epsilon} \overline{u}_{\rho}(p_2,r') (-ie) \g^{\nu}_{\rho\del} u_{\del}(k_2,r)
+\ese 
+where we have explicitly put in all the indices. Later in the course (once we're more comfortable with the expressions) we will suppress the indices to make things neater. Now we want to make this simpler so what do we do? Well first we note that we can contract the $q_{\mu}$ and $q_{\nu}$ in the numerator with the $\g^{\mu}$ and $\g^{\nu}$ to give us two terms of the form 
+\bse 
+    \overline{u}(p_1,s') \slashed{q} u(k_1,s) \qand \overline{u}(p_2,r') \slashed{q} u(k_2,r).
+\ese
+Why does this help us, well it turns out that we can prove\footnote{The proof of this is set as an exercise on the course.}
+\be 
+    \overline{u}(p_1) \slashed{q}u(k_1) = 0 \qquad \text{if} \qquad q=k_1-p_1
+\ee 
+so both of these terms vanish (as $k_1-p_1=k_2-p_2$). So we see the gauge term does not contribute to the matrix element no matter which gauge we take. This is very neat!
+
+Next we note that we won't get a pole in our denominator, and so we can drop the $i\epsilon$ term.\footnote{If this doesn't make sense, see the IFT notes/a similar course.} Finally we use the metric to lower the index on one of the gammas. We are therefore left with 
+\bse 
+    i\cM = ie^2 \overline{u}_{\a}(p_1,s) \g^{\mu}_{\a\beta} u_{\beta}(k_1,s) \frac{1}{q^2} \overline{u}_{\rho}(p_2,r') (\g_{\mu})_{\rho\del} u_{\del}(k_2,r).
+\ese 
+
+Now, as we said before, it is fundamentally the cross section we are interested in (as this is observable) and so we want to take the complex conjugate of this and multiply by that. How do we go about doing this? Well we use another neat result\footnote{Again this is an exercise on the course.}
+\bse 
+    \big[\overline{u}(p_1,s_1) \g^{\mu_1} ... \g^{\mu_n}u(p_2,s_2)\big]^* = \overline{u}(p_n) \g^{\mu_n} ... \g^{\mu_1}u(p_1)
+\ese
+which gives us 
+\be
+\label{eqn:emuScatteringMSquared}
+    |i\cM|^2 = \frac{e^4}{q^4} \big[\overline{u}(p_1,s') \g^{\mu} u(k_1,s) \overline{u}(p_2,r') \g_{\mu} u(k_2,r) \big] \big[\overline{u}(k_2,r) \g_{\nu} u(p_2,r) \overline{u}(k_1,s) \g^{\nu} u(p_1,s') \big]
+\ee 
+
+\br 
+\label{rem:FeynmanDiagramAmplitude}
+    Note that the complex conjugated matrix element has switched what we call incoming momentum/spin and outgoing momentum/spin. That is the diagram for $i\cM^*$ corresponds to (dropping the Dirac and Lorentz indices to avoid clutter)
+    \begin{center}
+        \btik 
+            \midarrow (-2.5,1) -- (0,1);
+            \node at (-2.8,1) {$s'$};
+            \node at (-3.75,1) {$e^-$};
+            \draw[->] (-2,1.3) -- (-1.5,1.3) node [midway, above] {$\Vec{p}_1$};
+            \midarrow (0,1) -- (2.5,1);
+            \node at (2.9,1) {$s$};
+            \node at (3.75,1) {$e^-$};
+            \draw[->] (1.5,1.3) -- (2,1.3) node [midway, above] {$\Vec{k}_1$};
+            \wavey (0,1) -- (0,-1);
+            \draw[->] (0.2,0.25) -- (0.2,-0.25) node [midway, right] {$\Vec{q}=\Vec{p}_1-\Vec{k}_1$};
+            \midarrow (-2.5,-1) -- (0,-1);
+            \node at (-2.8,-1) {$r'$};
+            \node at (-3.75,-1) {$\mu^-$};
+            \draw[->] (-2,-1.3) -- (-1.5,-1.3) node [midway, below] {$\Vec{p}_2$};
+            \midarrow (0,-1) -- (2.5,-1);
+            \node at (2.9,-1) {$r$};
+            \node at (3.75,-1) {$\mu^-$};
+            \draw[->] (1.5,-1.3) -- (2,-1.3) node [midway, below] {$\Vec{k}_2$};
+            \draw[fill=black] (0,1) circle [radius=0.07cm];
+            \draw[fill=black] (0,-1) circle [radius=0.07cm];
+        \etik 
+    \end{center}
+    We can therefore think of taking the complex conjugate squared as somehow `stitching' the end of the diagram back to the initial state with a propagator in the middle. That is, we get a diagram that looks sort of like two circles connected by two photon propagators. 
+    \begin{center}
+        \btik 
+            \begin{scope}[scale=1.2]
+                \clip (1.65,0) -- (2.5,0) -- (2.5,-0.25) -- (1.65,-0.25) -- (1.65,0);
+                \midarrow (0,0) ellipse (-2 and -0.5);
+            \end{scope}
+            \node at (3,-0.1) {$\Vec{p}_1,r$};
+            \begin{scope}[scale=1.2]
+                \clip (-1.65,0) -- (-2.5,0) -- (-2.5,0.25) -- (-1.65,0.25) -- (-1.65,0);
+                \midarrow (0,0) ellipse (2 and 0.5);
+            \end{scope}
+            \node at (-3,0.1) {$\Vec{k}_1,s$};
+            \begin{scope}[scale=1.2,yshift=-1.25cm]
+                \clip (1.65,0) -- (2.5,0) -- (2.5,-0.25) -- (1.65,-0.25) -- (1.65,0);
+                \midarrow (0,0) ellipse (-2 and -0.5);
+            \end{scope}
+            \node at (3,-1.6) {$\Vec{p}_2,s'$};
+            \begin{scope}[scale=1.2,yshift=-1.25cm]
+                \clip (-1.65,0) -- (-2.5,0) -- (-2.5,0.25) -- (-1.65,0.25) -- (-1.65,0);
+                \midarrow (0,0) ellipse (2 and 0.5);
+            \end{scope}
+            \node at (-3,-1.4) {$\Vec{k}_2,r$};
+            \midarrow (0,0) ellipse (2 and 0.5);
+            \midarrow (0,0) ellipse (-2 and -0.5);
+            \midarrow (0,-1.5) ellipse (2 and 0.5);
+            \midarrow (0,-1.5) ellipse (-2 and -0.5);
+            \wavey (0.5,0.5) -- (0.5,-1);
+            \wavey (-0.5,-0.5) -- (-0.5,-2);
+            \node at (-1.5,0.1) {$e^-$};
+            \node at (1.5,0.1) {$e^-$};
+            \node at (1.5,-1.4) {$\mu^-$};
+            \node at (-1.5,-1.4) {$\mu^-$};
+        \etik 
+    \end{center}
+    As we will see in a moment, this idea of joining the initial and final state particles allows us to get some insight into the answer of the amplitude.
+\er 
+
+\Cref{eqn:emuScatteringMSquared} is the result for the specific values of $s,s',r$ and $r'$, and so as per the Feynman rules, we need to average over initial state spins and sum over final state spins. Recall that we have the spin sum relations
+\mybox{
+    \be 
+    \label{eqn:SpinSums}
+        \sum_s u(p,s)\overline{u}(p,s) = \slashed{p}+m, \qand \sum_s v(p,s)\overline{v}(p,s) = \slashed{p}-m,
+    \ee 
+}
+\noindent which allows us to replace all the $\overline{u}/u$s in \Cref{eqn:emuScatteringMSquared}. We do this by putting the indices back in and then using the fact these are then just numbers (they're the elements of the matrix) so we can freely move them around. These indices are contracted with the gammas, though, so we need to remember what goes with what. We see that the gammas with contravariant indices are both contracted with the $(p_1,s')$ and $(k_1,s)$ terms, so these combine to give us 
+\bse 
+    \begin{split}
+        \overline{u}_{\a}(p_1,s') \g^{\mu}_{\a\beta} u_{\beta}(k_1,s) \overline{u}_{\beta'}(k_1,s) \g^{\nu}_{\beta'\a'} u_{\a'}(p_1,s') & = \g^{\mu}_{\a\beta} (\slashed{k}_1+m_e)_{\beta\beta'} \g^{\nu}_{\beta'\a'} (\slashed{p}_1+m_e)_{\a\a'} \\
+        & = \Tr \big[ \g^{\mu} (\slashed{k}_1+m_e) \g^{\nu} (\slashed{p}_1+m_e)\big],
+    \end{split}
+\ese 
+where we have introduced the definition of the trace in Dirac space. Similarly the remaining terms give us 
+\bse 
+    \Tr \big[ \g_{\mu} (\slashed{k}_2+m_{\mu}) \g_{\nu} (\slashed{p}_2+m_{\mu})\big],
+\ese 
+where the subscript of the mass means muon, it is \textit{not} a Lorentz index. To avoid confusion with contractions in the next line, we shall relabel the $\mu$ Lorentz index on the gammas by $\sig$. Then we average over the initial state spins which gives us a factor of $1/2\cdot 1/2 = 1/4$, so in total we get 
+\be 
+\label{eqn:emuAmplitudeTraces}
+    \big\la|i\cM|^2\big\ra = \frac{e^4}{4 q^4} \Tr \big[ \g^{\sig} (\slashed{k}_1+m_e) \g^{\nu} (\slashed{p}_1+m_e)\big]\Tr \big[ \g_{\sig} (\slashed{k}_2+m_{\mu}) \g_{\nu} (\slashed{p}_2+m_{\mu})\big].
+\ee 
+
+\br
+\label{rem:TracesFromDiagrams}
+    It is now that we can return to the idea of \Cref{rem:FeynmanDiagramAmplitude}; we have two traces here and we see that the content on these two traces corresponds exactly to the two connected Fermion parts. By this we mean that the top circle in the diagram above is the content of the first trace, while the second circle is the content of the second trace. These two pieces are only connected by photon propagators and so they really are two separate traces. The guiding principle is, then, the number of closed Fermion paths in our `stitched together' diagram is the number of traces we expect, and the terms contained within these parts give us the content of the traces. We can think of this in a slightly different way as: imagine taking a pair of pliers and snipping all the photon lines, then if you have closed Fermion paths remaining, these give you a trace. This will perhaps be more clear later when we consider so-called M{\o}ller scattering.
+\er 
+
+So we have reduced the problem of finding the amplitude for our scattering process to calculating Dirac traces of our gamma matrices. We obviously now need to study what these are, and this is the content of the next section. Firstly recall the Clifford algebra property
+\be 
+\label{eqn:AnticommutationGammas}
+    \{\g^{\mu},\g^{\nu}\} = 2\eta^{\mu\nu} \b1
+\ee 
+where $\b1$ is the identity matrix of the correct dimension, and the definition
+\be 
+\label{eqn:Gamma5}
+    \g^5 := i\g^0\g^1\g^2\g^3.
+\ee
+
+\bbox 
+    Use these two relations to show that 
+    \bse 
+        \big(\g^0\big)^2 = \b1, \qquad \big(\g^i\big)^2 = -\b1, \qquad \big(\g^5\big)^2 =\b1, \qand \big\{\g^{\mu},\g^5\big\} = 0.
+    \ese 
+\ebox 
+
+
+\subsection{Interlude: Gamma Matrices}
+
+This short section just gives us some identities for the gamma matrices and their traces. We do not prove the results here\footnote{As some were set as exercises on the course, and I don't want to type up the answers here.} but simply claim they are true. They are not too hard to prove and so the reader is encouraged to give them a go, and as a guiding starting point, the proof of the first one is given and the rest left as implicit exercises.
+
+We shall leave the spacetime dimension arbitrary and simply call it $D$.
+
+\subsubsection{Traces}
+
+The following expressions are true:
+\ben[label=(\roman*)]
+    \item $\Tr [\g^{\mu}] = 0$.
+    \item $\Tr [\g^{\mu}\g^{\nu}] = D \eta^{\mu\nu}$. 
+    \item $\Tr[\g^{\mu_1}... \g^{\mu_{2n+1}}] = 0$, i.e. the trace over an odd number vanishes. 
+    \item $\Tr [\g^{\mu}\g^{\nu}\g^{\rho}\g^{\sig}] = D\big(\eta^{\mu\nu}\eta^{\rho\sig} - \eta^{\mu\rho}\eta^{\nu\sig} + \eta^{\mu\sig}\eta^{\nu\rho}\big)$.
+    \item $\Tr[\g^5]=0$. 
+    \item $ \Tr[\g^{\mu}\g^{\nu}\g^5] = 0$. 
+    \item $\Tr [\g^{\mu}\g^{\nu}\g^{\rho}\g^{\sig}\g^5] = iD\epsilon^{\mu\nu\rho\sig}$, where $\epsilon^{\mu\nu\rho\sig}$ is the $4$ index Levi-Civita symbol.\footnote{When trying to prove this one, I recommend using the answer as a guiding light. That is put in the definition of $\g^5$ and then see what happens if none of the other $\g$s are $\g^0$, then do the same for $1,2,3$. From this point it should be reasonably easy to get the result.}
+\een 
+
+These are all traces in \textit{Dirac} space.
+
+\bq 
+    As promised, let's prove $\Tr[\g^{\mu}]=0$. The key property to note is that the trace of symmetric under cyclic permutations, that is, for example
+    \bse 
+        \Tr[ABC] = \Tr[CAB] = \Tr[BCA].
+    \ese 
+    The only other things we'll use are $(\g^5)^2=\b1$ and $\{\g^{\mu},\g^5\}=0$. We have\footnote{Being more explicit then is probably required.}
+    \bse 
+        \begin{split}
+            \Tr[\g^{\mu}] & = \Tr[\g^{\mu}\b1] \\
+            & = \Tr[\g^{\mu}\g^5\g^5] \\
+            & = - \Tr[\g^5\g^{\mu}\g^5] \\
+            & = - \Tr[\g^5\g^5 \g^{\mu}] \\
+            & = - \Tr[\b1 \g^{\mu}] \\
+            \therefore \quad \Tr[\g^{\mu}] & = - \Tr[\g^{\mu}],
+        \end{split}
+    \ese 
+    which gives us the result. Note you don't actully need to use $\g^5$ for this but could just consider some $\g^{\nu}$ with $\nu\neq \mu$ and obtain the same result however you have to be a bit careful with signs there, so the $\g^5$ calculation is easier. 
+\eq 
+
+\subsubsection{Contractions}
+
+The following expressions are also true:
+\ben[label=(\roman*)]
+    \item $\g^{\mu}\g_{\mu} = D$. 
+    \item $\g^{\mu}\g^{\nu}\g_{\mu} = (2-D)\g^{\nu}$. 
+    \item $\g^{\mu}\g^{\nu}\g^{\rho}\g_{\mu} = (D-4)\g^{\nu}\g^{\rho} + 4\eta^{\rho\nu}$.
+    \item $\g^{\mu}\g^{\nu}\g^{\rho}\g^{\sig}\g_{\mu} = (4-D)\g^{\nu}\g^{\rho}\g^{\sig} -2\g^{\sig}\g^{\rho}\g^{\nu}$.
+\een 
+
+These are all traces in \textit{Lorentz} space.
+
+\subsection{Back To The Problem}
+
+Firstly let's use the linearity of the trace to rewrite the terms in \Cref{eqn:emuAmplitudeTraces} as
+\bse 
+    \Tr[\g^{\sig}(\slashed{k}_1+m_e) \g^{\nu}(\slashed{p}_1+m_e)] = \Tr[\g^{\sig}\slashed{k}_1 \g^{\nu}\slashed{p}_1] + m_e\Big( \Tr[\g^{\sig}\slashed{k}_1 \g^{\nu}] + \Tr [\g^{\sig} \g^{\nu} \slashed{p}_1]\Big) + m_e^2 \Tr[\g^{\sig}\g^{\nu}]
+\ese 
+and similarly for the other expression. Now we recall that the slashed notation contains gammas, $\slashed{k}_1 := \g^{\mu}k_{1,\mu}$,\footnote{The comma here is just to help separate the $1$ which just means particle $1$ from the $\mu$ which is a Lorentz index.} to use the trace expressions we just stated. We therefore have 
+\bse 
+    \Tr[\g^{\sig}(\slashed{k}_1+m_e) \g^{\nu}(\slashed{p}_1+m_e)] = 4\big( k_1^{\sig}p_1^{\nu} - \eta^{\sig\nu} (k_1\cdot p_1) + k_1^{\nu}p_1^{\sig}\big) + 4m_e^2 \eta^{\sig\nu},
+\ese 
+where $k_1\cdot p_1 = k_1^{\rho} p_{1,\rho}$.
+
+\bbox 
+    Verify the above expression holds. 
+\ebox 
+
+We get a similiar thing for the other trace and so in total \Cref{eqn:emuAmplitudeTraces} becomes 
+\bse 
+    \begin{split}
+        \big\la |i\cM|^2\big\ra & = \frac{4e^4}{q^4} \big[ k_1^{\sig}p_1^{\nu} - \eta^{\sig\nu} (k_1\cdot p_1-m_e^2) + k_1^{\nu}p_1^{\sig}\big] \big[ k_{2,\sig}p_{2,\nu} - \eta_{\sig\nu} (k_2\cdot p_2-m_{\mu}^2) + k_{2,\nu}p_{2,\sig}\big] \\
+        & = \frac{8e^4}{q^4} \big[ (k_1\cdot k_2)(p_1\cdot p_2) + (k_1\cdot p_2)(p_1\cdot k_2) - k_2\cdot p_2(k_1\cdot p_1-m_e^2) - k_1\cdot p_1(k_2\cdot p_2-m_{\mu}^2) \\
+        & \qquad \qquad + 2(k_1\cdot p_1-m_e^2)(k_2\cdot p_2 - m_{\mu}^2)\big]
+    \end{split}
+\ese 
+where the last line follows simply by expanding and simplifying. This is a bit of an ugly expression and so we really want to simplify it a bit further, we can do this by recalling the \textit{Mandelstam variables}:
+\mybox{
+\be 
+\label{eqn:MandelstamVariables}
+    \begin{split}
+        s & := (k_1+k_2)^2 = (p_1+p_2)^2 \\
+        t & := (k_1-p_1)^2 = (k_2-p_2)^2 \\
+        u & := (k_1-p_2)^2 = (k_2-p_1)^2 
+    \end{split}
+\ee 
+with 
+\be 
+\label{eqn:MandelstamSum}
+    s+t+u = \sum_{\text{all particles}} m_i^2.
+\ee 
+}
+\noindent We can use these to show that\footnote{Note that these are external particles and so they are on-shell, i.e. $k_1^2=m_e^2$ and $k_2^2=m_{\mu}^2$.} 
+\be 
+\label{eqn:stuInTermsOfMomentumAndMass}
+    \begin{split}
+        \frac{1}{2}(s -m_e^2 - m_{\mu}^2) & = (k_1\cdot k_2) = (p_1\cdot p_2) \\
+        \frac{1}{2}(-t +2m_e^2 ) & = (k_1\cdot p_1) \\
+        \frac{1}{2}(-t +2m_{\mu}^2 ) & = (k_2\cdot p_2) \\
+        \frac{1}{2}(-u + m_e^2 +m_{\mu}^2) & = (k_1\cdot p_2) = (k_2\cdot p_1)
+    \end{split}
+\ee 
+Putting these together with the fact that our diagram is a $t$-channel, i.e. $q^2=t$, out amplitude simplifies to\footnote{Be careful following minus signs here.}
+\bse 
+    \begin{split}
+        \big\la |i\cM|^2 \big\ra & = \frac{2e^4}{t^2}\Bigg[ (s-m_e^2-m_{\mu}^2)^2 + (u-m_e^2-m_{\mu}^2)^2 - 2(-t+2m_{\mu}^2)\bigg( \frac{1}{2}(-t+2m_e^2)-m_e^2 \bigg) \\
+        & - 2(-t+2m_e^2)\bigg( \frac{1}{2}(-t+2m_{\mu}^2)-m_{\mu}^2 \bigg) - 8\bigg(\frac{1}{2}(-t+2m_e^2)-m_e^2\bigg)\bigg(\frac{1}{2}(-t+2m_{\mu}^2)-m_{\mu}^2\bigg)\Bigg] \\
+        & = \frac{2e^4}{t^2}\Big[(s-m_e^2-m_{\mu}^2)^2 + (u-m_e^2-m_{\mu}^2)^2 - t(t-2m_{\mu}^2) - t(t-2m_e^2) -2t^2\Big] \\
+        & = \frac{2e^2}{t^2} \Big[ s^2 + u^2 + 2(m_e^2+m_{\mu}^2)^2 - 2(s+u-t)(m_e^2+m_{\mu}^2)\Big] \\
+        & = \frac{2e^4}{t^2} \Big[ s^2+u^2 - 4(s+u)(m_e^2+m_{\mu}^2) + 6(m_e^2+m_{\mu}^2)^2\Big],
+    \end{split}
+\ese 
+where we have we used $t=-s-u+2m_e^2+2m_{\mu}^2$ to get to the last line. This formula is exact but still not super neat, so let's consider what we get if we take the high energy limit\footnote{We take $|u|$ as $u<0$, as we will see in just a minute.} $s,|u| >> m_e^2,m_{\mu}^2$. Then our amplitude simply becomes 
+\be
+\label{eqn:AmplitudeEMuScattering}
+    \big\la |i\cM|^2 \big\ra = \frac{2e^4(s^2+u^2)}{t^2}
+\ee 
+
+\br 
+    Note our particles are external states and so they are on-shell so the high energy limit is equivalent to saying the momentum-squared is negligible, i.e. we approximate as $k_1^2=k_2^2=p_1^2=p_2^2 = 0$.
+\er 
+
+We can then use \Cref{eqn:DifferentialCrossSection2to2} to find the differential cross section in terms of the angle,\footnote{See Section 9.2.3 of my IFT notes for a derivation of where this formula comes from.}
+\be
+\label{eqn:DiffCrossSectionEMuScattering}
+    \frac{d\sig}{d\Omega} = \frac{e^4}{32\pi^2s} \frac{s^2+u^2}{t^2}.
+\ee
+We can use an imaginary collider experiment to express the right-hand side in terms of the angle of collision. 
+We can work in a frame with 
+\be 
+\label{eqn:2to2ScatteringMomentumCOMFrame}
+    \begin{split}
+        k_1  = \frac{\sqrt{s}}{2}\big(1,0,0,1)  \qquad &\text{and} \qquad k_2  = \frac{\sqrt{s}}{2}\big(1,0,0,-1) \\
+        p_1 = \frac{\sqrt{s}}{2}\big(1,\sin\theta,0,\cos\theta) \qquad &\text{and} \qquad p_2  = \frac{\sqrt{s}}{2}\big(1,-\sin\theta,0,-\cos\theta)
+    \end{split}
+\ee
+which is displayed pictorially below:
+\begin{center}
+    \btik 
+        \midarrow (-2,0) -- (-0.1,0);
+        \node at (-2.2,0) {$k_1$};
+        \midarrow (2,0) -- (0.1,0);
+        \node at (2.2,0) {$k_2$};
+        \draw[thick, decoration={markings, mark=at position 0.75 with {\arrow{>}}}, postaction={decorate}, rotate around={40:(0,0)}] (0.1,0) -- (2,0);
+        \node at (1.8,1.6) {$p_1$};
+        \draw[thick, decoration={markings, mark=at position 0.75 with {\arrow{>}}}, postaction={decorate},rotate around={40:(0,0)}] (-0.1,0) -- (-2,0);
+        \node at (-1.8,-1.6) {$p_2$};
+        \midarrow (0.8,0) arc (0:50:0.6);
+        \node at (0.5,0.2) {$\theta$};
+    \etik 
+\end{center}
+From these relations we have\footnote{Note we are using the field theorist's signature $(+,-,-,-)$.} 
+\bse 
+    (k_1\cdot p_1) = \frac{s}{2}\big(1-\cos\theta), \qand (k_1\cdot p_2) = \frac{s}{2}(1+\cos\theta)
+\ese
+and so \Cref{eqn:stuInTermsOfMomentumAndMass} in the high energy limit gives us\footnote{Note here we see $u<0$, which is why we took the modulus before.} 
+\bse 
+    t = -\frac{s}{2}\big(1-\cos\theta), \qand u = - \frac{s}{2}\big(1+\cos\theta),
+\ese 
+and so 
+\bse 
+    \frac{d\sig}{d\Omega} = \frac{e^4}{32\pi^2s} \frac{s^2\big(4+(1+\cos\theta)^2\big)}{(1-\cos\theta)^2}.
+\ese 
+This appears to diverge as $\theta\to 0$! What did we do wrong? The answer is obviously that we are using the high energy limit, which allowed us to set $t\sim (1-\cos\theta)$ by ignoring the masses. The claim is if we  put the muon mass back in but still neglect the electron mass\footnote{This is reasonable as $m_{\mu}^2 \approx 50 m_e^2$.} that we get 
+\bse 
+    t \sim (1-\beta\cos\theta), \qquad \beta <1 \qquad \implies \qquad t>0,
+\ese 
+and so we're safe.
+
+So we have seen that calculating the matrix element and the scattering from this takes quite a lot of work. Keeping in mind that we were just considering a simple process to lowest order with only one diagram, it is easy to see why people often leave calculations like this to computers. Nevertheless, it is instructive to have worked through the calculation to see what everything is and how it all connects together. 
+
+\section{$e^+e^-\to \mu^+\mu^-$}
+
+Ok let's consider the scattering process $e^+e^-\to \mu^+\mu^-$ and find... Wait we're going to do all this \textit{again} to find the cross section for this process? The answer is "yes" but we're going to be clever and use our result from the previous section to basically skip the entire calculation and arrive at the result. How do we do this? We use something called \textit{crossing symmetry}. 
+
+\subsection{Crossing Symmetry}
+
+Crossing symmetry is an incredibly useful and time saving trick. Basically what it says is that we can swap a particle/antiparticle with incoming momentum $k_1$ for an outgoing antiparticle/particle, respectively, with momentum $-k_1$. Similarly we can swap an outgoing antiparticle/particle with momentum $p_1$ for an incoming particle/antiparticle with momentum $-p_1$. We can see this by considering the Feynman diagram: basically imagine `dragging' the relevant leg across the centre point and then look at where/how the arrows point. Let's illustrate this for a simple vertex with one particle in and one particle out. Here the red dashed arrow is meant to represent the `dragging' motion.
+\begin{center}
+    \btik 
+        \begin{scope}[xshift=-2.5cm]
+            \midarrow (-1,0) -- (0,0);
+            \draw[->] (-0.75,-0.3) -- (-0.25,-0.3) node [midway, below] {$k_1$};
+            \midarrow (0,0) -- (1,0);
+            \draw[->] (0.25,-0.3) -- (0.75,-0.3) node [midway, below] {$p_1$};
+            \wavey (0,0) -- (0,-1);
+            \draw[dashed, red, ->] (-0.75,0) arc (-20:-100:-1);
+        \end{scope}
+        \draw[ultra thick,->] (-0.5,0) -- (1.5,0);
+        \begin{scope}[xshift=2.5cm]
+            \draw[thick, decoration={markings, mark=at position 0.5 with {\arrow{>}}}, postaction={decorate}, rotate around={-130:(0,0)}] (-1,0) -- (0,0);
+            \draw[->, rotate around={-130:(0,0)}] (-0.75,-0.3) -- (-0.25,-0.3);
+            \node at (0,0.9) {$k_1$};
+            \midarrow (0,0) -- (1,0);
+            \draw[->] (0.25,-0.3) -- (0.75,-0.3) node [midway, below] {$p_1$};
+            \wavey (0,0) -- (0,-1);
+        \end{scope}
+    \etik 
+\end{center}
+So we have to flip the momentum arrow direction, as momentum is always meant to flow \textit{away} from vertices, and then we have that the momentum and Fermion flow point oppositely, so we have an antiparticle. Obviously the same diagram-intuitive explanation can be given for the other cases of particles/antiparticles being incoming/outgoing and then being dragged over.
+
+This is not the end of the story, however. Recall that when we take the matrix element squared we ended up taking spin sums over our particles. This came from our stitching procedure as illustrated in \Cref{rem:FeynmanDiagramAmplitude}. If we swap a particle for an antiparticle we will change our spin sum from $\sum_s\overline{u}(p,s)u(p,s)$ to $\sum_s\overline{v}(p,s)v(p,s)$. However our process of just flipping the sign of the momentum won't quite give us this. We see this from \Cref{eqn:SpinSums}: 
+\bse 
+    \sum_s \overline{u}(p,s) u(p,s) = \slashed{p}+m  \to -\slashed{p}+m = - \sum_s \overline{v}(p,s)v(p,s).
+\ese
+The same obviously works out if we swap a outgoing particle/antiparticle for an incoming antiparticle/particle. We therefore have to include a factor of $(-1)$ for every Fermion we move across from incoming/outgoing to outgoing/incoming. 
+
+Denoting the averaged square matrix element by $\cM(k_1,...,k_n\to p_1,...,p_m)$, we summarise the crossing symmetry in the box below. 
+\mybox{
+\be 
+\label{eqn:CrossingSymmetry}
+    \cM(k_1,...,k_n\to p_1, ... , p_m ) = (-1)^f \cM(k_2,...,k_n \to p_1,...,p_m,-\overline{k_1})
+\ee 
+}
+\noindent where $f$ tells us the Fermion charge of the moved particle,\footnote{Fermions/Antifermions have Fermion charge $\pm1$, respectively, while Bosons have Fermion charge 0. So this formula also works for Bosonic fields.} and where the bar over the $k_1$ on the right-hand side is meant to remind us we have changed particle to antiparticle, or visa versa. 
+
+\br 
+    Note that the $\cM$s appearing in \Cref{eqn:CrossingSymmetry} are \textit{not} to be confused with $i\cM$. The latter is the non-squared, non-averaged matrix element for the diagram(s), whereas the former is the thing that appears in the S-matrix. To be absolutely clear, 
+    \bse 
+        \cM(k_1,...,k_n \to p_1,...,p_m) := \Big\la \Big|\sum_j i\cM_j \Big|^2 \Big\ra,
+    \ese 
+    where the sum is done over all the valid diagrams for the scattering process being considered. If this is confusing, just remember that the extra $(-1)^f$ factor comes from our spin-sums not being correct, and the spin sums obviously only appear once we take our average, $\la ... \ra$. This remark is just included to hopefully clear any confusion, as the notation used here is standard.\footnote{Some textbooks, including Peskin and Schroeder, use a slightly different notation and write it as $\cM(\phi(p) + ... \to ...)$, but the idea is obviously the same.}
+\er 
+
+\br 
+    Note that by moving the Fermion across in \Cref{eqn:CrossingSymmetry} we are now describing a \textit{different} process. That is the left-and side of \Cref{eqn:CrossingSymmetry} describes an $n\to m$ scattering but the right-hand side describes a $(n-1)\to (m+1)$ scattering. For this reason it's true if you are considering an interaction with $N$ total external particles, you could, in principle, just find the value for the $0\to N$ process (i.e. all final state particles) and then use crossing symmetry to get your desired result. To my knowledge this is rarely done in practice, though. 
+\er 
+
+\br 
+    On a technical remark, it's not well defined for us to say "we have an final state particle with momentum $-k_1$" as all particles, whether they be particles or antiparticles, have positive momentum. This causes a technical problem for \Cref{eqn:CrossingSymmetry} as both $k_1$ and $-k_1$ appear and so no matter which sign we choose for $k_1$ we always break this physical argument. The technically true statement is that \Cref{eqn:CrossingSymmetry} follows by \textit{analytic continuation}. This basically just means that the mathematics will work out, so this technicality will not concern us further. 
+\er 
+
+\subsection{The Matrix Element}
+
+Now the only diagram at first non-trivial order for our $e^+e^-\to\mu^+\mu^-$ scattering is the following
+\begin{center}
+    \btik 
+        \midarrow (0,0) -- (-1,1);
+        \draw[->] (-0.7,0.9) -- (-0.3,0.5);
+        \node at (-0.25,0.9) {$k_1$};
+        \midarrow (-1,-1) -- (0,0);
+        \draw[->] (-0.7,-0.9) -- (-0.3,-0.5);
+        \node at (-0.3,-0.9) {$p_1$};
+        \wavey (0,0) -- (1.5,0);
+        \draw[->] (0.5,-0.3) -- (1,-0.3) node [midway,below] {$q$};
+        \midarrow (1.5,0) -- (2.5,1);
+        \draw[->] (1.8,0.5) -- (2.2,0.9);
+        \node at (1.75,0.9) {$k_2$};
+        \midarrow (2.5,-1) -- (1.5,0);
+        \draw[->] (1.8,-0.5) -- (2.2,-0.9);
+        \node at (1.75,-0.9) {$p_2$};
+        \node at (-1.2,1.2) {$e^+$};
+        \node at (-1.2,-1.2) {$e^-$};
+        \node at (2.8,1.2) {$\mu^-$};
+        \node at (2.7,-1.2) {$\mu^+$};
+        \draw[fill=black] (0,0) circle [radius=0.07cm];
+        \draw[fill=black] (1.5,0) circle [radius=0.07cm];
+    \etik 
+\end{center}
+where we have dropped all the Dirac/Lorentz indices on the diagram as we only want to compare it to the one for $e^-\mu^-\to e^- \mu^-$. We then see that we get exactly this latter mentioned diagram if we rotate the whole diagram 90 degrees clockwise. This is equivalent to `dragging' the incoming $e^+$ into the final state and the outgoing $\mu^+$ into the initial state. We therefore get our (high energy limit) matrix element by taking \Cref{eqn:AmplitudeEMuScattering} with $k_1\to -k_1$ and $p_2\to-p_2$. We have moved two Fermionic particles and so we get a factor of $(-1)^2=+1$.
+
+Now note that we labelled the momentum on the above diagram so that the `dragged' diagram has the momentum labels the same, i.e. the incoming momentum is labelled by $p$ and the outgoing by $k$. It follows from this that \Cref{eqn:MandelstamVariables} tells us to take \Cref{eqn:AmplitudeEMuScattering} and apply
+\be
+\label{eqn:stuCrossingSymmetry}
+    s \to t, \qquad t \to s, \qand u \to u
+\ee 
+under this momentum swapping, so we get 
+\bse 
+    \big\la |i\cM|^2\big\ra = \frac{2e^4(t^2+u^2)}{s^2}.
+\ese 
+
+Ah well that was \textit{a lot} quicker then before. What about the cross section? At first you might want to rush in and do the same thing and just apply \Cref{eqn:stuCrossingSymmetry}, however we have to note something important: the factor of $1/s$ appearing in \Cref{eqn:DiffCrossSectionEMuScattering} is the flux factor\footnote{Again see the IFT notes for an explanation.} and this depends only on the initial state momentum. This is fixed in our two expressions (in both we have $p_1$ and $p_2$ in) and so this factor is \textit{unaffected} by our crossing symmetry. So our differential cross section is 
+\bse 
+    \frac{d\sig}{d\Omega} = \frac{e^4}{32\pi^2s} \frac{t^2+u^2}{s^2}.
+\ese 
+
+Now we can do a similar thing by considering the frame \Cref{eqn:2to2ScatteringMomentumCOMFrame}, which gives us 
+\bse 
+    t = -\frac{s}{2}(1-\cos\theta), \qand u = -\frac{s}{2}(1+\cos \theta),
+\ese 
+and so we get 
+\be 
+\label{eqn:DiffCrossSectionElectronPositionAnnihilation}
+    \begin{split}
+        \frac{d\sig}{d\Omega} & = \frac{e^4}{32\pi^2s} \frac{1}{4} \big[(1-\cos\theta)^2+(1+\cos\theta)^2\big] \\
+        & = \frac{e^4}{64\pi^2 s} (1+\cos^2\theta).
+    \end{split}
+\ee 
+We can find the total cross using\footnote{In case anyone is not familiar with this notation, this is equivalent to $d\Omega = -\sin\theta d\phi d\theta$ but then we absorb this minus sign to flip the integration limits. That is we would have $\int_1^{-1}d\cos\theta$ otherwise.}
+\bse 
+    d\Omega = d\phi d\cos\theta,
+\ese 
+which gives us 
+\bse
+    \begin{split}
+        \sig & = \frac{e^4}{64\pi^2s}\int_0^{2\pi} d\phi \int_{-1}^{1} d\cos\theta (1+\cos^2\theta) \\
+        & = \frac{e^4}{32\pi s} \bigg[ \cos\theta + \frac{\cos^3\theta}{3}\bigg]^{\cos\theta=1}_{\cos\theta=-1} \\
+        & = \frac{e^4}{12\pi s}.
+    \end{split}
+\ese 
+We can write this in a more common notation by introducing the so-called \textit{structure constant}
+\be 
+\label{eqn:StructureConstant}
+    \a := \frac{e^2}{4\pi},
+\ee 
+to get 
+\bse 
+    \sig = \frac{4\pi \a^2}{3s}.
+\ese 
+
+\section{M{\o}ller Scattering}
+
+So far everything we have considered only has one diagram. When we have more then one diagram things are a bit more complicated, this is because we have to sum the matrix elements from each diagram \textit{first} and \textit{then} take the complex conjugate squared. To get some exposure to this, let's look at what is known as M{\o}ller scattering. This is just the scattering of two electrons $e^-e^-\to e^-e^-$. Here we have have both a $t$-channel and a $u$-channel:
+\begin{center}
+    \btik 
+        \begin{scope}[xshift=-3.5cm]
+            \midarrow (-2,1) -- (0,1);
+            \draw[->] (-1.7,1.2) -- (-0.8,1.2) node [midway,above] {$k_1,s$};
+            \midarrow (0,1) -- (2,1);
+            \draw[->] (-1.7,-1.2) -- (-0.8,-1.2) node [midway,below] {$p_1,r$};
+            \draw[thick, dashed] (0,-1) -- (0,1);
+            \draw[->] (-0.3,0.5) -- (-0.3,-0.5) node [midway, left] {$q$};
+            \midarrow (-2,-1) -- (0,-1);
+            \draw[->] (0.8,1.2) -- (1.7,1.2) node [midway,above] {$k_2,s'$};
+            \midarrow (0,-1) -- (2,-1);
+            \draw[->] (0.8,-1.2) -- (1.7,-1.2) node [midway,below] {$p_2,r'$};
+            \node at (-2.2,1) {$e^-$};
+            \node at (-2.2,-1) {$e^-$};
+            \node at (2.2,1) {$e^-$};
+            \node at (2.2,-1) {$e^-$};
+            \draw[fill=black] (0,1) circle [radius=0.07cm];
+            \draw[fill=black] (0,-1) circle [radius=0.07cm];
+        \end{scope}
+        \node at (0,0) {and};
+        \begin{scope}[xshift=3.5cm]
+            \midarrow (-2,1) -- (0,1);
+            \draw[->] (-1.7,1.2) -- (-0.8,1.2) node [midway,above] {$k_1,s$};
+            \midarrow (-2,-1) -- (0,-1);
+            \draw[->] (-1.7,-1.2) -- (-0.8,-1.2) node [midway,below] {$p_1,r$};
+            \draw[thick, dashed] (0,1) -- (0,-1);
+            \draw[->] (-0.3,0.5) -- (-0.3,-0.5) node [midway, left] {$q$};
+            \aftermidarrow (0,-1) -- (1.5,1);
+            \draw[->] (1,0.7) -- (1.3,1.1);
+            \node at (1,1.4) {$k_2,s'$};
+            \aftermidarrow (0,1) -- (1.5,-1);
+            \draw[->] (1,-0.7) -- (1.3,-1.1);
+            \node at (1,-1.25) {$p_2,r'$};
+            \node at (-2.2,1) {$e^-$};
+            \node at (-2.2,-1) {$e^-$};
+            \node at (1.7,1) {$e^-$};
+            \node at (1.7,-1) {$e^-$};
+            \draw[fill=black] (0,1) circle [radius=0.07cm];
+            \draw[fill=black] (0,-1) circle [radius=0.07cm];
+        \end{scope}
+    \etik  
+\end{center}
+where again we have dropped the Dirac/Lorentz indices on the diagram and put the spin indices next to the momentum labels.
+
+\br 
+    From now on I will almost definitely use this convention of not labelling the Dirac/Lorentz indices and putting the spin indices with the momentum. I just think it looks neater and it also makes the Tikz less fiddly. I may also forget to label the spin/polarisation indices on the diagrams. However they're not too hard to just put in by hand in obtaining the matrix elements.
+\er 
+
+We note that the diagram on the left here is exactly the same as the $e^-\mu^-\to e^-\mu^-$ one we calculated before apart from now all the particles are of the same \textit{flavour}. We then also note that the diagram on the right is equivalent to the one on the left if we swap the two final state particles. This tells us to put a relative minus sign between these two diagrams in the sum of matrix elements.\footnote{For a more detailed explanation of this see Section 12.2.4 of my IFT notes.} So we have 
+\bse 
+    i\cM = i\cM_L - i\cM_R \qquad \implies \qquad |i\cM|^2 = |i\cM_L|^2 + |i\cM_R|^2 + 2\Re \cM_L\cM_R^*.
+\ese 
+This looks significantly more complicated then what we've been doing so far! However we now remember our nice little trick discussed in \Cref{rem:FeynmanDiagramAmplitude,rem:TracesFromDiagrams}. The three terms here correspond to, respectively:
+\begin{center}
+    \btik 
+        \begin{scope}[xshift=-5.5cm]
+            \midarrow (-1,0.5) -- (0,0.5);
+            \midarrow (0,0.5) -- (1,0.5);
+            \wavey (0,0.5) -- (0,-0.5);
+            \midarrow (-1,-0.5) -- (0,-0.5);
+            \midarrow (0,-0.5) -- (1,-0.5);
+            \draw[ultra thick, dashed, blue] (1.2,0.6) -- (1.2,-0.6);
+            \midarrow (1.4,0.5) -- (2.4,0.5);
+            \midarrow (2.4,0.5) -- (3.4,0.5);
+            \wavey (2.4,0.5) -- (2.4,-0.5);
+            \midarrow (1.4,-0.5) -- (2.4,-0.5);
+            \midarrow (2.4,-0.5) -- (3.4,-0.5);
+            \draw[ultra thick, dashed, blue] (-1,0.5) .. controls (-0.8,1) and (3.2,1) .. (3.4,0.5);
+            \draw[ultra thick, dashed, blue] (-1,-0.5) .. controls (-0.8,-1) and (3.2,-1) .. (3.4,-0.5);
+        \end{scope}
+        \begin{scope}
+            \midarrow (-1,0.5) -- (0,0.5);
+            \aftermidarrow (0,0.5) -- (1,-0.5);
+            \wavey (0,0.5) -- (0,-0.5);
+            \midarrow (-1,-0.5) -- (0,-0.5);
+            \aftermidarrow (0,-0.5) -- (1,0.5);
+            \draw[ultra thick, dashed, blue] (1.2,0.6) -- (1.2,-0.6);
+            \midarrow (1.4,0.5) -- (2.4,0.5);
+            \aftermidarrow (2.4,0.5) -- (3.4,-0.5);
+            \wavey (2.4,0.5) -- (2.4,-0.5);
+            \midarrow (1.4,-0.5) -- (2.4,-0.5);
+            \aftermidarrow (2.4,-0.5) -- (3.4,0.5);
+            \draw[ultra thick, dashed, blue] (-1,0.5) .. controls (-0.8,1) and (3.2,1) .. (3.4,0.5);
+            \draw[ultra thick, dashed, blue] (-1,-0.5) .. controls (-0.8,-1) and (3.2,-1) .. (3.4,-0.5);
+        \end{scope}
+        \begin{scope}[xshift=5.5cm]
+            \midarrow (-1,0.5) -- (0,0.5);
+            \midarrow (0,0.5) -- (1,0.5);
+            \wavey (0,0.5) -- (0,-0.5);
+            \midarrow (-1,-0.5) -- (0,-0.5);
+            \midarrow (0,-0.5) -- (1,-0.5);
+            \draw[ultra thick, dashed, blue] (1.2,0.6) -- (1.2,-0.6);
+            \midarrow (1.4,0.5) -- (2.4,0.5);
+            \aftermidarrow (2.4,0.5) -- (3.4,-0.5);
+            \wavey (2.4,0.5) -- (2.4,-0.5);
+            \midarrow (1.4,-0.5) -- (2.4,-0.5);
+            \aftermidarrow (2.4,-0.5) -- (3.4,0.5);
+            \draw[ultra thick, dashed, blue] (-1,0.5) .. controls (-0.8,1) and (3.2,1) .. (3.4,0.5);
+            \draw[ultra thick, dashed, blue] (-1,-0.5) .. controls (-0.8,-1) and (3.2,-1) .. (3.4,-0.5);
+        \end{scope}
+    \etik 
+\end{center}
+where the dashed blue lines are meant to represent out stitching procedure. Hopefully the reader can see that the first two diagrams can be `cut' into two disconnected loops as per \Cref{rem:TracesFromDiagrams}: the first one is just a horizontal cut, while the second one you need to imagine the crossing lines as going over each other, then you can see it can be cut. However for the third diagram there is no way to cut it in half without cutting through a Fermion line.
+
+Another way to see this (and perhaps easier to see) is to put your pen on one of the solid Fermion lines ad then follow the Fermion flow arrows until you get back to your starting point. For the first two diagrams there are two distinct choices, which we indicate in blue and red below:\footnote{Note that on the second diagram the red arrow is on top on the $\cM$ diagram (left of dashed line) while the blue arrow is on top on the $\cM^*$ diagram (right of dashed line). This might help see what I meant above about being able to cut this.}
+\begin{center}
+    \btik 
+        \begin{scope}[xshift=-3cm]
+            \midarrowblue (-1,0.5) -- (0,0.5);
+            \midarrowblue (0,0.5) -- (1,0.5);
+            \wavey (0,0.5) -- (0,-0.5);
+            \midarrowred (-1,-0.5) -- (0,-0.5);
+            \midarrowred (0,-0.5) -- (1,-0.5);
+            \draw[ultra thick, dashed] (1.2,0.6) -- (1.2,-0.6);
+            \midarrowblue (1.4,0.5) -- (2.4,0.5);
+            \midarrowblue (2.4,0.5) -- (3.4,0.5);
+            \wavey (2.4,0.5) -- (2.4,-0.5);
+            \midarrowred (1.4,-0.5) -- (2.4,-0.5);
+            \midarrowred (2.4,-0.5) -- (3.4,-0.5);
+            \draw[ultra thick, dashed, blue] (-1,0.5) .. controls (-0.8,1) and (3.2,1) .. (3.4,0.5);
+            \draw[ultra thick, dashed, red] (-1,-0.5) .. controls (-0.8,-1) and (3.2,-1) .. (3.4,-0.5);
+        \end{scope}
+        \begin{scope}[xshift=3cm]
+            \midarrowblue (-1,0.5) -- (0,0.5);
+            \aftermidarrowblue (0,0.5) -- (1,-0.5);
+            \wavey (0,0.5) -- (0,-0.5);
+            \midarrowred (-1,-0.5) -- (0,-0.5);
+            \aftermidarrowred (0,-0.5) -- (1,0.5);
+            \draw[ultra thick, dashed] (1.2,0.6) -- (1.2,-0.6);
+            \midarrowred (1.4,0.5) -- (2.4,0.5);
+            \aftermidarrowred (2.4,0.5) -- (3.4,-0.5);
+            \wavey (2.4,0.5) -- (2.4,-0.5);
+            \midarrowblue (1.4,-0.5) -- (2.4,-0.5);
+            \aftermidarrowblue (2.4,-0.5) -- (3.4,0.5);
+            \draw[ultra thick, dashed, blue] (-1,0.5) .. controls (-0.8,1) and (3.2,1) .. (3.4,0.5);
+            \draw[ultra thick, dashed, red] (-1,-0.5) .. controls (-0.8,-1) and (3.2,-1) .. (3.4,-0.5);
+        \end{scope}
+    \etik 
+\end{center}
+However if you do this for the $\Re \cM_L\cM^*_R$ diagram there is only one path. This tells us that the first two terms, $|i\cM_L|^2$ and $|i\cM_R|^2$, give us two traces while the cross term, $\Re \cM_L\cM^*_R$, just gives us one big trace. 
+
+\section{Compton Scattering}
+
+There is one type of conceptually different diagram we haven't looked at yet: one with an external photon. We therefore conclude this section by looking at so-called \textit{Compton scattering}, $e^-\g \to e^-\g$. There are two diagrams at first non-trivial order, they are 
+\begin{center}
+    \btik 
+        \begin{scope}[xshift=-3cm]
+            \wavey (-1,1) -- (0,0);
+            \node at (-1.2,1.2) {$\g$};
+            \draw[->] (-0.6,1.1) -- (-0.1,0.6);
+            \node at (0,1) {$k_1$};
+            \midarrow (-1,-1) -- (0,0); 
+            \node at (-1.2,-1.2) {$e^-$};
+            \draw[->] (-0.6,-1.1) -- (-0.1,-0.6);
+            \node at (1,1) {$k_2$};
+            \midarrow (0,0) -- (1,0);
+            \draw[->] (0.25,-0.2) -- (0.75,-0.2) node [midway, below] {$q$};
+            \wavey (1,0) -- (2,1);
+            \node at (2.2,1.2) {$\g$};
+            \draw[->] (1.1,0.6) -- (1.6,1.1);
+            \node at (0,-1) {$p_1$};
+            \midarrow (1,0) -- (2,-1);
+            \node at (2.2,-1.2) {$e^-$};
+            \draw[->] (1.1,-0.6) -- (1.6,-1.1);
+            \node at (1,-1) {$p_2$};
+        \end{scope}
+        \begin{scope}[xshift=3cm]
+            \wavey (-1,1) -- (0,0.5);
+            \node at (-1.2,1.2) {$\g$};
+            \draw[->] (-0.6,1.15) -- (-0.1,0.9);
+            \node at (-0.6,1.3) {$k_1$};
+            \midarrow (0,0.5) -- (1,1);
+            \draw[->] (0.1,0.9) -- (0.6,1.15);
+            \node at (0.6,1.3) {$k_2$};
+            \node at (1.2,-1.2) {$e^-$};
+            \midarrow (-1,-1) -- (0,-0.5);
+            \draw[->] (-0.6,-1.15) -- (-0.1,-0.9);
+            \node at (-0.6,-1.3) {$p_1$};
+            \node at (1.2,1.2) {$e^-$};
+            \wavey (0,-0.5) -- (1,-1);
+            \draw[->] (0.1,-0.9) -- (0.6,-1.15);
+            \node at (0.6,-1.3) {$p_2$};
+            \node at (-1.2,-1.2) {$\g$};
+            \midarrow (0,-0.5) -- (0,0.5);
+            \draw[->] (-0.2,0.25) -- (-0.2,-0.25) node [midway, left] {$q$};
+        \end{scope}
+    \etik  
+\end{center}
+This looks like a bit of a pain because the two diagrams looks quite different. However with a bit of thought we can see that the right-hand diagram is equivalent to one of the form 
+\begin{center}
+    \btik 
+        \midarrow (-2,-1) -- (-1,0);
+        \midarrow (-1,0) -- (1,0);
+        \midarrow (1,0) -- (2,-1);
+        \wavey (-2,1) -- (1,0);
+        \begin{scope}
+            \clip (-1,0) -- (-0.3,0) -- (-0.3,0.5) -- (-1,0.5) -- (-1,0);
+            \wavey (-1,0) -- (2,1);
+        \end{scope}
+        \begin{scope}
+            \clip (0.3,0) -- (2,0) -- (2,1) -- (0.3,1) -- (0.3,0);
+            \wavey (-1,0) -- (2,1);
+        \end{scope}
+    \etik 
+\end{center}
+with the momentum etc labelled so it agrees with the above diagram. This is the same as the left-hand diagram apart from the two photons are switched. As photons are Bosons we do not incur any minus signs here but simply just have to account for the different momentum flow through the Fermion propagator: the first diagram has $q^2=(p_1+k_1)^2=s$ while the last diagram has $q^2=(p_1-p_k)^2=u$.
+
+\br 
+    It it common to draw these two diagrams in the following form:
+    \begin{center}
+        \btik 
+            \begin{scope}[xshift=-3cm]
+                \midarrow (-1,0) -- (0,0);
+                \midarrow (0,0) -- (2,0);
+                \midarrow (2,0) -- (3,0);
+                \wavey (-1,1) -- (0,0);
+                \wavey (3,1) -- (2,0);
+            \end{scope}
+             \begin{scope}[xshift=3cm]
+                \midarrow (-1,0) -- (0,0);
+                \midarrow (0,0) -- (2,0);
+                \midarrow (2,0) -- (3,0);
+                \wavey (-1,1) -- (2,0);
+                \begin{scope}
+                    \clip (0,0) -- (0.7,0) -- (0.7,1) -- (0,1) -- (0,0);
+                    \wavey (3,1) -- (0,0);
+                \end{scope}
+                \begin{scope}
+                    \clip (1.3,0) -- (3,0) -- (3,1) -- (1.3,1) -- (1.3,0);
+                    \wavey (3,1) -- (0,0);
+                \end{scope}
+            \end{scope}
+        \etik  
+    \end{center}
+    obviously with all the momentum etc labelled.
+\er 
+
+
+Let's find the matrix element for the first, $s$-channel, diagram. From the Feynman rules we have
+\bse 
+    i\cM_1 =  \overline{u}_{\a}(p_2,s') (-ie\g^{\mu}_{\a\del}) \frac{-i(\slashed{q}+m)_{\del\sig}}{q^2-m^2+i\epsilon}(-ie\g^{\nu}_{\sig\beta}) u_{\beta}(p_1,s) \varepsilon^*_{\mu}(k_2,\l) \varepsilon_{\nu}(k_1,\kappa)
+\ese 
+We then take the complex conjugate squared and notice that we expect only one trace, so once taking the spin/polarisation sums, we get\footnote{Note we drop the $\epsilon$ term in the denominator as the complex conjugate squared gives us a $\epsilon^2$ term and we take it to be small.}
+\bse
+    \begin{split}
+        \big\la |i\cM_1|^2\big\ra = \frac{e^2}{(s-m)^2} & \Tr[ (\slashed{p}_2+m) \g^{\mu} (\slashed{p}_1+\slashed{k}_1+m)\g^{\nu} (\slashed{p}_1+m)\g^{\nu'} (\slashed{p}_1+\slashed{k}_1+m)\g^{\mu'}] \\
+        & \times \sum_{\l,\kappa} \varepsilon_{\mu}^*(k_2,\l) \varepsilon_{\mu'}(k_2,\l) \varepsilon_{\nu}(k_1,\kappa) \varepsilon_{\nu'}^*(k_1,\kappa)
+    \end{split}
+\ese 
+Now we could use the polarisation sum result 
+\mybox{
+\be 
+\label{eqn:PolarisationSum}
+    \sum_{\l} \varepsilon_{\mu}^*(p,\l) \varepsilon_{\nu}(p,\l) = -\eta_{\mu\nu} + \frac{k_{\mu}\overline{k}_{\nu} - k_{\nu}\overline{k}_{\mu} }{k\cdot \overline{k}}
+\ee 
+}
+\noindent with $k_{\mu} = (E,\Vec{k})$ and $\overline{k}_{\mu} = (E,-\Vec{k})$, to simplify this answer further. However first it is convenient to notice the following result. 
+
+Consider the gauge transformation 
+\bse 
+    A_{\mu} \to A_{\mu} + \p_{\mu}\chi, \qquad \text{with} \qquad \chi = iae^{-ip\cdot x}.
+\ese
+Now on-shell photons have no mass, and so $p^2=0$, so we get 
+\bse 
+    \p^2\chi \sim p^2 = 0
+\ese
+for on-shell photons, which fixes our gauge fixing term. However we also get $\varepsilon^{\mu} \to \varepsilon^{\mu} + ap^{\mu}$, but the \textit{total} matrix element (i.e. the sum of all diagrams) must be gauge invariant. So if we set 
+\bse 
+    \cM = \epsilon^{\mu}\cM_{\mu},
+\ese 
+then our transformation gives us 
+\be
+\label{eqn:WardIdentity}
+    \varepsilon^{\mu}\cM_{\mu} = (\varepsilon^{\mu}+ap^{\mu})\cM_{\mu} \qquad \implies \qquad p^{\mu}\cM_{\mu} = 0.
+\ee 
+This is known as a \textit{Ward identity}. Physically what this tells us is that the longitudinal polarisation of the external photons is unphysical, and so disappears from the S-matrix. This is an important result as $\varepsilon_{\mu}$, as it stands, has $4$-degrees of freedom (one for each $\mu=0,...,3$), but it is an experimental fact that physical photons only have $2$ degrees of freedom (two transverse polarisations). This Ward identity allows us to remove one of them. 
+
+\br 
+    For a slightly different explanation of why the longitudinal polarisation doesn't contribute to the S-matrix, see Prof. Tong's notes, page 145-6.
+\er 
+
+Why is this helpful? Well it let's us see that the second term in \Cref{eqn:PolarisationSum} will not contribute to our amplitude at all. We are therefore just left with 
+\bse 
+    \big\la |i\cM_1|^2\big\ra = \frac{e^2}{(s-m)^2} \Tr[ (\slashed{p}_2+m) \g^{\mu} (\slashed{p}_1+\slashed{k}_1+m)\g^{\nu} (\slashed{p}_1+m)\g_{\nu} (\slashed{p}_1+\slashed{k}_1+m)\g_{\mu}].
+\ese
+
+\bbox 
+    Find the matrix element for the other Compton scattering diagram. Also draw the `stitched' diagram for the cross term that will appear between the two diagrams. Use it to state the number of traces we expect in the final answer.
+\ebox 

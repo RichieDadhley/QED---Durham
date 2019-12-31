@@ -1,0 +1,2418 @@
+\chapter{QED At One Loop}
+
+So far we have only studied QED at tree level, however this by no means exhausts QED. In fact a lot of the effort/information obtained from QED came from studying it with loops. These loop diagrams are important because they can lead to theories being so-called \textit{non-renormalisable}, which is a property we do not want. We will see more clearly what this means as we go forward, but for some foreshadowing, basically theories that are non-renormalisable require that we introduce more and more constraint conditions at each order, and so for the full perturbation we end up putting an infinite number of constraints on the system, and loose \textit{all} predictive power. This essentially renders the theory useless for any further study, but in order to see all of this, we first need to do some work. 
+
+Let's consider the second order in coupling (i.e. two vertices) diagram 
+\begin{center}
+    \btik 
+        \midarrow (-2,2) -- (-1,1);
+        \draw[->] (-1.8,2.2) -- (-1.2,1.6);
+        \node at (-1.3,2.2) {$p_1$};
+        \midarrow (-1,1) -- (0,0);
+        \draw[->] (-0.6,1) -- (0,0.4);
+        \node at (0.1,1.1) {$p_1+k$};
+        \midarrow (-1,-1) -- (-2,-2);
+        \draw[->] (-1.8,-2.2) -- (-1.2,-1.6);
+        \node at (-1.3,-2.2) {$p_2$};
+        \midarrow (0,0) -- (-1,-1);
+        \draw[->] (-0.6,-1) -- (0,-0.4);
+        \node at (0.1,-1) {$p_2-k$};
+        \wavey (0,0) -- (2,0);
+        \node at (2.3,0) {$\mu$};
+        \draw[->] (0.75,0.3) -- (1.75,0.3) node [above, midway] {$p_1+p_2$};
+        \wavey (-1,1) .. controls (-1.5,0.33) and (-1.5,-0.33) .. (-1,-1);
+        \draw[->, rotate around={25:(0,0)}] (-1.75,0) arc (0:-60:-1.5) node [midway, left] {$k$};
+        \draw[fill=black] (0,0) circle [radius=0.07cm];
+        \draw[fill=black] (-1,1) circle [radius=0.07cm] node [above] {$\rho$};
+        \draw[fill=black] (-1,-1) circle [radius=0.07cm] node [below] {$\nu$};
+    \etik 
+\end{center}
+If we consider the high energy limit (i.e. $m_e \to 0$) the matrix element for this diagram takes the form\footnote{Note we're using the Feynman gauge here to make the photon propagator term easier to deal with.}
+\bse 
+    i\cM \sim \int \frac{d^4k}{(2\pi)^4} \g^{\nu} \frac{(\slashed{k} - \slashed{p}_2)}{(p_2-k)^2} \g^{\mu} \frac{(\slashed{p}_1 + \slashed{k})}{(p_1+k)^2} \g^{\rho} \frac{\eta_{\nu\rho}}{k^2},
+\ese 
+where we have an integral as per Feynman rule (iv). Let's consider the behaviour of this integral in the limits $k\to0$ and $k\to\infty$
+\begin{itemize}
+    \item $k\to 0$: This corresponds to the loop photon going on-shell, and when this happens the integrand blows up. This is known as an \textit{infrared} (IR) divergence and it is associated with the exchange of photons with ultralong wavelengths, $\l \sim 1/|k|$. As we will see in detail at the end of the course, this is cancelled by emission factors. 
+    \item $k\to \infty$: In this limit we can forget about the $p_1$ and $p_2$ terms and so we get 
+    \bse 
+        i\cM \to \int \frac{d^4k}{(2\pi)^4} \frac{k^2}{k^6} \sim \int_0^{\infty} d|k| \frac{1}{|k|}.
+    \ese 
+    This term diverges logarithmically, and is known as an \textit{ultraviolet} (UV) divergence. It corresponds to the exchange of a high energy (i.e. short wavelength) photon. This term is \textit{not} cancelled by some other contribution and so poses a big problem for us. This is the stem of renormalisation, and a large chunk of the remainder of this course is dedicated to dealing with things like this.
+\end{itemize}
+
+\section{Superficial Degree Of Divergence}
+
+We saw in the last section that we obtained the divergence behaviour as $k\to\infty$ essentially by comparing the number of $k$s in the numerator to the number of $k$s in the denominator. We can use this idea to define the \textit{superficial degree of divergence} (SDOD).
+\bse 
+    \text{SDOD} = (\text{number of} \, k \, \text{in numerator}) - (\text{number of} \, k \, \text{in denominator})
+\ese 
+We call an interaction that has SDOD>0 \textit{superficially divergent} and one with SDOD<0 \textit{superficially convergent}. The type of divergence is given by the value, e.g. SDOD=0 is logarithmic divergence, while SDOD=2 is quadratic, etc. We include the word "superficial" because, as we will see in a moment, superficial divergence does \textit{not} gaurentee actual divergence, and similarly for superficial convergence. The reason for this is that other factors (e.g. symmetry factors etc) have an effect.
+
+Can we make the SDOD easier to see just from the diagram? Well let's consider where the terms in our integrand come from.
+\ben[label=(\roman*)]
+    \item For each loop, we get a four-dimensional integral 
+    \bse 
+        \int \frac{d^4k}{(2\pi)^4}.
+    \ese 
+    \item For each internal Fermion propagator we get a factor of the form $\slashed{k}/k^2$. 
+    \item For each internal photon propagator we get a factor of the form $1/k^2$.
+\een 
+So if we denote the number of each of these factors as $\ell$, $I_f$ and $I_{\g}$, respectively, we get 
+\mybox{
+\be 
+\label{eqn:SDODInternal}
+    \text{SDOD} = 4\ell - I_f - 2I_{\g}.
+\ee 
+}
+
+This is a nice formula, but it requires us knowing information about the the diagram itself. The question is "can we write the SDOD just in terms of the external particle numbers?" The answer is yes, and the reason for which is because we only have one type of vertex for QED: 2 Fermions and 1 photon. So how do we do this, well let's denote the number of vertices by $V$ and the external Fermions/photons by $E_f/E_{\g}$, respectively. Now let's count the number of vertices we have:
+\begin{itemize}
+    \item Photons: Each internal photon has $2$ vertices, while each external photon has $1$ vertex. So we get 
+    \bse 
+        V = 2I_{\g} + E_{\g}.
+    \ese
+    \item Fermions: Each internal Fermion has $2$ vertices and each external photon has one vertex. However we always have two Fermions meeting at a vertex, so we double count. We therefore divide the result by $2$:
+    \bse 
+        V = \frac{1}{2}(2I_f + E_f).
+    \ese 
+    \item Loops: For the internal states obviously we count the number of internal Fermions and internal photons. However we impose momentum conservation at every vertex which eliminates one of our $4$-integrals. However we always have one delta function left over (for total momentum conservation $\del^{(4)}(k_{\text{in}} - p_{\text{out}})$). Any factors we have left correspond exactly to the loops (see the Feynman rules again for clarity), so in total we get 
+    \bse 
+        \ell = I_{\g} + I_f -(V-1).
+    \ese 
+\end{itemize}
+
+We can use these three expressions in \Cref{eqn:SDODInternal} to get 
+\mybox{
+\be 
+\label{eqn:SDODExternal}
+    \text{SDOD} = 4 - E_{\g} - \frac{3}{2}E_f.
+\ee 
+}
+
+\bbox 
+    Verify that \Cref{eqn:SDODExternal} does indeed follow from the three relations above.
+\ebox 
+
+\begin{center}
+	\begin{tabular}{@{} C{2cm} C{1.5cm} C{1.5cm} C{1.5cm} C{1.5cm} C{2cm} C{3cm} @{}}
+		\toprule
+		 Diagram & $E_{\g}$ & $E_f$ & SDOD & Actual & $\cL$ & Name/Comment \\
+		\midrule 
+		\btik 
+		    \draw[pattern=north west lines] (0,0) circle [radius=0.3cm];
+		\etik & 0 & 0 & 4 & $x^4$ & --- & Vacuum Bubble \\
+		\midrule
+		\btik 
+		    \draw[pattern=north west lines] (0,0) circle [radius=0.3cm];
+		    \wavey (0.3,0) -- (0.8,0);
+		\etik & 1 & 0 & 3 & 0 & --- & Photon tadpole \\
+		\midrule
+		\btik 
+		    \draw[pattern=north west lines] (0,0) circle [radius=0.3cm];
+		    \wavey (0.3,0) -- (0.8,0);
+		    \wavey (-0.8,0) -- (-0.3,0);
+		\etik & 2 & 0 & 2 & $\log$ & $F_{\mu\nu}F^{\mu\nu}$ & Photon Propagator \\
+		\midrule
+		\btik 
+		    \draw[pattern=north west lines] (0,0) circle [radius=0.3cm];
+		    \midarrow (0.3,0) -- (0.8,0);
+		    \midarrow (-0.8,0) -- (-0.3,0);
+		\etik & 0 & 2 & 1 & $\log$ & $\overline{\psi}\psi$ & Fermion Propagator \\
+		\midrule
+		\btik 
+		    \draw[pattern=north west lines] (0,0) circle [radius=0.3cm];
+		    \wavey (0,0.3) -- (0,0.8);
+		    \wavey[rotate around={120:(0,0)}] (0,0.3) -- (0,0.8);
+		    \wavey[rotate around={-120:(0,0)}] (0,0.3) -- (0,0.8);
+		\etik & 3 & 0 & 1 & 0 & --- & Vanishes by symmetries \\
+		\midrule
+		\btik 
+		    \draw[pattern=north west lines] (0,0) circle [radius=0.3cm];
+		    \wavey (0,0.3) -- (0,0.8);
+		    \midarrow[rotate around={120:(0,0)}] (0,0.8) -- (0,0.3);
+		    \midarrow[rotate around={-120:(0,0)}] (0,0.3) -- (0,0.8);
+		\etik & 1 & 2 & 0 & $\log$ & $\overline{\psi}A_{\mu}\psi$ & Fermion-Photon Interaction \\
+		\midrule
+		\btik 
+		    \draw[pattern=north west lines] (0,0) circle [radius=0.3cm];
+		    \wavey[rotate around={45:(0,0)}] (0,0.3) -- (0,0.8);
+		    \wavey[rotate around={-45:(0,0)}] (0,0.3) -- (0,0.8);
+		    \wavey[rotate around={135:(0,0)}] (0,0.3) -- (0,0.8);
+		    \wavey[rotate around={-135:(0,0)}] (0,0.3) -- (0,0.8);
+		\etik & 4 & 0 & 0 & Finite & --- & Photon Scattering \\
+		\bottomrule
+	\end{tabular}
+\end{center}
+
+The above table gives some examples, where "actual" here means the \textit{physical} divergence of the process. Let's make a couple more comments.
+\begin{itemize}
+    \item The vacuum bubbles (i.e. anything with no external legs) is irrelevant to scattering. This is simply because they do not contribute to the S-matrix, by the LSZ theorem.\footnote{See either IFT of QFT II notes for details on the LSZ theorem.} 
+    \item We have drawn a photon tadpole but no Fermion tadpole. It is easy to see why, just consider the interaction vertex we're allowed. 
+    \item Note that all actually divergent terms correspond to some term in the Lagrangian --- this will be very useful going forward. This is a hallmark of renormalisable gauge theories.   
+    \item All diagrams with more external legs then the one's indicated in the table above have SDOD <0. 
+    \item Obviously we now see that the word "superficial" is needed because only one of the SDODs in the table gives the correct answer, namely they Fermion-Photon interaction.\footnote{Well the vacuum bubble gives the correct result but it doesn't contribute to scattering so its completely irrelevant.}
+\end{itemize}
+
+The third bullet point here is the most important, and so we stress it again:
+\mybox{
+\begin{center}
+    All actually divergent terms in QED correspond to terms in the Lagrangian.
+\end{center}
+}
+\noindent As explained in the bullet point, this tells us that the theory is renormalisable (i.e. we can fix this divergent problem at every order in perturbation theory without loosing predictive power). Why is this the case? Well, the idea is that the fields/parameters that appear in the Lagrangian are not measurable themselves, and so are non-physical. We can therefore try to absorb/counteract these divergences in the Lagrangian in the hope that the final results we get do not contain any. We can do this for QED as we have enough fields/parameters to absorb all our divergences. This is probably rather cryptic at this point, but should become clearer as we go forward. First, though, obviously if we are going to somehow absorb these divergences, we need some way to actually calculate them, and this is the content of the next section. 
+
+\section{Regularisation}
+
+So we want a way of dealing with these IR and UV divergences. It turns out that there is more than one way to do this, and each has its advantages and disadvantages. The following list gives some common strategies. 
+\begin{itemize}
+    \item UV 
+        \ben[label=(\roman*)] 
+            \item \textit{Cut-off Regularisation}: the basic idea here is to say that we were a bit boastful to assume that our theory would hold to arbitrarily high energies/small lengths, as this neglects new physics that would enter at some point (e.g. quantum gravity). We therefore just cut-off our integral at some finite value, which we denote $\Lambda$. For example
+            \bse 
+                \int_0^{\infty} d\ell \frac{\ell}{\ell^2 - m^2} \to \int_0^{\Lambda} d\ell \frac{\ell}{\ell^2 - m^2} \propto \log \Lambda.
+            \ese 
+            We can then think about what happens in the limit $\Lambda\to\infty$. The advantage to this approach is it seems physically reasonable and easy to validate. The major disadvantage is that the result is generally \textit{not} Lorentz-invariant and can even violate gauge invariance. 
+            \item \textit{Pauli-Villars Regularisation}: The idea here to add additional fictitious heavy particle(s) who's propagators come with an additional minus sign. That is we replace 
+            \bse 
+                \int \frac{d^4\ell}{(2\pi)^4}\frac{1}{(\ell^2-m^2)^2} \to \int \frac{d^4\ell}{(2\pi)^4}\bigg[\frac{1}{(\ell^2-m^2)^2} - \frac{1}{(\ell^2-\Lambda^2)^2}\bigg] \propto \log\frac{\Lambda^2}{m^2}.
+            \ese 
+            The idea is we then take the limit $\Lambda\to\infty$, which decouples our fictitious particles and gives us our original theory back. The advantages of this is that it is gauge invariant.\footnote{Apparently it is \textit{not} gauge covariant, though, which means that it is not useful in QCD. Info from \href{https://en.wikipedia.org/wiki/Pauli–Villars_regularization}{wiki}.} The other advantage (compared to the next case) is we don't have to alter the dimension and so our Dirac matrices are unaffected, this makes the P-V method useful for things like Chiral phenomena. The main disadvantage is that we often have to introduce several of these fictitious particles when looking at heavy Fermions, and some of these remain even in the limit $\Lambda\to\infty$.
+            \item \textit{Dimensional Regularisation}: As we have seen, at least na\"{i}vely, the logarithmic divergences come from out integral powers matching the denominator power. The idea of the dimensional regularisation is to replace the dimension we integrate over by some smaller fractional dimension:
+            \bse 
+                \int d^4\ell \to \int d^D\ell, \qquad D = 4-2\epsilon,
+            \ese
+            where $\epsilon$\footnote{This has \textit{nothing} to do with the $\epsilon$ that appears in the denominator of the propagator.} is some positive number, it need not be an integer. We then take the limit $\epsilon\to0$ at the end to regain 4-dimensions. Despite this looking like a strange thing to do, it is the most commonly used approach and the one we will use here, so hopefully confusion will be removed going forward. The reason this method is so popular is that it maintains both Lorentz invariance and gauge symmetries. It also happens to regularise our IR divergences, allowing us to hit two birds with one stone. 
+        \een 
+    \item IR
+        \ben[label=(\roman*)]
+            \item \textit{Mass Regularisation}: The IR divergences are associated with the emission of massless particles, so this approach basically says "introduce a small mass for all massless particles". The obvious problem with this is that, as we have (sort of) explained above, the massless condition of the photon is needed in order to get the correct number of degrees of freedom. That is, the masslessness of the photon allows us to remove one of the $4$ degrees of freedom in $A_{\mu}$, getting us to our two physical polarisations. This stems essentially from gauge invariance. Therefore if we introduce a mass we break our gauge invariance.
+            \item Dimensional Regularisation: As mentioned above, this deals with both the UV and IR divergences at the same time. 
+        \een 
+\end{itemize}
+
+\subsection{Dimensional Regularisation}
+
+Given the points made above, let's look into dimensional regularisation. However before we do this we need to make some comments on how this affects the dimensions of things in our theory. Recall that in QFT we work in so-called \textit{mass dimensions} by setting $\hbar=c=1$. This allows us to categorise the dimensions of everything by a number, the mass dimension. Recall also that $S\sim \hbar$ and so in mass dimensions we require, for $D$-dimensions:\footnote{If this notation doesn't make sense, go back to your introductory field theory course, it will (or at least should) be explained in there.}
+\bse 
+    [S]=0 \qquad \iff \qquad [\cL] = D,
+\ese
+where the second line follows from the fact that the action and integral are related by a $D$-dimensional integral.\footnote{Recall that $[dx^{\mu}]=-1$.} We can use these to obtain the dimensions of our fields from the Lagrangian, \Cref{eqn:QEDLagrangian}.
+
+\bbox 
+    For a $D$-dimensional theory, show that 
+    \bse 
+        [\psi] = [\overline{\psi}] = \frac{D-1}{2}, \qand [A_{\mu}] = \frac{D}{2}-1.
+    \ese 
+    Then use these results to show that 
+    \be
+    \label{eqn:eDimensions}
+        [e] = 2 - \frac{D}{2}, \qquad \implies \qquad [\a] = 4-D,
+    \ee 
+    where $\a$ is the structure constant, \Cref{eqn:StructureConstant}. \textit{Hint: Recall that $[m]=1=[\p_{\mu}]$.}
+\ebox 
+
+\Cref{eqn:eDimensions} is a problem: it tells us that, unless $D=4$, our coupling strength is a dimensionful quantity. This is not something we want. Why? Well note that $e$ appears in our matrix elements $i\cM$ and squaring these gives us the scattering amplitude, which is a probability. This result must be dimensionless, and so we also require that $e$ is dimensionless. In our dimensional regularisation, where $D<4$, we therefore need to redefine our coupling via 
+\bse 
+    \overline{e} := e \mu^{-2+\frac{D}{2}}, \qquad  \overline{\a} := \a \mu^{D-4}
+\ese 
+where $[\mu]=1$, which gives us $[\overline{e}]=0=[\overline{\mu}]$. It is the $\overline{e}$/$\overline{\a}$ that will appear in our scattering amplitudes.
+
+The obvious question to ask is "what is $\mu$ physically?" Well as we just said it is included to ensure that our scattering amplitudes are dimensionless, and so it has to be something we can always include, and it must have $[\mu]=1$. With a bit of thought it becomes clear that the only thing available to us is the energy of the experiment. In fact we are going to relate it to the momentum, i.e. 
+\be 
+\label{eqn:muMomentumRelation}
+    \mu \sim p,
+\ee 
+as this has the same dimensions and will be important when considering running couplings later on. 
+
+\br 
+    Note that it is important that $D<4$ otherwise we get $[\a]<0$ which follows through to saying we have to include positive powers of $\mu$ in our definitions of $\overline{e}/\overline{\a}$. In other words our scattering amplitudes would go as 
+    \bse 
+        |i\cM|^2 \sim p^{\text{positive number}},
+    \ese 
+    and so our scattering process becomes more and more likely the higher our energies. This translates into saying the coupling increases with energy, and we approach a point where our perturbative expansion breaks down. This doesn't concern us here as we take $D<4$, however problems exactly like this do arise in theories were the parameters appearing in the Lagrangian have negative mass dimensions. This leads to a non-renormalisable theory and we either have to replace it with some bigger theory or only study the theory at low energies. The latter condition is what is known as \textit{effective field theory}, and perhaps the most famous example is quantum gravity. For a bit more information on effective field theories see my QFT II notes, section 4.5.
+\er 
+
+\subsection{Scalar $D$-Dimensional Integral}
+
+Ok so we want to compute integrals like 
+\be 
+\label{eqn:I1}
+    I_1 = \int \frac{d^Dk}{(2\pi)^D} \frac{1}{(k^2-m^2+i\epsilon)^n}, \qquad n\in\N. 
+\ee 
+In order to do this we are going to need some mathematical identities. We list them here. 
+\ben[label=(\roman*)]
+    \item \textit{Schwinger Representation}: 
+    \be 
+    \label{eqn:Schwinger}
+        \frac{1}{a^n} = \frac{1}{\Gamma(n)} \int_0^{\infty} dt \,  t^{n-1} e^{-ta},
+    \ee 
+    where $\Gamma(n)$ is the so-called \textit{Gamma function}
+    \be 
+    \label{eqn:GammaFunction}
+        \Gamma(z) := \int_0^{\infty} dt \, t^{z-1} e^{-t} \qquad \Re(z) >0,
+    \ee
+    and obeying
+    \bse 
+        \Gamma(0) = 0 \qand \Gamma(n) = (n-1)! \qquad n\in \N
+    \ese 
+    \item \textit{Wick Rotation}: The idea of a Wick rotation is to complexify our integration variable in such a way as to not effect the result of our contour integral. Basically we can rotate as we like as long as our contour integral encloses the same poles. The poles of \Cref{eqn:I1} are\footnote{To see how to take the $i\epsilon$ out the integral see, e.g., page 41 of my IFT notes.} 
+    \bse 
+        k^0 = \pm \sqrt{\Vec{k}^2+m^2} \mp i\epsilon.
+    \ese
+    We can therefore do our Wick rotation to move from integrating $k^0$ over the real line to integrating it over the imaginary axis:
+    \begin{center}
+        \btik 
+            \draw[->] (-3,0) -- (3,0);
+            \node at (3,-0.3) {$\Re k^0$};
+            \draw[->] (0,-2) -- (0,2);
+            \node at (-0.5,2) {$\Im k^0$};
+            \draw[fill=black] (-1,0.3) circle [radius=0.1cm];
+            \draw[fill=black] (1,-0.3) circle [radius=0.1cm];
+            \midarrowblue (-2.8,0) -- (0,0);
+            \midarrowblue (0,0) -- (2.8,0);
+            \draw[dashed, red, ->] (1,0) arc (0:90:1);
+        \etik 
+    \end{center}
+    where the blue line is meant to represent our original integral and the red dashed line is our Wick rotation. The reason we do this is because it sends
+    \bse 
+        k \to k_E := (ik^0,\Vec{k}) \qquad \implies \qquad k_E^2 = -\| k_E\|^2,
+    \ese 
+    where $\| \cdot \|^2$ is the standard Euclidean inner product (hence the subscripts). Our $k^0$ integral then becomes 
+    \be 
+    \label{eqn:WickRotatedIntegral}
+        i\int_{-\infty}^{\infty} dk^0_E \frac{(-1)^n}{\big((k_E^0)^2 + \Vec{k}_E^2 + m^2 -i\epsilon\big)^n}
+    \ee  
+    \item \textit{$D$-Dimensional Gaussian Integrals}: We can extend the Gaussian integral 
+    \bse 
+        \int_{-\infty}^{\infty} dx \, e^{-x^2} = \sqrt{\pi}
+    \ese
+    trivially to obtain
+    \be 
+    \label{eqn:GaussianIntegralKE}
+        \int_{-\infty}^{\infty} d^D k e^{-\|k_E\|^2} = \pi^{D/2}.
+    \ee 
+    This is formally valid for $D\in \N$, however we take an analytic continuation to account for all $D$.  
+\een
+
+Ok let's return to \Cref{eqn:I1}:
+\bse 
+    \begin{split}
+        I_1 & = i\int \frac{d^Dk_E}{(2\pi)^D} \frac{(-1)^n}{(\|k_E\|^2+m^2-i\epsilon)^n} \\
+        & = \frac{i(-1)^n}{\Gamma(n)} \int \frac{d^Dk_E}{(2\pi)^D}  \int_0^{\infty} dt \, t^{n-1} e^{-t(\|k_E\|^2+m^2-i\epsilon)}  \\
+        & = \frac{i(-1)^n}{(2\pi)^D\Gamma(n)} \int_0^{\infty} dt \, t^{n-1} e^{-t(m^2-i\epsilon)} \int d^Dk_E \, e^{-t\|k_E\|^2}
+    \end{split}
+\ese 
+where we have used \Cref{eqn:WickRotatedIntegral,eqn:Schwinger} and the used the fact that our integrals are finite to swap the order of integration. Let's now set the denominator\footnote{\textit{Not} the $\epsilon$ in $D=4-2\epsilon$.} $\epsilon=0$ as it has served its purpose\footnote{Really we could have done this after the Wick rotation.} and change variables to 
+\bse 
+    k_E' := \sqrt{t}k_E, \qquad \implies \qquad d^Dk_E = t^{-D/2} d^Dk_E'
+\ese 
+giving us 
+\bse 
+    \begin{split}
+        I_1 & = \frac{i(-1)^n}{(2\pi)^D\Gamma(n)} \int_0^{\infty} dt \, t^{n-1} e^{-tm^2} t^{-D/2} \int d^Dk_E' e^{-\|k_E'\|^2} \\
+        & = \frac{i(-1)^n \pi^{D/2}}{(2\pi)^D\Gamma(n)} \int_0^{\infty} dt \, t^{n-1-D/2} e^{-tm^2} \\
+        & = \frac{i(-1)^n }{(4\pi)^{D/2}\Gamma(n)}\,  \big(m^2\big)^{-n+D/2} \,  \int_0^{\infty} dt' (t')^{(n-D/2)-1} e^{-t'} \\
+        & = \frac{i}{\Gamma(n)}\frac{(-1)^n}{(4\pi)^{D/2}} \,  \big(m^2\big)^{-n+D/2} \, \Gamma\bigg(n-\frac{D}{2}\bigg) \\
+        & = \frac{i}{\Gamma(n)}\frac{(-1)^n}{(4\pi)^{2-\epsilon}} \,  \big(m^2\big)^{-n+2-\epsilon} \, \Gamma\big(n-2+\epsilon\big)
+    \end{split}
+\ese 
+where we have used \Cref{eqn:GaussianIntegralKE}, defined $t'=m^2t$, then used the definition \Cref{eqn:GammaFunction} backwards, and then put in the definition $D=4-2\epsilon$.
+
+Now let's look at what happens for $n=2$. We get 
+\be 
+\label{eqn:I1m^2}
+    I_1 = \frac{i}{\Gamma(2)} \frac{1}{(4\pi)^{2-\epsilon}} \, \big(m^2\big)^{-\epsilon} \, \Gamma(\epsilon),
+\ee 
+but if we then take the limit $\epsilon\to0$ we get $\Gamma(0)=0$. This is a problem because if we set $n=2$ with $\epsilon=0$, then we have 
+\bse 
+    I_1 = \int \frac{d^4k}{(2\pi)^4} \frac{1}{(k^2-m^2+i\epsilon)^2},
+\ese 
+which in the limit $k\to\infty$ diverges logarithmically, however we have just shown that this result vanishes. Where are the UV singularities going? Well let's look at the result for $\epsilon>0$ but small. 
+
+\bcl 
+    The Laurent expansion of $\Gamma(z)$ around $z=0$ is
+    \be 
+    \label{eqn:GammaLaurentExpansion}
+        \Gamma(z) = \frac{1}{z}\big( 1 - \g_E z + \cO(z^2) \big),
+    \ee 
+    where $\g_E$ is the so-called \textit{Euler constant}. 
+\ecl 
+
+\bq\footnote{Based on the one given on \href{https://math.stackexchange.com/questions/1287555/how-to-obtain-the-laurent-expansion-of-gamma-function-around-z-0}{Stack Exchange}.} 
+    Let's start with the definition, \Cref{eqn:GammaFunction}:
+    \bse 
+        \Gamma(z) = \int_0^{\infty} dt \, t^{z-1} e^{-t}.
+    \ese 
+    Now do an integration by parts with
+    \bse 
+        u = e^{-t}, \qand dv= t^{z-1} \quad \implies \quad  v = \frac{t^z}{z}.
+    \ese 
+    Direct calculation gives us 
+    \bse 
+        \Gamma(z) = \frac{1}{z} \int_0^{\infty} dt \, t^{z} e^{-t}.
+    \ese 
+    Now use the expasion 
+    \bse 
+        t^{z} = \sum_{n=0}^{\infty} \frac{z^n}{n!} \log^n(t),
+    \ese 
+    giving us 
+    \bse 
+        \begin{split}
+            \Gamma(z) & = \frac{1}{z} \sum_{n=0}^{\infty} \frac{z^n}{n!}  \int_0^{\infty} dt \, \log^n(t) e^{-t} \\
+            & = \frac{1}{z} + \int_0^{\infty} dt \, \log(t) e^{-t} + \frac{1}{2} z \int_0^{\infty} dt\, \log^2(t) e^{-t} + ...,
+        \end{split}
+    \ese 
+    so if we define
+    \bse 
+        -\g_E := \int_0^{\infty} dt \, \log(t) e^{-t} \approx -0.577...,
+    \ese 
+    we get the result \Cref{eqn:GammaLaurentExpansion}.
+\eq 
+
+We can use the result of this claim along with 
+\bse 
+    \begin{split}
+        \big(m^2\big)^{-\epsilon} = e^{-\epsilon\log m^2} & = 1 - \epsilon\log m^2 + \cO(\epsilon^2) \\
+        (4\pi)^{2-\epsilon} = (4\pi)^2 e^{-\epsilon\log 4\pi} & = (4\pi)^2\big(1 - \epsilon\log 4\pi) + \cO(\epsilon^2)\big)
+    \end{split}
+\ese 
+to give us (using $\Gamma(2)=1!=1$)
+\bse 
+    \begin{split}
+        I_1 & = \frac{i}{(4\pi)^2} \bigg[ (1+\epsilon\log 4\pi) \big(1+\epsilon\log m^2\big) \frac{1}{\epsilon}\big(1 - \g_E \epsilon\big) \bigg] + \cO(\epsilon^2) \\
+        & = \frac{i}{(4\pi)^2} \bigg[ \frac{1}{\epsilon} + \log\bigg(\frac{4\pi e^{-\g_E\epsilon}}{m^2}\bigg)\bigg] + \cO(\epsilon),
+    \end{split}
+\ese 
+so we see in the limit $\epsilon\to0$ we do still get a divergence. This result is telling us that the IR/UV singularities come from picking up the $1/\epsilon^n$ poles. 
+
+\bbox 
+    Show that for $n=3$ we get a finite result:
+    \bse 
+        I_1(n=3) = -\frac{i}{32\pi^2m^2}\big(1 + \cO(\epsilon)\big).
+    \ese 
+    This agrees with the fact that \Cref{eqn:I1} tells us we should get a convergent result. \textit{Hint: First use integration by parts to show}
+    \bse 
+        \Gamma(1+x) = x\Gamma(x) \qquad x\in \R^+,
+    \ese 
+    \textit{and then manipulate the expression for $n=3$ so that you can use the $n=2$ result.}
+\ebox 
+
+\br 
+    Now there is a very fair question/complaint you could raise at this point: we just said that \Cref{eqn:I1} gives a logarithmic divergence for $n=2$ but our dimensional regularisation has given us a $1/\epsilon$ divergence. These are both divergences, true, but the former is \textit{wildly} more divergent then the latter, so what gives? Surely this can't be describing the same physics? The answer is "you're correct it is \textit{not} the same physics; we have changed the dimensions of our spacetime!" This only raises the question of "ok so if we've changed the physics why are we even discussing this?" The answer to that one is a bit more subtle, and here we just give a claim that settles it. The claim is that our final result, in \textit{any} regularisation scheme, will turn out to `split' into two terms, with the first containing \textit{all} the physics and the second containing the divergent parts, which are dependent on the regularisation scheme. The idea is then to cancel these divergent parts without affecting the physical bit. It turns out that we can do exactly this, and so, although the physics we study during the calculation is regularisation scheme dependent, our final result is the same no matter which we choose. This is a highly non-trivial claim, which is why we don't prove it here.
+\er 
+
+\subsubsection{Terms With $m=0$}
+
+What happens if we consider $m=0$? Well then we have 
+\bse 
+    I_{1,m=0} = \int \frac{d^D k}{(2\pi)^D} \frac{1}{k^{2n}},
+\ese 
+which, using $[k]=1$, tells us 
+\bse 
+    [I_{1,m=0}] = D-2n,
+\ese 
+and we also require that it is a Lorentz scalar (as there are no indices present). However we do not have any Lorentz scalars that are dimensionful (as $m=0$) so we are forced to conclude 
+\bse 
+    I_{1,m=0} = 0. 
+\ese 
+Indeed we can see this result easily from \Cref{eqn:I1m^2}.
+
+\subsubsection{More Complicated Propagators}
+
+We can also compute more complicated looking propagators. For example consider 
+\bse 
+    I_{q,n} = \int \frac{d^Dk}{(2\pi)^D} \frac{1}{(k^2-2kq - m^2)^2}.
+\ese 
+We will get terms like this for loop integrals where the propagators have momentum $(q-k)$, as the denominator will contain a $(k-q)^2$ term. If we change integration variables as $k'=k+q$, we get 
+\bse 
+    I_{q,n} = \int \frac{d^Dk'}{(2\pi)^D} \frac{1}{\big((k')^2-(q^2 + m^2)\big)^2}.
+\ese 
+We can then repeat our entire calculation from above but now with $m^2\to q^2+m^2$, so the result is 
+\bse 
+    I_{q,n} = \frac{i}{\Gamma(n)} \frac{(-1)^n}{(4\pi)^{2-\epsilon}}\,  \big(m^2+q^2\big)^{-n+2-\epsilon} \, \Gamma\big(n-2+\epsilon\big)
+\ese
+
+\br 
+    Note here we do \textit{not} need the result to vanish when $m=0$. Why? Well because now we have the Lorentz scalar $q^2$ in our problem so we can express the result in terms of it. Indeed this is exactly what the above expression gives us. 
+\er 
+
+\subsection{Tensor Integrals}
+
+We've looked at scalar integrals, but we know these by no means exhaust the kinds of integrals we should expect. For example, recall that the Fermion propagator contains a term
+\bse 
+    \frac{\slashed{k}}{(k^2-m^2+i\epsilon)}, \qquad \slashed{k} := \g^{\mu}k_{\mu}.
+\ese 
+The results of the integrals over these types of expressions, then, are tensors (i.e. they have components). We can use this fact to obtain the general form of the answers. 
+
+\subsubsection{Single Index}
+
+First let's consider the integral with a single index $k^{\mu}$:
+\bse 
+    I_n^{\mu} := \int \frac{d^Dk}{(2\pi)^4} \frac{k^{\mu}}{(k^2-m^2+i\epsilon)^n}.
+\ese 
+Now the result has to have a single Lorentz contravariant index, but it can't come from a $k^{\mu}$ as we integrate them all out. We do not have anything else at our disposal in this integrand and so we have to conclude that this vanishes, i.e. we have the (1,0)-tensor $0^{\mu}$ which vanishes for all $\mu=0,...,D-1$. We can also see this result from the fact that we are doing a symmetric integral over an odd function, i.e. $I^{\mu}_n \to -I_n^{\mu}$ under $k\to -k$. 
+
+\subsubsection{Two Indices}
+
+Next let's consider something with two indices, i.e. 
+\bse 
+    I_n^{\mu\nu} := \int \frac{d^Dk}{(2\pi)^4} \frac{k^{\mu}k^{\nu}}{(k^2-m^2+i\epsilon)^n}.
+\ese 
+Again the result must have two contravariant indices and neither can come from a $k^{\mu}$ term. However we also have the metric in our problem, and so we have 
+\bse 
+    I_n^{\mu\nu} = C \eta^{\mu\nu},
+\ese 
+where $C$ is some undetermined scalar factor. We can find the form of this by considering the contraction 
+\bse 
+    \eta_{\mu\nu}I^{\mu\nu}_n = D C,
+\ese
+where we have used $\eta_{\mu\nu}\eta^{\mu\nu}=D$. We will return to this just after \Cref{ex:PassarinoVeltamn} below.
+
+\subsection{Integrals With More Than One Propagator}
+
+Everything we have considered above corresponds to a single propagator term, however terms that only contain a single propagator are necessarily tree level and so we do not have any of the divergent problems at all.\footnote{Recall that tree level diagrams don't have any integrals left over.} So if we are to deal with loops, we must extend the above expressions to deal with terms with more than one propagator, i.e. things of the form
+\bse 
+    \int \frac{d^Dk}{(2\pi)^D} \frac{1}{k^2(k-p)^2}.
+\ese 
+
+In order to solve these as we did above, we need to come up with an extension of the Schwinger representation, \Cref{eqn:Schwinger}. The claim is that it extends to
+\be 
+\label{eqn:SchwingerExnteionOne}
+    a_1^{-n_1}... a_m^{-n_m} = \frac{1}{\prod_{i=1}^m \Gamma(n_i)} \int_0^{\infty} \Big(\prod_{i=1}^m dt_i \, t_i^{n_1-1}\Big) e^{-\sum_{i=1}^m t_ia_i}.
+\ee 
+We can simplify this by defining 
+\bse 
+    t := \sum_{i=1}^m t_i, \qquad t_i := tx_i
+\ese 
+with $0\leq x_i \leq 1$ obeying 
+\bse 
+    \sum_{i=1}^m x_i = 1.
+\ese 
+This allows us to change our integration variable as
+\bse 
+    dt_i \, t_i^{n_i-1} = t^{n_i} dx_i \, x_i^{n_i-1}.
+\ese 
+From this, we can manipulate the following identity 
+\bse 
+    \begin{split}
+        1 & = \int_0^{\infty} dt \, \del \bigg( t - \sum_{i=1}^m t_i\bigg) \\
+        & = \int_0^{\infty} dt \, \del\bigg(t \bigg[ 1- \sum_{i=1}^m x_i\bigg]\bigg) \\
+        & = \int_0^{\infty} \frac{dt}{t} \del\bigg( 1- \sum_{i=1}^m x_i\bigg).
+    \end{split}
+\ese 
+If we insert all of this into \Cref{eqn:SchwingerExnteionOne}, we get (suppressing the labels on some of the sums/products for notational reasons)
+\bse 
+    \begin{split}
+        a_1^{-n_1}... a_m^{-n_m} & = \frac{1}{\prod \Gamma(n_i)} \int_0^{\infty} \frac{dt}{t} \int_0^1 \prod_{i=1}^m dx_i \, x_i^{n_i-1} \del\bigg( 1- \sum_{i=1}^m x_i\bigg) t^{\sum n_i} e^{-t\sum x_ia_i} \\
+        & = \frac{1}{\prod \Gamma(n_i)} \int_0^1 \prod_{i=1}^m dx_i \, x_i^{n_i-1} \del\bigg( 1- \sum_{i=1}^m x_i\bigg) \int_0^{\infty} dt \, t^{\sum n_i-1}  e^{-t\sum x_ia_i}  \\
+        & = \frac{1}{\prod \Gamma(n_i)} \int_0^1 \prod_{i=1}^m dx_i \, x_i^{n_i-1} \, \del\bigg( 1- \sum_{i=1}^m x_i\bigg) \, \frac{\Gamma\big(\sum n_i\big)}{\big(\sum x_ia_i\big)^{\sum n_i}},
+    \end{split}
+\ese 
+where the last line follows from the definition of the Gamma function, \Cref{eqn:GammaFunction}.
+
+We set a couple of simple exercises here as some examples that will be instrumental to the calculations going forward.
+
+
+\bbox 
+    Use the above relation to show
+    \be 
+    \label{eqn:SchwingerAB}
+        \frac{1}{AB} = \int_0^1 dx \frac{1}{\big(xA+(1-x)B\big)^2}
+    \ee 
+    \be 
+    \label{eqn:SchwingerABC}
+        \frac{1}{ABC} = 2 \int_0^1 dx \int_0^{1-x} dy  \frac{1}{\big(xA + yB + (1-x-y)C\big)^3}
+    \ee 
+    and 
+    \be 
+    \label{eqn:SchwingerA2B}
+        \frac{1}{A^2B} = \int_0^1 dx \frac{x}{\big(xA+(1-x)B\big)^3}
+    \ee 
+    We call these \textit{Feynman Parameters}. \textit{Hint: For the last relation you can simply differentiate the first result w.r.t. $A$ instead of doing the full calculation again.}
+\ebox 
+
+\bex 
+    Let's do an actual example with two propagators. Consider 
+    \bse 
+        I_2 = \int \frac{d^Dk}{(2\pi)^D} \frac{1}{k^2\big[(p+k)^2-m^2\big]}
+    \ese
+    which corresponds to the Feynman diagram 
+    \begin{center}
+        \btik 
+            \midarrow (-2,0) -- (0,0);
+            \draw[->] (-1.5,-0.3) -- (-0.5,-0.3) node [midway,below] {$p$};
+            \midarrow (0,0) -- (2,0);
+            \draw[->] (0.5,-0.3) -- (1.5,-0.3) node [midway,below] {$p+k$};
+            \midarrow (2,0) -- (4,0);
+            \draw[->] (2.5,-0.3) -- (3.5,-0.3) node [midway,below] {$p$};
+            \begin{scope}
+                \clip (-0.5,0) -- (2.5,0) -- (2.5,1.5) -- (-0.5,1.5) -- (-0.5,0);
+                \wavey (1,0) circle [radius=1cm];
+            \end{scope}
+            \begin{scope}
+                \clip (1.5,0) -- (1.5,1.5) -- (-0.5,1.5) -- (-0.5,0) -- (1.5,0);
+                \draw[->] (2.25,0) arc (0:120:1.25);
+            \end{scope}
+            \node at (1,1.5) {$k$};
+        \etik 
+    \end{center}
+    We can use \Cref{eqn:SchwingerAB} to write this integral as 
+    \bse 
+        \begin{split}
+            I_2 & = \int \frac{d^Dk}{(2\pi)^D} \int_0^1 dx \frac{1}{\big[x\big((p+k)^2-m^2\big) + (1-x)k^2\big]^2} \\
+            & = \int_0^1 dx \int \frac{d^Dk}{(2\pi)^D} \frac{1}{\big[ k^2 + 2x (p\cdot k) + xp^2 -xm^2 \big]^2} \\
+            & = \int_0^1 dx \int \frac{d^Dk'}{(2\pi)^D} \frac{1}{\big[ (k')^2 - \Delta \big]^2}
+        \end{split}
+    \ese 
+    where in the last line we have used $k' = k + xp$ and defined\footnote{Bonus exercise: fill in the gaps in-between the last two lines above.}
+    \bse 
+        \Delta(x) = xm^2 - x(1-x)p^2.
+    \ese 
+    The inner integral is now in the form we calculated above, and so we can use our results to obtain 
+    \bse 
+        \begin{split}
+            I_2 & = \int_0^1 dx \frac{i}{(4\pi)^{D/2}} \Gamma\bigg(2-\frac{D}{2}\bigg) \Delta(x)^{-2+D/2} \\
+            & = \frac{i}{(4\pi)^{D/2}} \Gamma(\epsilon) \int_0^1 dx \Delta(x)^{-\epsilon}
+        \end{split}
+    \ese
+    This integral over $\Delta(x)$ looks horrible, but we just claim that if you do it in the limit $\epsilon\to0$ (i.e. $D\to4$) and use our Laurent expansion for $\Gamma(\epsilon)$ in this limit we get 
+    \bse 
+        I_2 = \frac{1}{16\pi^2} \bigg[ \frac{1}{\epsilon} + \log\big(4\pi e^{-\g_E}\big) + 2 - \frac{m^2}{p^2}\log(m^2) + \frac{m^2-p^2}{p^2} \log(m^2-p^2)\bigg] + \cO(\epsilon).
+    \ese 
+    As we will see going forward, this finite term outside the pole $1/\epsilon$ is not of vast importance to us (we will deal with them at the end) and so we shall just refer to terms like this as $+$ finite.
+\eex    
+
+\bex 
+    Now let's look at a example as a tensor integral, in particular the integral
+    \bse 
+        I_2^{\mu} = \int \frac{d^Dk}{(2\pi)^D} \frac{k^{\mu}}{k^2\big[(p+k)^2 -m^2\big]}
+    \ese
+    We might try and rush in and say "we saw earlier that things with a $k^{\mu}$ in the numerator vanish, so this is zero." However we have to be careful: that result came when we had the denominator in our single propagator form, i.e. $(k^2-m^2)^{-n}$, but that is not the case here. Instead what we have to do is repeat the process for the previous example and obtain 
+    \bse 
+        I_2^{\mu} = \int_0^1 dx \int \frac{d^Dk'}{(2\pi)^D} \frac{(k')^{\mu}-xp^{\mu}}{\big[ (k')^2 - \Delta \big]}
+    \ese 
+    \textit{Now} we can split this into two terms (given by the numerators) and say that the one with the $(k')^{\mu}$ vanishes by antisymmetry. We are therefore left with 
+    \bse 
+        \begin{split}
+            I_2^{\mu} & = -\int_0^1 dx \int \frac{d^Dk'}{(2\pi)^D} \frac{xp^{\mu}}{\big[ (k')^2 - \Delta \big]} \\
+            & = -p^{\mu} \frac{i}{(4\pi)^{D/2}} \frac{\Gamma\big(2-\frac{D}{2}\big)}{\Gamma(2)} \, {_2}F_1,
+        \end{split}
+    \ese 
+    where $_2F_1$ is a \textit{hypergeometric function} that is the result of the integral term we get left over. This is just some finite number and so we have in the limit $\epsilon\to0$,
+    \bse 
+        I_2^{\mu} = -p^{\mu} \frac{i}{16\pi^2} \frac{1}{\epsilon} + \text{finite}.
+    \ese 
+\eex
+
+
+\subsection{Passarino-Veltman Reduction}
+
+The arguments we made above about guessing the result of the integral given the index structure is part of what is known as \textit{Passarino-Veltman reduction}. The idea is to start with the ansatz of a linear combination of all objects with the correct tensor structure and then convert these into scalar integrals using contractions. This is probably best illustrated with some more examples. 
+
+\bex 
+\label{ex:PassarinoVeltamn}
+    Consider again 
+    \bse 
+        I_2^{\mu} = \int \frac{d^Dk}{(2\pi)^D} \frac{k^{\mu}}{k^2\big[(k+p)^2-m^2\big]}.
+    \ese 
+    This has a single index and so our result needs to have one too. As we've said a few times, we \textit{cannot} use $k^{\mu}$ itself because we're integrating it out, however we \textit{can} use $p^{\mu}$, so we expect 
+    \bse 
+        I_2^{\mu} = C p^{\mu}
+    \ese
+    for some yet undetermined constant $C$. We find this using contractions. We need to contract a single index, and the only thing we have available to do that is $p_{\mu}$, so that's what we do:
+    \bse 
+        p_{\mu}I^{\mu}_2 = \int \frac{d^Dk}{(2\pi)^D} \frac{k\cdot p}{k^2\big[(k+p)^2-m^2\big]} = C p^2.
+    \ese 
+    We then use some kind of trick to express the numerator in terms of things in the denominator to help simplify the problem. Here this corresponds to using 
+    \bse 
+        k\cdot p = \frac{1}{2}\Big[ (\big(k+p)^2-m^2\big) -k^2 -p^2 +m^2 \Big],
+    \ese 
+    which can be verified by simply expanding the right-hand side out. We therefore have 
+    \bse 
+        \begin{split}
+            p_{\mu}I^{\mu}_2 & =  \frac{1}{2} \int \frac{d^Dk}{(2\pi)^D} \frac{\big[(k+p)^2-m^2\big] -k^2 -p^2 +m^2}{k^2\big[(k+p)^2-m^2\big]} \\
+            & = \frac{1}{2} \int \frac{d^Dk}{(2\pi)^D} \bigg[ \frac{1}{k^2} - \frac{1}{(k+p)^2-m^2} + \frac{-p^2+m^2}{k^2\big[(k+p)^2-m^2\big]} \bigg]
+        \end{split}
+    \ese 
+    These are now all scalar integrals, so we can express them in terms of $I_1$:
+    \bse 
+        p_{\mu}I_2^{\mu} = \frac{1}{2} \big[ I_1 + I_1(p^2,m^2) - (p^2-m^2)I_2(p^2,m^2) \big].
+    \ese 
+    Finally we just `remove the contraction' by multiplying by the inverse:
+    \bse 
+        I^{\mu}_2 = \frac{p^{\mu}}{2p^2} \big[ I_1 + I_1(p^2,m^2) - (p^2-m^2)I_2(p^2,m^2) \big],
+    \ese 
+    where we note the $p^2$ in the denominator, which is there so that if we now contract with $p_{\mu}$ on both sides we get the previous expression back. 
+\eex
+
+\bbox 
+    Use the result 
+    \bse 
+        I_1(n) = \frac{i}{\Gamma(n)} \frac{(-1)^n}{(4\pi)^{D/2}} \big(m^2\big)^{-n+D/2} \Gamma\bigg(n-\frac{D}{2}\bigg)
+    \ese
+    to show that 
+    \be 
+    \label{eqn:ImunuExercise}
+        I^{\mu\nu}_n = \frac{\eta^{\mu\nu}}{2(n-1)}I_1(n-1).
+    \ee 
+    \textit{Hint: You will want to use the result $\Gamma(1+x)=x\Gamma(x)$ at some point.}
+\ebox 
+
+\subsection{Tensor Integrals From Scalar Integral}
+
+There is another way to obtain the tensor integrals from a known scalar integral that includes a $(k+p)$ in it: simply differentiate w.r.t. $p_{\mu}$. That is if we have the integral 
+\bse 
+    I(p) = \int \frac{d^Dk}{(2\pi)^D} ... \frac{1}{k\cdot p} ...,
+\ese 
+then we have 
+\bse 
+    I^{\mu}(p) = \frac{\p}{\p p_{\mu}} I(p) = \int \frac{d^Dk}{(2\pi)^D} ... \frac{-p^{\mu}}{(k\cdot p)^2} ...,
+\ese 
+and similarly\footnote{The factor of $2$ from the differentiation is included in the "..." factors. Here we are just interested in the fraction factor.}
+\bse 
+    I^{\mu\nu}(p) = \frac{\p^2}{\p p_{\nu} p_{\mu}} I(p) = \int \frac{d^Dk}{(2\pi)^D} ... \frac{p^{\mu}p^{\nu}}{(k\cdot p)^2} ... \, .
+\ese 
+
+\section{Renormalisation}
+
+Ok so we have a way to compute the divergences of our integrals and we have seen they come as $1/\epsilon$ poles. The idea of renormalisation is to add additional terms to our Lagrangian that exactly cancel these pole terms. These additional terms will give some new Feynman rules, and so we will have a way to depict this renormalisation in terms of Feynman diagrams, which is pretty neat. 
+
+Altering the Lagrangian in this way might seem like a strange thing to do, but we have to remember that the fields/parameters that appear in the Lagrangian are not measurable, and so are non-physical. We call these parameters the \textit{bare} parameters, and we give them a subscript $B$. So our bare QED Lagrangian is 
+\bse 
+    \cL = \overline{\psi}_B(i\slashed{\p} +m_B)\psi_B - \frac{1}{4} (F_B)_{\mu\nu} F_B^{\mu\nu} - \frac{1}{2\xi} \big(\p_{\mu}A_B^{\mu}\big)^2 - e_B \overline{\psi}_B \slashed{A}_B \psi_B.
+\ese
+
+As we just said above, the idea is to define the renormalised fields/parameters, which we give a subscript $R$, so that these new fields cancel all our of divergence poles. We define these as
+\be 
+\label{eqn:RenormalisedParameters}
+    \begin{split}
+        \psi_B = Z_2^{1/2} \psi_R, \qquad A_B^{\mu} = Z_3^{1/2} A^{\mu}_R, \qquad m_B = Z_m m_R, \qquad  e_B = \frac{Z_1}{Z_2Z_3^{1/2}} e_R, \qquad \xi_B = Z_{\xi} \xi_R.
+    \end{split}
+\ee 
+Note the powers of $1/2$ on the field terms, this is because they appear quadratically in  the Lagrangian, and so this way they will appear nicer. It's for a similar reason we have defined $e_R$ the way we have. It is into these $Z$ factors that we absorb all the UV divergences. It turns out (as will be explained later) that we can do this to \textit{all} orders of perturbation theory for QED using what are known as \textit{renormalisation conditions}. We will be left with finite terms (as we had in our integrals above), and we deal with these by comparing the theory to experiment. That is pick a \textit{renormalisation scheme} which sets the finite terms to something, and then we calculate scattering probabilities \textit{relative} to this measurement. From here we can predict all other measurements. 
+
+It is exactly because we can absorb all the UV divergences into our $Z$ factors at any order that we can predict all other measurements. If, on the other hand, at each other we had to introduce more and more measurement constraints on the system we would continuously loose predictive power until we were left with nothing. This does not mean we won't be able to predict something to some \textit{fixed} order in perturbation theory, just that we cannot do it for the full perturbation series. We stress again that it is a special property that QED that allows us to predict all other results given our renormalisation scheme. 
+
+
+\br 
+    It is likely that the above description is confusing. My advice would be to work through the next part of the notes and then return and read it again. It is included here to give some motivation for the work that follows. 
+\er 
+
+Our Lagrangian in terms of the renormalised parameters is 
+\be 
+\label{eqn:LagrangianWithCounterTerms}
+    \begin{split}
+        \cL & = i Z_2 \overline{\psi}_R \slashed{\p}\psi_R - Z_2Z_m m_R^2 \overline{\psi}_R\psi_R  - Z_3\frac{1}{4}(F_R)_{\mu\nu}F_R^{\mu\nu} - \frac{Z_3}{Z_{\xi}} \frac{1}{2\xi_R} (\p_{\mu}A_R^{\mu})^2 - Z_1 e_R \overline{\psi}_R \slashed{A}_R \psi_R \\
+        & = i\overline{\psi}_R\slashed{\p} \psi_R + i(Z_2-1)\overline{\psi}_R\slashed{\p} \psi_R - ... - \frac{1}{4}(F_R)_{\mu\nu}F_R^{\mu\nu} (Z_3-1) - \frac{1}{4}(F_R)_{\mu\nu}F_R^{\mu\nu} + ...,
+    \end{split}
+\ee 
+where the second line is a suggestive simple reexpression of the first line. It is done for the following reason: we see that we now have our Lagrangian looking like its original form (i.e. terms like $i\overline{\psi}\slashed{\p}\psi$ etc) but with each term repeated with a prefactor $(Z_i-1)$. These original terms will obey the usual Feynman rules and will generate the $1/\epsilon$ poles of our UV divergence. As we will see shortly, our $Z_i$s will take the form 
+\bse 
+    Z_i = 1 + \frac{\a}{\epsilon}C_i,
+\ese
+for some finite factor $C_i$, and so can be used to cancel the poles from our normal Feynman rules. We indicate the new Feynman rules with little crossed out circles, for example 
+\begin{center}
+    \btik 
+        \begin{scope}
+            \midarrow (-1,0) -- (-0.25,0);
+            \draw[thick] (0,0) circle [radius=0.25];
+            \draw[thick, rotate around={45:(0,0)}] (-0.25,0) -- (0.25,0);
+            \draw[thick, rotate around={-45:(0,0)}] (-0.25,0) -- (0.25,0);
+            \midarrow (0.25,0) -- (1,0);
+            \node at (2.25,0) {\large{$\sim (Z_2-1)$}};
+        \end{scope}
+        \begin{scope}[yshift=-1cm]
+            \wavey (-1,0) -- (-0.25,0);
+            \draw[thick] (0,0) circle [radius=0.25];
+            \draw[thick, rotate around={45:(0,0)}] (-0.25,0) -- (0.25,0);
+            \draw[thick, rotate around={-45:(0,0)}] (-0.25,0) -- (0.25,0);
+            \wavey (0.25,0) -- (1,0);
+            \node at (2.25,0) {\large{$\sim (Z_3-1)$}};
+        \end{scope}
+        \begin{scope}[yshift=-2.5cm]
+            \draw[thick, decoration={markings, mark=at position 0.5 with {\arrow{>}}}, postaction={decorate}, rotate around={45:(0,0)}] (-1,0) -- (-0.25,0);
+            \draw[thick, decoration={markings, mark=at position 0.5 with {\arrow{>}}}, postaction={decorate}, rotate around={-45:(0,0)}] (-1,0) -- (-0.25,0);
+            \draw[thick] (0,0) circle [radius=0.25];
+            \draw[thick, rotate around={45:(0,0)}] (-0.25,0) -- (0.25,0);
+            \draw[thick, rotate around={-45:(0,0)}] (-0.25,0) -- (0.25,0);
+            \wavey (0.25,0) -- (1,0);
+            \node at (2.25,0) {\large{$\sim (Z_1-1)$}};
+        \end{scope}
+    \etik 
+\end{center}
+
+\br 
+    Now we might ask why are we only considering the $Z_i$s to first order in $\a \sim e^2$? That is why not consider higher order couplings, e.g. $\a^2\sim e^4$? The answer is we know $\a$ is small (as $e$ is small, otherwise our perturbation series is ill-defined), and take a Taylor expansion. It is important to note, though, that we are also dividing by $\epsilon$ which we take the limit $\epsilon\to 0$, and so things are more subtle. The idea is that we will not take the limit until the end, and so during our calculations $\epsilon$ is some finite number. Our Taylor approximation is then done in powers of $\a/\epsilon$ which we assume is small. 
+\er 
+
+Ok, let's find these renormalisation factors. To do this we need to find the exact divergence behaviour of each term. We shall work through them in turn. 
+
+\subsection{Electron Self Energy}
+
+First let's consider the propagation of an electron (i.e. a Fermion), denoted $S_f(p)$. To zeroth order this is simply the propagator 
+\begin{center}
+    \btik 
+        \midarrow (-1,0) -- (1,0);
+        \node at (1.85,0) {$=:S_f^0(p)$};
+    \etik 
+\end{center}
+where we have introduced our notational definition $S_f^0(p)$ (this will come in handy very shortly). Now it's clear that there is nothing to first order in coupling that doesn't have an external photon too, that is the photon line has to connect to our Fermion line at both ends. Indeed it's clear only even order terms will contribute. At second order there is only one diagram 
+\begin{center}
+    \btik
+        \midarrow (-1.5,0) -- (-0.5,0);
+        \midarrow (-0.5,0) -- (0.5,0);
+        \midarrow (0.5,0) -- (1.5,0);
+        \begin{scope}
+            \clip (-0.75,0) -- (0.75,0) -- (0.75,0.75) -- (-0.75,0.75) -- (-0.75,0);
+            \wavey (0,0) circle [radius=0.5cm];
+        \end{scope}
+    \etik 
+\end{center}
+At fourth order we get three diagrams
+\begin{center}
+    \btik
+        \begin{scope}[xshift=-6cm]
+            \midarrow (-1.5,0) -- (-0.5,0);
+            \midarrow (-0.5,0) -- (0.5,0);
+            \midarrow (0.5,0) -- (1.5,0);
+            \midarrow (1.5,0) -- (2,0);
+            \midarrow (2,0) -- (3,0);
+            \begin{scope}
+                \clip (-0.75,0) -- (0.75,0) -- (0.75,0.75) -- (-0.75,0.75) -- (-0.75,0);
+                \wavey (0,0) circle [radius=0.5cm];
+            \end{scope}
+            \begin{scope}[xshift=1.75cm]
+                \clip (-0.75,0) -- (0.75,0) -- (0.75,0.75) -- (-0.75,0.75) -- (-0.75,0);
+                \wavey (0,0) circle [radius=0.5cm];
+            \end{scope}
+        \end{scope}
+        %%%
+        \begin{scope}
+            \midarrow (-2,0) -- (-1,0);
+            \midarrow (-1,0) -- (-0.5,0);
+            \midarrow (-0.5,0) -- (0.5,0);
+            \midarrow (0.5,0) -- (1,0);
+            \midarrow (1,0) -- (2,0);
+            \begin{scope}
+                \clip (-0.75,0) -- (0.75,0) -- (0.75,0.75) -- (-0.75,0.75) -- (-0.75,0);
+                \wavey (0,0) circle [radius=0.5cm];
+            \end{scope}
+            \begin{scope}
+                \clip (-1.25,0) -- (1.25,0) -- (1.25,1.25) -- (-1.25,1.25) -- (-1.25,0);
+                \wavey (0,0) circle [radius=1cm];
+            \end{scope}
+        \end{scope}
+        %%%% 
+        \begin{scope}[xshift=4.5cm]
+            \midarrow (-1.5,0) -- (-0.5,0);
+            \midarrow (-0.5,0) -- (0,0);
+            \midarrow (0,0) -- (0.5,0);
+            \midarrow (0.5,0) -- (1,0);
+            \midarrow (1,0) -- (2,0);
+            \begin{scope}
+                \clip (-0.75,0) -- (0.75,0) -- (0.75,0.75) -- (-0.75,0.75) -- (-0.75,0);
+                \wavey (0,0) circle [radius=0.5cm];
+            \end{scope}
+            \begin{scope}
+                \clip (-0.25,0) -- (0.15,0) -- (0.15,0.3) -- (-0.25,0.3) -- (-0.25,0);
+                \wavey (0.5,0) circle [radius=0.5cm];
+            \end{scope}
+            \begin{scope}
+                \clip (0.4,0) -- (1.25,0) -- (1.25,0.75) -- (0.4,0.75) -- (0.4,0);
+                \wavey (0.5,0) circle [radius=0.5cm];
+            \end{scope}
+        \end{scope}
+    \etik 
+\end{center}
+where on the last one the broken photon line is obviously meant to be joined `behind' the other one. Now we notice that the latter two diagrams are completely new but that the first one is essentially just two copies of the second order diagram. This motivates the next definition. 
+
+\bd[1-Particle Irreducible]
+    Take any Feynman diagram and ask the question "Can I cut across any line here and get two separated diagrams of lower order?" if the answer is "no" then the diagram is called \textit{1-particle irreducible} (1PI). That is they are `not splitable'. We denote them by $-i\Sigma(p)$, and draw them as 
+    \begin{center}
+        \btik 
+            \node at (-1.9,0) {$-i\Sigma(p) =$};
+            \draw[thick] (-1,0) -- (-0.5,0);
+            \draw[thick] (0.5,0) -- (1,0);
+            \draw[thick] (0,0) circle [radius=0.5cm];
+            \node at (0,0) {1PI};
+        \etik  
+    \end{center}
+\ed 
+
+For further clarity, the following order 6 diagram is \textit{not} 1PI as we can chop it down the red dashed line and get two 1PIs:
+\begin{center}
+    \btik 
+        \begin{scope}[xshift=-3.5cm]
+            \midarrow (-1.5,0) -- (-0.5,0);
+            \midarrow (-0.5,0) -- (0.5,0);
+            \midarrow (0.5,0) -- (1.5,0);
+            \begin{scope}
+                \clip (-0.75,0) -- (0.75,0) -- (0.75,0.75) -- (-0.75,0.75) -- (-0.75,0);
+                \wavey (0,0) circle [radius=0.5cm];
+            \end{scope}
+        \end{scope}
+        \draw[ultra thick, dashed, red] (-2,1) -- (-2,-1);
+        \midarrow (-2,0) -- (-1,0);
+        \midarrow (-1,0) -- (-0.5,0);
+        \midarrow (-0.5,0) -- (0.5,0);
+        \midarrow (0.5,0) -- (1,0);
+        \midarrow (1,0) -- (2,0);
+        \begin{scope}
+            \clip (-0.75,0) -- (0.75,0) -- (0.75,0.75) -- (-0.75,0.75) -- (-0.75,0);
+            \wavey (0,0) circle [radius=0.5cm];
+        \end{scope}
+        \begin{scope}
+            \clip (-1.25,0) -- (1.25,0) -- (1.25,1.25) -- (-1.25,1.25) -- (-1.25,0);
+            \wavey (0,0) circle [radius=1cm];
+        \end{scope}
+    \etik 
+\end{center}
+On the other hand the following order 6 diagram \textit{is} 1PI:
+\begin{center}
+    \btik 
+        \midarrow (-2,0) -- (-1,0);
+        \midarrow (-1,0) -- (1,0);
+        \midarrow (1,0) -- (2,0);
+        \begin{scope}
+            \clip (-1.25,0) -- (1.25,0) -- (1.25,1.25) -- (-1.25,1.25) -- (-1.25,0);
+            \wavey (0,0) circle [radius=1cm];
+        \end{scope}
+        \draw[thick, fill=white] (0,1) circle [radius=0.5cm]; 
+        \wavey (0,1.5) -- (0,0.5);
+    \etik 
+\end{center}
+
+Why are we talking about 1PIs? Well we note\footnote{If you don't see this, just stare at it for a moment and it should become obvious.} that we can express the \textit{full} $S_f(p)$ as the following sum
+\begin{center}
+    \btik 
+        \node at (0,0) {\large{$S_f(p) = $}};
+        \begin{scope}[xshift=2cm]
+            \midarrow (-1,0) -- (1,0);
+        \end{scope}
+        \begin{scope}[xshift=4.5cm]
+            \node at (-1.25,0) {$+$};
+            \midarrow (-1,0) -- (-0.5,0);
+            \draw[thick] (0,0) circle [radius=0.5cm];
+            \node at (0,0) {1PI};
+            \midarrow (0.5,0) -- (1,0);
+        \end{scope}
+        \begin{scope}[xshift=7cm]
+            \node at (-1.25,0) {$+$};
+            \midarrow (-1,0) -- (-0.5,0);
+            \draw[thick] (0,0) circle [radius=0.5cm];
+            \node at (0,0) {1PI};
+            \midarrow (0.5,0) -- (1,0);
+            \draw[thick] (1.5,0) circle [radius=0.5cm];
+            \node at (1.5,0) {1PI};
+            \midarrow (2,0) -- (2.5,0);
+            \node at (3,0) {$+ ...$};
+        \end{scope}
+    \etik 
+\end{center}
+which as a mathematical expression reads 
+\bse
+    \begin{split}
+        S_f(p) & = S_f^0(p) + S_f^0(p) \big(-i\Sigma(p)\big)S_f^0(p) +  S_f^0(p) \big(-i\Sigma(p)\big)S_f^0(p)  \big(-i\Sigma(p)\big)S_f^0(p) + ... \\
+        & = S_f^0(p) \sum_{n=0}^{\infty} \Big[-i\Sigma(p)S_f^0(p)\Big]^n,
+    \end{split}
+\ese 
+where the second line should be clear to see.\footnote{And hopefully there is no confusion between the sum and the 1PI symbol. I would change symbol but it is standard.} Now the last line looks like a geometric series
+\bse 
+    \sum_{n=0}^{\infty} r^n = \frac{1}{1-r},
+\ese 
+however we need to remember that $S_f^0(p)$ contains $\g^{\mu}$ and so is a matrix expression. Despite this we will use an abuse of notation and write 
+\bse 
+    S_f(p) = \frac{S_f^0(p)}{1+iS_f^0(p)\Sigma(p)}.
+\ese 
+where we note the switch of order in $S_f^0$ and $\Sigma$ in the denominator. We then restore some sort of notational dignity back by rewriting this as 
+\bse 
+    \begin{split}
+        S_f^{-1}(p) & = \big(S_f^0\big)^{-1}(p) \Big[1+iS_f^0(p)\Sigma(p)\Big] \\
+        & = \big(S_f^0\big)^{-1}(p) + i \Sigma(p).
+    \end{split}
+\ese 
+
+\bbox 
+    Given
+    \bse 
+        S_f^0(p) = \frac{i(\slashed{p}+m)}{p^2-m^2},
+    \ese 
+    verify that 
+    \bse 
+        \big(S_f^0\big)^{-1}(p) = -i(\slashed{p}-m).
+    \ese 
+    \textit{Hint: Just show the result obeys the definition of the inverse.}
+\ebox 
+
+We can then put all this together and conclude that the Fermion propagator is given by 
+\mybox{
+\be 
+\label{eqn:Sf(p)Inverse}
+    S_f^{-1}(p) = -i\Big[\slashed{p} -m - \Sigma(p)\Big].
+\ee 
+}
+
+\br 
+    Sometimes people use the notation $S_f(p) \to iS_f(p)$, which corresponds to $S_f^{-1}(p) \to -iS_f^{-1}(p)$, so we cancel the $-i$ factor in \Cref{eqn:Sf(p)Inverse}.
+\er 
+
+Ok so we have a formula for the full Fermion propagator, we now want to find its pole structure. Clearly this is going to come from the $\Sigma(p)$ term, and so we need to find it explicitly. Obviously the expression for $\Sigma$ depends on how many 1PIs we consider, i.e. do we just consider the leading order 1PI:
+\begin{center}
+    \btik
+        \midarrow (-1.5,0) -- (-0.5,0);
+        \midarrow (-0.5,0) -- (0.5,0);
+        \midarrow (0.5,0) -- (1.5,0);
+        \begin{scope}
+            \clip (-0.75,0) -- (0.75,0) -- (0.75,0.75) -- (-0.75,0.75) -- (-0.75,0);
+            \wavey (0,0) circle [radius=0.5cm];
+        \end{scope}
+    \etik 
+\end{center}
+or do we also include the second order 1PIs:
+\begin{center}
+    \btik
+        \begin{scope}
+            \midarrow (-2,0) -- (-1,0);
+            \midarrow (-1,0) -- (-0.5,0);
+            \midarrow (-0.5,0) -- (0.5,0);
+            \midarrow (0.5,0) -- (1,0);
+            \midarrow (1,0) -- (2,0);
+            \begin{scope}
+                \clip (-0.75,0) -- (0.75,0) -- (0.75,0.75) -- (-0.75,0.75) -- (-0.75,0);
+                \wavey (0,0) circle [radius=0.5cm];
+            \end{scope}
+            \begin{scope}
+                \clip (-1.25,0) -- (1.25,0) -- (1.25,1.25) -- (-1.25,1.25) -- (-1.25,0);
+                \wavey (0,0) circle [radius=1cm];
+            \end{scope}
+        \end{scope}
+        %%%% 
+        \begin{scope}[xshift=4.5cm]
+            \midarrow (-1.5,0) -- (-0.5,0);
+            \midarrow (-0.5,0) -- (0,0);
+            \midarrow (0,0) -- (0.5,0);
+            \midarrow (0.5,0) -- (1,0);
+            \midarrow (1,0) -- (2,0);
+            \begin{scope}
+                \clip (-0.75,0) -- (0.75,0) -- (0.75,0.75) -- (-0.75,0.75) -- (-0.75,0);
+                \wavey (0,0) circle [radius=0.5cm];
+            \end{scope}
+            \begin{scope}
+                \clip (-0.25,0) -- (0.15,0) -- (0.15,0.3) -- (-0.25,0.3) -- (-0.25,0);
+                \wavey (0.5,0) circle [radius=0.5cm];
+            \end{scope}
+            \begin{scope}
+                \clip (0.4,0) -- (1.25,0) -- (1.25,0.75) -- (0.4,0.75) -- (0.4,0);
+                \wavey (0.5,0) circle [radius=0.5cm];
+            \end{scope}
+        \end{scope}
+    \etik 
+\end{center}
+
+It is normally a sensible idea to start with the simplest case and see what that can tell us about the higher order terms. We therefore consider just the leading order diagram. Putting the momentum labels on, this is 
+\begin{center}
+    \btik 
+        \midarrow (-2,0) -- (0,0);
+        \draw[->] (-1.5,-0.3) -- (-0.5,-0.3) node [midway,below] {$p$};
+        \midarrow (0,0) -- (2,0);
+        \draw[->] (0.5,-0.3) -- (1.5,-0.3) node [midway,below] {$p+k$};
+        \midarrow (2,0) -- (4,0);
+        \draw[->] (2.5,-0.3) -- (3.5,-0.3) node [midway,below] {$p$};
+        \begin{scope}
+            \clip (-0.5,0) -- (2.5,0) -- (2.5,1.5) -- (-0.5,1.5) -- (-0.5,0);
+            \wavey (1,0) circle [radius=1cm];
+        \end{scope}
+        \node at (0,-0.2) {$\nu$};
+        \node at (2,-0.2) {$\mu$};
+        \begin{scope}
+            \clip (1.5,0) -- (1.5,1.5) -- (-0.5,1.5) -- (-0.5,0) -- (1.5,0);
+            \draw[->] (2.25,0) arc (0:120:1.25);
+        \end{scope}
+        \node at (1,1.5) {$k$};
+    \etik 
+\end{center}
+Using the Feynman rules, we see that this corresponds to the integral\footnote{Note we're using Feynman gauge. Note also that the external states are not contained in $-i\Sigma$. That is we do not have $\overline{u}/u$ factors here.}
+\bse 
+    \begin{split}
+        -i\Sigma(p) & = \int \frac{d^Dk}{(2\pi)^D} \frac{(-ie\g^{\mu})(-i\eta_{\mu\nu}) i (\slashed{p}+\slashed{k}+m) (-ie\g^{\nu}) }{k^2\big[(p+k)^2-m^2\big]} \\
+        & = -e^2 \int \frac{d^Dk}{(2\pi)^D} \frac{\g^{\mu} (\slashed{p}+\slashed{k}+m) \g_{\mu}}{k^2\big[(p+k)^2-m^2\big]}.
+    \end{split}
+\ese
+Now we can use the identity from before 
+\bse 
+    \g^{\mu}\g^{\nu}\g_{\mu} = (2-D)\g^{\nu}, \qand \g^{\mu}\g_{\mu} = D
+\ese 
+to push the $\g^{\mu}$ through the $(\slashed{p}+\slashed{k}+m)$ to obtain:
+\bse 
+    -i\Sigma(p) = -e^2 \int \frac{d^Dk}{(2\pi)^D} \frac{ (2-D)(\slashed{p}+\slashed{k})+Dm}{k^2\big[(p+k)^2-m^2\big]}.
+\ese 
+Now we use our Feynman parameter relation \Cref{eqn:SchwingerAB} along with the substitution $k'=k+xp$ to give us 
+\bse 
+    -i\Sigma(p) = -e^2 \int_0^1 dx\int \frac{d^Dk'}{(2\pi)^D} \frac{(2-D)(\slashed{k}' + (1-x)\slashed{p})+Dm}{\big[(k')^2 -(xm^2-x(1-x)p^2)\big]^2}.
+\ese 
+Now we note that $\slashed{k}'$ term vanishes because it is an odd integral, and then we can use our $I_1$ result to express the rest in terms of Gamma functions:
+\bse 
+    \begin{split}
+        -i\Sigma(p) & = -e^2 \frac{i}{(4\pi)^{2-\epsilon}}\Gamma(-\epsilon)  \int_0^1 dx \big[ (2-D)(1-x)\slashed{p}+ Dm\big] \big[ xm^2 -x(1-x)p^2\big]^{-\epsilon} \\
+        & = -\frac{ie^2}{16\pi^2} \bigg(\frac{1}{\epsilon} - \g_E\bigg) \int_0^1 dx \Big[ \big(-2(1-x)\slashed{p}+4m\big) + \epsilon\big(2(1-x)\slashed{p}-2m\big)\Big] \\
+        & \hspace{4cm} \times \Big[ 1- \epsilon\log\big(xm^2-x(1-x)p^2\big)\Big],
+    \end{split}
+\ese
+where the second line follows by taking the limit $\epsilon\to0$. Now, as before, we can drop the $\cO(\epsilon)$ terms and consider just the pole and the finite term. Now we have $e$ in here which is a dimensionful quantity when $D\neq4$, so we need to replace it with the dimensionless $\overline{e}$,
+\bse 
+    e = \overline{e} \mu^{\epsilon}.
+\ese 
+In fact we will use $\overline{\a}$ as we have $e^2$ in our expression. We therefore make the substitution
+\bse 
+    \frac{e^2}{4\pi} = \a = \overline{\a} \mu^{2\epsilon} = \overline{\a}\big(1+ \epsilon \log \mu^2\big),
+\ese
+where the last equality comes from the expansion in the $\epsilon\to0$ limit. We therefore have 
+\bse 
+    \begin{split}
+        \Sigma(p) & = \frac{\overline{\a}}{4\pi} \Bigg[ \bigg(\frac{1}{\epsilon}-\g_E\bigg) \int_0^1 dx \big[-2(1-x)\slashed{p}+4m\big] + \int_0^1dx \big[2(1-x)\slashed{p}-2m\big] \\
+        & \hspace{2cm} - \int_0^1 dx \big[-2(1-x)\slashed{p}+4m\big]\log\bigg(\frac{xm^2-x(1-x)p^2}{4\pi\mu^2}\bigg)\Bigg] + \cO(\epsilon) \\
+        & = \frac{\overline{\a}}{4\pi}\Bigg[ \bigg(\frac{1}{\epsilon}-\g_E\bigg)(-\slashed{p}+4m) + \slashed{p}-2m \\
+        & \hspace{2cm} + 2\int_0^1 dx \big[(1-x)\slashed{p}-2m\big]\log\bigg(\frac{xm^2-x(1-x)p^2}{4\pi\mu^2}\bigg)\Bigg] + \cO(\epsilon) 
+    \end{split}
+\ese 
+where the second equality comes simply from evaluating some of the integrals and factoring out $-2$ in the $\log$ integral. We now invoke the claim that this latter integral is finite and conclude that
+\mybox{
+\be 
+\label{eqn:SigmaOneLoop}
+    \Sigma(p) = \frac{\overline{\a}}{4\pi} \bigg[ \frac{1}{\epsilon}(-\slashed{p}+4m) + \text{finite}\bigg].
+\ee 
+}
+
+\subsection{Photon Self Energy: Vacuum Polarisation}
+
+We can do the same kind of thing for the photon propagator and we see the 1PI factor is given by a two index object, which we denote $-i\Pi^{\mu\nu}(p)$. That is 
+\begin{center}
+    \btik 
+        \node at (-2.2,0) {$-i\Pi^{\mu\nu}(p) =$};
+        \wavey (-1,0) -- (-0.5,0);
+        \node at (-1,-0.3) {$\mu$};
+        \wavey (0.5,0) -- (1,0);
+        \node at (1,-0.3) {$\nu$};
+        \draw[thick] (0,0) circle [radius=0.5cm];
+        \node at (0,0) {1PI};
+    \etik  
+\end{center}
+Again we will find this at leading order, i.e. one loop. The diagram is simply 
+\begin{center}
+    \btik 
+        \wavey (-1.5,0) -- (-0.5,0);
+        \draw[->] (-1.25,0.3) -- (-0.75,0.3) node [midway, above] {$p$};
+        \node at (-1.5,-0.3) {$\mu$};
+        \wavey (0.5,0) -- (1.5,0);
+        \draw[->] (0.75,0.3) -- (1.25,0.3) node [midway, above] {$p$};
+        \node at (1.5,-0.3) {$\nu$};
+        \beforemidarrow (0,0) circle [radius=0.5cm];
+        \node at (0,0.75) {$k$};
+        \beforemidarrow (0,0) circle [radius=-0.5cm];
+        \node at (0,-0.75) {$k+p$};
+    \etik 
+\end{center}
+We then convert this into a mathematical expression, where we remember that we have to include a factor of $(-1)$ because we have a Fermion loop (see condition (v)(a) of the Feynman rules). We also note that we have a closed Fermion path so we expect to get a trace, as we have been for our amplitudes. We therefore have 
+\bse 
+    -i\Pi^{\mu\nu}(p) = - (-ie)^2 \int \frac{d^Dk}{(2\pi)^D} \frac{\Tr[i(\slashed{k}+m) \g^{\nu} i(\slashed{k}+\slashed{p}+m)\g^{\mu}]}{\big[k^2-m^2\big]\big[(k+p)^2-m^2\big]}.
+\ese 
+We now employ the, by now, familiar tricks of using the Feynman parameter relation, \Cref{eqn:SchwingerAB}, and defining $k'=k+xp$,\footnote{Here we will relabel the $k'$ to $k$ after the substitution. This is just to lighten the notation a bit.} as well as the trace relations for the gamma matrices to obtain
+\bse 
+    \begin{split}
+        -i\Pi^{\mu\nu}(p) & = - \overline{e}^2 \mu^{\epsilon} \int_0^1dx  \int \frac{d^Dk}{(2\pi)^D} \frac{\Tr[(\slashed{k}-x\slashed{p}+m) \g^{\nu} (\slashed{k}+ (1-x)\slashed{p}+m)\g^{\mu}]}{\big[k^2 - \big( m^2 - x(1-x)p^2\big)\big]^2} \\
+        & = - \overline{e}^2 \mu^{\epsilon} \int \frac{d^Dk}{(2\pi)^D} \frac{ 8k^{\mu}k^{\nu} - 8x(1-x)(p^{\mu}p^{\nu} - p^2\eta^{\mu\nu}) -4\eta^{\mu\nu}\big[k^2-\big(m^2+x(1-x)p^2\big)\big]}{\big[k^2 - \big( m^2 - x(1-x)p^2\big)\big]^2}.
+    \end{split}
+\ese 
+Now we note that the first term and the last term are of the form \Cref{eqn:ImunuExercise}, i.e. 
+\bse 
+    \int \frac{d^Dk}{(2\pi)^D} \Bigg[ \frac{k^{\mu}k^{\nu}}{\big[k^2 - \big( m^2 - x(1-x)p^2\big)\big]^2} - \frac{\eta^{\mu\nu}}{2}\frac{1}{\big[k^2 - \big( m^2 - x(1-x)p^2\big)\big]} \Bigg] =  I_2^{\mu\nu} - \frac{\eta^{\mu\nu}}{2(2-1)} I_1(2-1),
+\ese 
+and so they cancel. This tells us that our result is less divergent then we might have expected it to be from simple SDOD arguments. We are therefore just left with 
+\bse 
+    \begin{split}
+        -i\Pi^{\mu\nu} & = \overline{e}^2 \mu^{\epsilon} \int \frac{d^Dk}{(2\pi)^D} \frac{8x(1-x)(p^{\mu}p^{\nu} - p^2\eta^{\mu\nu})}{\big[k^2 - \big( m^2 - x(1-x)p^2\big)\big]^2} \\
+        & = \frac{i8\overline{e}^2 \mu^{\epsilon}}{(4\pi)^{2-\epsilon}} (p^{\mu}p^{\nu} - p^2\eta^{\mu\nu})  \frac{\Gamma(-\epsilon)}{\Gamma(2)} \int_0^1 dx \, x(1-x)\big[ m^2 -x(1-x)p^2 \big]^{-\epsilon} \\
+        & = \frac{i8\overline{\a}}{4\pi} (p^{\mu}p^{\nu} - p^2\eta^{\mu\nu}) \bigg(\frac{1}{\epsilon}-\g_E\bigg) \int_0^1dx \, x(1-x)\bigg[1 - \epsilon\log\bigg(\frac{m^2-x(1-x)p^2}{4\pi\mu^2}\bigg)\bigg],
+    \end{split}
+\ese 
+where again we have expressed the last line in terms of $\overline{\a}$. We can then evaluate the non-$\log$ integral and use our usual claim that the $\log$ integral is finite and obtain 
+\mybox{
+\be 
+\label{eqn:PiMuNuOneLoop}
+    \Pi^{\mu\nu}(p) = - \frac{\overline{\a}}{3\pi} (p^{\mu}p^{\nu} - p^2\eta^{\mu\nu}) \frac{1}{\epsilon} + \text{finite}.
+\ee 
+}
+
+\bbox 
+    Show that
+    \be 
+    \label{eqn:WardIdentityPi}
+        p_{\mu}\Pi^{\mu\nu}(p) = 0 = p_{\nu}\Pi^{\mu\nu}(p)
+    \ee 
+    for the pole part.
+\ebox 
+
+The result of this exercise is of direct physical importance: it tells us that our Ward identity, \Cref{eqn:WardIdentity}, is preserved, and so our renormalised photons also do not have a physical longitudinal polarisation. This translates into the condition that the renormalised photons are still massless, which is a result we really like. We might worry about the finite part in \Cref{eqn:PiMuNuOneLoop}, but as we have explained above, and as we will demonstrate soon, these factors are just set by our renormalisation conditions (i.e. comparison to experimental data). In fact for QED there is a useful renormalisation condition prescription, known as \textit{on-shell renormalisation}, which tells us to fix these finite terms so that our on-shell particles remain on shell. We shall see this more explicitly soon.
+
+\subsection{Vertex Correction}
+
+Now we just need to find the one loop corrections to the vertex. Here we label the 1PIs by $-ie\Lambda^{\mu}(p_1,p_2)$, where $p_1$ and $p_2$ are the momentum of the Fermions, and $\mu$ is the index on the photon line. At leading order we just have the diagram we have drawn a few times:
+\begin{center}
+    \btik 
+        \midarrow (-1,1) -- (-2,2);
+        \draw[->] (-1.8,2.2) -- (-1.2,1.6);
+        \node at (-1.3,2.2) {$p_1$};
+        \midarrow (0,0) -- (-1,1);
+        \draw[->] (-0.6,1) -- (0,0.4);
+        \node at (0.1,1.1) {$p_1+k$};
+        \midarrow (-2,-2) -- (-1,-1);
+        \draw[->] (-1.8,-2.2) -- (-1.2,-1.6);
+        \node at (-1.3,-2.2) {$p_2$};
+        \midarrow (-1,-1) -- (0,0);
+        \draw[->] (-0.6,-1) -- (0,-0.4);
+        \node at (0.1,-1) {$p_2-k$};
+        \wavey (0,0) -- (2,0);
+        \node at (2.3,0) {$\mu$};
+        \draw[->] (0.75,0.3) -- (1.75,0.3) node [above, midway] {$p_1+p_2$};
+        \wavey (-1,1) .. controls (-1.5,0.33) and (-1.5,-0.33) .. (-1,-1);
+        \draw[->, rotate around={25:(0,0)}] (-1.75,0) arc (0:-60:-1.5) node [midway, left] {$k$};
+        \draw[fill=black] (0,0) circle [radius=0.07cm];
+        \draw[fill=black] (-1,1) circle [radius=0.07cm] node [above] {$\rho$};
+        \draw[fill=black] (-1,-1) circle [radius=0.07cm] node [below] {$\nu$};
+    \etik 
+\end{center}
+This corresponds to the expression
+\bse 
+    \begin{split}
+        -ie\Lambda^{\mu}(p_1,p_2) & = (-ie)^3 \int \frac{d^Dk}{(2\pi)^D} \frac{\g^{\rho} i(-\slashed{p}_1-\slashed{k}+m) \g^{\mu} i(\slashed{p}_2-\slashed{k} + m) \g^{\nu} (-ig_{\rho\nu}) }{k^2 \big[(-p_1-k)^2-m^2\big] \big[(p_2-k)^2-m^2\big]} \\
+        & = -e^3 \int \frac{d^Dk}{(2\pi)^D} \frac{\g^{\nu} (-\slashed{p}_1-\slashed{k}+m) \g^{\mu} i(\slashed{p}_2-\slashed{k} + m) \g_{\nu}) }{k^2 \big[(p_1+k)^2-m^2\big] \big[(p_2-k)^2-m^2\big]}.
+    \end{split}
+\ese 
+Now we employ our usual tricks in the following steps\footnote{Again I have relabelled the $k'=k+xp$ by $k$ after the substitution to save notational mess.}
+\bse 
+    \begin{split}
+        & \Lambda^{\mu}(p_1,p_2)\\
+        & = -ie^2 \frac{\Gamma(3)}{\Gamma(2)} \int_0^1dx \int_0^{1-x}dy \int \frac{d^Dk}{(2\pi)^D} \frac{\g^{\nu} \big[\slashed{k} + (1-x)\slashed{p}_1 +y\slashed{p}_2 -m\big] \g^{\mu}\big[\slashed{k} - x\slashed{p}_1 - (1-y)\slashed{p}_2 - m\big]\g_{\nu} }{\big[k^2 - m(x,y)\big]^3}
+    \end{split}
+\ese 
+where
+\bse 
+    m(x,y) := -x(1-x)p_1^2 - y(1-y)p_2^2 + m^2(x+y) - 2xyp_1p_2.
+\ese 
+Now we will get a bunch of terms in the expansion of the numerator that fall into three types 
+\ben[label=(\roman*)]
+    \item $\sim \slashed{k}\slashed{k}$, 
+    \item $\sim \slashed{k}$, and 
+    \item $\sim 1$ (i.e. no $k$ terms).
+\een 
+The first of these is divergent, the second vanishes by the fact that it is an odd integral, and the last is some finite result (as $D>3$). So the problem reduces to just considering 
+\bse 
+    \begin{split}
+        \Lambda^{\mu}(p_1,p_2) & = -2ie^2 \int_0^1dx \int_0^{1-x}dy \int \frac{d^Dk}{(2\pi)^D} \frac{\g^{\nu} \slashed{k} \g^{\mu} \slashed{k} \g_{\nu} }{\big[k^2 - m(x,y)\big]^3} \\
+        & = -\frac{ie^2}{2} (D-2)^2 \Gamma(-\epsilon) \frac{i}{(4\pi)^{2-\epsilon}} \g^{\mu} \int_0^1 dx \int_0^{1-x}dy \big[m(x,y)\big]^{-\epsilon} \\
+        & = \frac{e^2}{2} \frac{(2-2\epsilon)^2}{(4\pi)^{2-\epsilon}} \bigg(\frac{1}{\epsilon} - \g_E \bigg) \g^{\mu} \int_0^1 dx \int_0^{1-x} dy \big[ 1 + \cO(\epsilon)\big]
+    \end{split}
+\ese 
+were again we have taken the limit $\epsilon\to0$ to expand stuff. We therefore conclude 
+\mybox{
+\be 
+\label{eqn:LambdaMuOneLoop}
+    \Lambda^{\mu}(p_1,p_2) = \frac{\overline{\a}}{4\pi} \frac{1}{\epsilon}\g^{\mu} + \text{finite}.
+\ee 
+}
+
+\subsection{A Taste Of Higher Order Corrections}
+
+As we have tried to stress, the above results, \Cref{eqn:SigmaOneLoop,eqn:PiMuNuOneLoop,eqn:LambdaMuOneLoop}, have all be calculated at one loop, i.e. to leading order in $\a$. However $\Sigma$, $\Pi^{\mu\nu}$ and $\Lambda^{\mu}$ are meant to contain \textit{all} 1PI diagrams not just the leading order ones, so we might be a bit sceptical about how useful these results are. However what we now notice is that each of these expressions are essentially of the same form as the original terms. By this we mean that 
+\bse 
+    \Sigma \sim \slashed{p}-m
+\ese 
+and so the form of $S_f^{-1}$, \Cref{eqn:Sf(p)Inverse}, doesn't really change. This result stems from the fact that our correction terms in the Lagrangian take the same form of a Fermion kinetic terms in the original Lagrangian. Similarly $\Pi^{\mu\nu}$ looks like the numerator of the photon propagator, and $\Lambda^{\mu}$ looks like a coupling term (it has a $\g^{\mu}$ form), and so our correction terms take the photon kinetic term and a Yakawa interaction. For example consider the next leading order diagram for the photon propagator:
+\begin{center}
+    \btik 
+        \wavey (-3,0) -- (-1,0);
+        \wavey (1,0) -- (3,0);
+        \beforemidarrow (0,0) circle [radius=1cm];
+        \node at (-1,1) {$k_2$};
+        \draw[thick, decoration={markings, mark=at position 0.12 with {\arrow{>}}}, postaction={decorate}] (0,0) circle [radius=1cm];
+        \node at (1,1) {$k_1$};
+        \wavey (0,1) -- (0,-1);
+        \draw[fill=black] (-1,0) circle [radius=0.07cm] node [right] {$x$};
+        \draw[fill=black] (1,0) circle [radius=0.07cm] node [left] {$w$};
+        \draw[fill=black] (0,-1) circle [radius=0.07cm] node [below] {$z$};
+        \draw[fill=black] (0,1) circle [radius=0.07cm] node [above] {$y$};
+    \etik 
+\end{center}
+Where the labels $w,x,y,z$ are position space labels. It is not clear at all that we expect to get divergences of the familiar form, i.e. $1/\epsilon$ poles, from diagrams like this, so what do we do? Well our divergences occur at high momentum, so let's look at the limit $k_2\to\infty$ but $k_1$ remains finite. Recall that high energy means small distance, so in this limit the position space points $y$ and $z$ move closer to the $x$ point then the $w$ point. So we can think of this diagram as looking like 
+\begin{center}
+    \btik 
+        \wavey (-3,0) -- (-1,0);
+        \wavey (1,0) -- (3,0);
+        \draw[thick] (0,0) circle [radius=1cm];
+        \wavey (-0.75,0.66) .. controls (-0.25,0.22) and (-0.25,-0.22) .. (-0.75,-0.66);
+        \draw[fill=black] (-1,0) circle [radius=0.07cm] node [right] {$x$};
+        \draw[fill=black] (1,0) circle [radius=0.07cm] node [left] {$w$};
+        \draw[fill=black] (-0.75,-0.66) circle [radius=0.07cm] node [below] {$z$};
+        \draw[fill=black] (-0.75,0.66) circle [radius=0.07cm] node [above] {$y$};
+    \etik 
+\end{center}
+This now looks like we have a vertex factor $\Lambda^{\mu}$ on the left-hand side with the right-hand side being treated separately. In other words, it looks like we have a $\Lambda^{\mu}$ factor embedded into our one loop correction to the photon propagator. This is exactly how we treat it, and the reason we can do this is because the $\Lambda^{\mu}$ term will give the same form as the `normal' vertex. That is, we essentially redo the derivation of $\Pi^{\mu\nu}$ but now from the diagram 
+\begin{center}
+    \btik 
+        \wavey (-1.5,0) -- (-0.5,0);
+        \wavey (0.5,0) -- (1.5,0);
+        \draw[thick, decoration={markings, mark=at position 0.25 with {\arrow{>}}}, postaction={decorate}] (0,0) circle [radius=0.5cm];
+        \draw[thick, decoration={markings, mark=at position -0.25 with {\arrow{>}}}, postaction={decorate}] (0,0) circle [radius=0.5cm];
+        \draw[thick, fill=white] (-0.5,0) circle [radius=0.25cm];
+        \draw[thick, rotate around={45:(-0.5,0)}] (-0.75,0) -- (-0.25,0);
+        \draw[thick, rotate around={-45:(-0.5,0)}] (-0.75,0) -- (-0.25,0);
+    \etik 
+\end{center}
+This has only taken care of the limit where $k_2\to\infty$, of course we can repeat the entire argument but now with $k_1\to\infty$, which gives the diagram
+\begin{center}
+    \btik 
+        \wavey (-1.5,0) -- (-0.5,0);
+        \wavey (0.5,0) -- (1.5,0);
+        \draw[thick, decoration={markings, mark=at position 0.25 with {\arrow{>}}}, postaction={decorate}] (0,0) circle [radius=0.5cm];
+        \draw[thick, decoration={markings, mark=at position -0.25 with {\arrow{>}}}, postaction={decorate}] (0,0) circle [radius=0.5cm];
+        \draw[thick, fill=white] (0.5,0) circle [radius=0.25cm];
+        \draw[thick, rotate around={45:(0.5,0)}] (0.75,0) -- (0.25,0);
+        \draw[thick, rotate around={-45:(0.5,0)}] (0.75,0) -- (0.25,0);
+    \etik 
+\end{center}
+
+The claim is that these two terms will cancel the two divergences arising from the separate limits $k_1\to\infty$ and $k_2\to\infty$. This is great but we then have the immediate question of "what if we take \textit{both} $k_1\to\infty$ \textit{and} $k_2\to\infty$?" Well we can expect this to give us a $\a^2/\epsilon^2$ divergence. We will have to introduce a new counter term, at order $\a^2$ to remove this divergence, that is include some new Feynman diagram looking like
+\begin{center}
+    \btik 
+        \wavey (-1,0) -- (1,0);
+        \draw[thick, fill=white] (0,0) circle [radius=0.25cm];
+        \draw[thick] (0,0.25) -- (0,-0.25);
+        \draw[thick] (0.25,0) -- (-0.25,0);
+        %\draw[thick, rotate around={-45:(0,0)}] (-0.25,0) -- (0.25,0);
+        %\draw[thick, rotate around={45:(0,0)}] (-0.25,0) -- (0.25,0);
+    \etik 
+\end{center}
+in order to cancel this remaining $\a^2/\epsilon^2$ pole. This corresponds to adding a $\a^2$ term to $\Pi^{\mu\nu}$. The next claim is that because we have removed all other structures before hand, this new term is also proportional to the photon propagator term and so does \textit{not} introduce new terms into Lagrangian, which would need to be fixed by further experimental data.
+
+This argument then essentially extends by induction to the claim that we can reduce all higher order corrections down to known loop corrections and the addition of higher order $\a$ terms in our $\Sigma/\Pi^{\mu\nu}/\Lambda^{\mu}$. 
+
+Essentially what the above is saying is that all we have to do to account for the higher order loop corrections is to tweak our definitions of $\Sigma/\Pi^{\mu\nu}/\Lambda^{\mu}$, and then use the \textit{same} measurements to fix our finite terms. We therefore do not need a new symbol for the higher order correction, i.e. we can use $\otimes$ instead of $\oplus$, as it is the \textit{same} counter term. This is a really important point as it is this condition that separates renormalisable theories from non-renormalisable ones, so we stress it again: the important thing to note is that we are not introducing a whole new set terms which come with their own finite contributions. These new finite terms would then need fixing by \textit{new} experimental observation, and thus further reducing our predictive power; i.e. our reference point becomes more and more constrained. If we need to introduce a new counter term at a higher order the idea is that we will have to keep doing this at \textit{every} higher order, and so in the full perturbative expansion (i.e. all orders), we need an \textit{infinite} number of experimental measurements, and so our reference point is fully constrained. This renders our theory useless as it has no predictive power left. 
+
+\br 
+    Note, as we have mentioned before, even in a non-renormalisable theory, we \textit{can} retain some predictive power to some \textit{fixed} order in the perturbation series, albeit with heavy constraints. It is only when we want to consider the full series that our theory is completely useless. 
+\er
+
+\subsection{Example Of What A Non-Renormalisable Term Would Look Like}
+
+The above explanation of the corrections "looking like" the original terms telling us that the theory is renormalisable might be confusing. Let's, therefore, give an example of what a non-renormalisable term would look like\footnote{This example is based off a calculation given at the end of \href{http://pirsa.org/displayFlash.php?id=19010047&__hstc=261081490.841b89fe02c785864e161b49c1c05cca.1577099922882.1577099922882.1577214190881.2&__hssc=261081490.6.1577214190881&__hsfp=2145983341}{lecture 1} and start of \href{http://pirsa.org/displayFlash.php?id=19010048&__hstc=261081490.841b89fe02c785864e161b49c1c05cca.1577099922882.1577099922882.1577214190881.2&__hssc=261081490.6.1577214190881&__hsfp=2145983341}{lecture 2} of Dr. Sean Tulin's Standard Model Review 2018/19 course at Perimeter.} so that we can contrast it. 
+
+Consider the \textit{box diagram}
+\begin{center}
+    \btik 
+        \midarrow (-3,1) -- (-1,1);
+        \midarrow (-1,1) -- (1,1);
+        \midarrow (1,1) -- (3,1); 
+        \wavey (-1,1) -- (-1,-1);
+        \wavey (1,1) -- (1,-1);
+        \midarrow (-3,-1) -- (-1,-1);
+        \midarrow (-1,-1) -- (1,-1);
+        \midarrow (1,-1) -- (3,-1);
+        \draw[->] (-0.5,1.3) -- (0.5,1.3) node [midway, above] {$p_1+p_1+k$};
+        \draw[->] (-1.3,-0.5) -- (-1.3,0.5) node [midway, left] {$p_2+k$};
+        \draw[->] (1.3,0.5) -- (1.3,-0.5) node [midway, right] {$p_4+k$};
+        \draw[->] (0.5,-1.3) -- (-0.5,-1.3) node [midway, below] {$k$};
+    \etik 
+\end{center}
+Now let's assume that we had a massive photon with mass $m_{\g}$. We claim, without proof, that the propagator would then become 
+\bse 
+    \frac{-i}{k^2-m^2}\bigg(\eta^{\mu\nu} - \frac{k^{\mu}k^{\nu}}{m_{\g}^2}\bigg).
+\ese 
+Then the above diagram would give a contribution (in the high $k$ limit) of the form
+\bse 
+    \int \frac{d^4k}{(2\pi)^4} \frac{(\slashed{k}+m_{\psi})(-\slashed{k}+m_{\psi}) (\eta^{\mu\mu'} - \frac{k^{\mu}k^{\mu'}}{m_{\g}^2}) (\eta^{\nu\nu'} - \frac{k^{\nu}k^{\nu'}}{m_{\g}^2})}{(k^2-m_\psi)^2 (k^2-m_{\g}^2)^2},
+\ese 
+where we note the minus sign from the antifermion at the bottom of the loop. This term contains two divergences: a quadratic one that comes from including all the $k$ terms in the numerator and a logarithmic one that comes from keeping 6 of the $k$ powers in the numerator.
+
+We can actually remove the quadratic divergence by also considering the following diagram
+\begin{center}
+    \btik 
+        \midarrow (-3,1) -- (-1,1);
+        \midarrow (-1,1) -- (1,1);
+        \midarrow (1,1) -- (3,1); 
+        \wavey (-1,1) -- (1,-1);
+        \begin{scope}
+            \clip (-0.8,1) -- (1.2,-1) -- (1.2,1) -- (-0.8,1);
+            \wavey (1,1) -- (-1,-1);
+        \end{scope}
+        \begin{scope}
+            \clip (-1.2,1) -- (0.8,-1) -- (-1.2,-1) -- (-1.2,1);
+            \wavey (1,1) -- (-1,-1);
+        \end{scope}
+        \midarrow (-3,-1) -- (-1,-1);
+        \midarrow (-1,-1) -- (1,-1);
+        \midarrow (1,-1) -- (3,-1);
+        \draw[->] (-0.5,1.3) -- (0.5,1.3);
+        \draw[->] (-0.6,0.2) -- (-1.2,0.8);
+        \draw[->] (1.2,0.8) -- (0.6,0.2);
+        \draw[->] (-0.5,-1.3) -- (0.5,-1.3);
+    \etik 
+\end{center}
+where now the momentum flow on the bottom has now turned the antifermion to a Fermion, and so we don't get the minus sign above. 
+
+Therefore any term which includes the $\slashed{k}$ from this Fermion will cancel between the two diagrams. This cancels the quadratic divergence and \textit{part} of the logarithmic divergence, but it does \textit{not} cancel the logarithmic divergence that comes from the 
+\bse 
+    \int \frac{d^4k}{(2\pi)^4} \frac{m_{\psi}^2 k^{\mu}k^{\mu'}k^{\nu}k^{\nu'} }{k^8} \sim \log \Lambda,
+\ese 
+where $\Lambda$ is the cut off momentum. We would therefore need to introduce a $4$-point counter term into our Lagrangian, i.e. a counter term of the form 
+\bse 
+    \l \overline{\psi} \psi \overline{\psi}\psi,
+\ese 
+which corresponds to the diagram
+\begin{center}
+    \btik 
+        \midarrow[rotate around = {45:(0,0)}] (-0.75,0) -- (-0.25,0);
+        \midarrow[rotate around = {-45:(0,0)}] (-0.75,0) -- (-0.25,0);
+        \midarrow[rotate around = {45:(0,0)}] (0.25,0) -- (0.75,0);
+        \midarrow[rotate around = {-45:(0,0)}] (0.25,0) -- (0.75,0);
+        \draw[thick] (0,0) circle [radius =0.25cm];
+        \draw[thick, rotate around = {45:(0,0)}] (-0.25,0) -- (0.25,0);
+        \draw[thick, rotate around = {-45:(0,0)}] (-0.25,0) -- (0.25,0);
+    \etik 
+\end{center}
+However no such term was present in the original Lagrangian and so we cannot just absorb this counter term into our original parameters. 
+
+\br 
+    Note that for the actual case of QED the propagator is 
+    \bse 
+        \frac{-i}{k^2} \bigg( \eta^{\mu\nu} - (\xi -1) \frac{k^{\mu}k^{\nu}}{k^2}\bigg),
+    \ese
+    and so these extra factors of $k$ remove this logarithmic divergence. Another nice way to see that this must be the case for QED is the fact that if we work in Feynman gauge, $\xi=1$, this additional term vanishes and so we never have to worry about any divergences. If we can do this in one gauge it \textit{must} hold in all gauges (otherwise we don't have a gauge symmetry), so it follows that the box diagram is convergent for QED.
+\er 
+
+\br 
+    Note that for first box diagram the linear divergence (i.e. 5 powers of $k$ in the numerator) vanished because of the relative sign between the two $\slashed{k}$s. However for the second box diagram this linear divergence appears as well as the logarithmic one. The latter is more violent which is why we focused on it.
+\er 
+
+\section{Renormalisation Of QED}
+
+Ok so now that we have the one loop corrections to our propagators and vertex we can use these results to fix the renormalisation factors, i.e. the $Z$s. 
+
+\subsection{The Fermion Propagator}
+
+Let's start with the Fermion propagator. This stems from the $\overline{\psi}(i\slashed{\p}+m)\psi$ term in the Lagrangian. So recalling \Cref{eqn:RenormalisedParameters} this result will tell us about the values of $Z_2$ and $Z_m$. How do we find them, well the original (i.e. bare) propagator took the form 
+\bse 
+    (S_f^{-1})_B = \slashed{p} - m_B
+\ese 
+which will translate to 
+\bse 
+    (S_f^{-1})_R = Z_2^{-1}\slashed{p} - Z_2^{-1}Z_m^{-1} m_R
+\ese 
+in the renormalised Lagrangian. So we compare this to \Cref{eqn:Sf(p)Inverse} using \Cref{eqn:SigmaOneLoop}: 
+\bse
+    \begin{split}
+        (S_f^{-1})_R & = \slashed{p} - m_B - \Sigma(p) \\
+        & = \slashed{p} - m_B - \frac{\overline{\a}}{4\pi} \frac{1}{\epsilon}\big( -\slashed{p} + 4m_B) + \text{finite} \\
+        & = \bigg(1+\frac{\overline{\a}}{4\pi} \frac{1}{\epsilon}\bigg)\slashed{p} - \bigg(1 + \frac{\overline{\a}}{\pi} \frac{1}{\epsilon}\bigg) m_B + \text{finite},
+    \end{split}
+\ese 
+and so we conclude that, to one loop, 
+\bse 
+    \begin{split}
+        Z_2^{-1} & = 1+\frac{\overline{\a}}{4\pi} \frac{1}{\epsilon} + \text{finite} \\
+        Z_2^{-1}Z_m^{-1} & = 1+\frac{\overline{\a}}{\pi} \frac{1}{\epsilon} + \text{finite}.
+    \end{split}
+\ese
+We can simply invert the $Z_2$ relation by using 
+\bse 
+    \bigg(1+\frac{\overline{\a}}{4\pi} \frac{1}{\epsilon}\bigg)\bigg(1-\frac{\overline{\a}}{4\pi} \frac{1}{\epsilon}\bigg) = 1 + \cO(\overline{\a}^2),
+\ese 
+so, to first order, we have 
+\mybox{
+\be 
+\label{eqn:Z2}
+    Z_2 = 1-\frac{\overline{\a}}{4\pi} \frac{1}{\epsilon} + \text{finite}.
+\ee 
+}
+\noindent We can then use this to obtain 
+\bse 
+    \begin{split}
+        Z_m^{-1} & = \bigg(1+\frac{\overline{\a}}{\pi} \frac{1}{\epsilon} + \text{finite}\bigg)\bigg(1-\frac{\overline{\a}}{4\pi} \frac{1}{\epsilon} + \text{finite}\bigg) \\ 
+        & = 1+\frac{3\overline{\a}}{4\pi} \frac{1}{\epsilon} + \text{finite}
+    \end{split}
+\ese 
+and so 
+\mybox{
+\be 
+\label{eqn:Zm}
+    Z_m = 1-\frac{3\overline{\a}}{4\pi} \frac{1}{\epsilon} + \text{finite}.
+\ee 
+}
+
+So we see that we can absorb the divergences arising from the bare propagator into the $Z_2$ and $Z_m$ factors. We still need to fix the "+ finite" terms, which, as we have mentioned a couple times, we do by using our renormalisation scheme/conditions, i.e. basically comparing to experimental data. 
+
+\br 
+    For further clarity on what we said in the higher order correction section, the idea is that at higher orders the only thing that changes is that we get $\overline{\a}^2/\epsilon^2$ terms in our $Z$ expansions. This is because the new correction, the `circled plus diagram', also gives a term which is proportional to the photon propagator, so our $\Sigma(p)$ still takes the form $A\slashed{p}+ Bm$ and so we can absorb both the $1/\epsilon$ and $1/\epsilon^2$ poles into $Z_2$ and $Z_m$. 
+    
+    This would not be the case if we had got a pole with some funky function of $p$ appearing in $\Sigma(p)$, as the $Z_2$ term just goes with $\slashed{p}$. We would therefore have to introduce a \textit{new} $Z_{\text{funky}}$ to account for this pole. This $Z_{\text{funky}}$ would then have its own "+ finite" term which we would also have to fix. We then see the out of control spiral we get at each progressive order if this is the case, and we end up needing an infinite number of experimental measurements to fix all our counter terms. 
+\er 
+
+\subsection{Renormalisation Schemes}
+
+Ok so what do we do about these finite terms? Well we note that \Cref{eqn:SigmaOneLoop} essentially says 
+\bse 
+    \Sigma(p) \sim Z_2 \slashed{p} + Z_m m + \text{finite}.
+\ese 
+We then also recall that the $Z$s essentially just relate the bare parameters to the renormalised ones, and so we are free to add finite terms to \textit{both} sides of the expression while maintaining this relation. This essentially boils down to saying we can absorb some of the "$+$ finite" terms from the $\Sigma(p)$ relation into the $Z$s, while at the same time adding finite terms to the bare parameters. The latter are unmeasurable and so it makes no difference if we add these finite terms.
+
+The idea of renormalisation schemes, then, is the trade off between what part of our finite term appears in the $Z$s and what part if left in the $\Sigma(p)$ relation. 
+
+\subsubsection{Minimal Subtraction (MS)}
+
+Perhaps the most `obvious' subtraction scheme is to simply subtract away everything, so that $\Sigma(p) \sim Z_2 \slashed{p} + Z_m m$ with no finite terms. This is known as \textit{minimal subtraction} (MS). At first site this might seem like a nice result, however we then remember that our $Z$s appear everywhere and so we now have to carry around these full finite terms as we go. This motivates the next scheme.
+
+\subsubsection{Modified Minimal Subtraction $(\overline{\text{MS}})$}
+
+In modified minimal subtraction we again do our subtraction so that the right-hand side takes a simple form, however here we do not remove the complete finite term. Instead we note that a factor of $\log(4\pi e^{-\g_E})$ has appeared in every finite term so far. This term comes from the expansion of $\Gamma(-\epsilon)$. We therefore include just this term in our $Z$s, so that,
+\bse 
+    \begin{split}
+        Z_2 & = 1 - \frac{\overline{\a}}{4\pi}\bigg[ \frac{1}{\epsilon} + \log(4\pi e^{-\g_E})\bigg] \\
+        Z_m & = 1 - \frac{3\overline{\a}}{4\pi}\bigg[ \frac{1}{\epsilon} + \log(4\pi e^{-\g_E})\bigg].
+    \end{split}
+\ese 
+
+If we do this, then we see, recalling the expression just before \Cref{eqn:SigmaOneLoop}, that in the $\overline{\text{MS}}$ scheme the remaining finite term is just\footnote{I suppose really we should call this $\widetilde{\text{finite}}$ or something because it's not the same finite term. The idea is clear, though, so we won't be so picky.} 
+\bse 
+    \text{finite} = \frac{\overline{\a}}{4\pi} 2 \int_0^1 dx \big[(1-x)\slashed{p}-2m\big] \log(\frac{xm^2-x(1-x)p^2}{\mu^2}).
+\ese 
+
+The problem with schemes like this is that they give unpleasant results. To see why, let's consider what happens to the pole and residue of our propagators. We have 
+\bse 
+    \begin{split}
+        \frac{1}{\slashed{p} - m_B - \Sigma(p)} & = \frac{Z_2^{-1}}{\slashed{p} - Z_m m_R - \Sigma(p)} \\
+        & = \frac{1 +\frac{\overline{\a}}{4\pi} \frac{1}{\epsilon}}{\slashed{p} - \Big(1 - \frac{\overline{3\a}}{4\pi} \frac{1}{\epsilon}\Big)m_R - \frac{\overline{\a}}{4\pi} \frac{1}{\epsilon}(-\slashed{p}-4m_R) -\text{finite}} \\
+        & \frac{1 +\frac{\overline{\a}}{4\pi} \frac{1}{\epsilon}}{\Big(1 + \frac{\overline{\a}}{4\pi} \frac{1}{\epsilon}\Big) \slashed{p} - \Big(1 + \frac{\overline{\a}}{4\pi} \frac{1}{\epsilon}\Big)m_R -\text{finite}} \\
+        & = \frac{1}{\slashed{p}-m_R-\text{finite}}.
+    \end{split}
+\ese 
+
+Now in $\overline{\text{MS}}$ the finite terms contain an $m$, and so the pole is shifted. On top of this, they also contain $\mu^2$ in the log term. Why is this a problem? Well we recall that $\mu \sim p$, and so the value of our pole and residue is energy scale dependent. Putting this together with the fact that the pole of a propagator is meant to give us the mass of the thing, we conclude 
+\be
+\label{eqn:MRMSBar}
+    m_R^{\overline{MS}} = m_R^{\overline{MS}}(\mu^2).
+\ee 
+This seems like a bit of an unpleasant result, and so we can also use a different renormalisation scheme. 
+
+\subsubsection{On-Shell Renormalisation}
+
+The idea of on-shell renormalisation is to \textit{demand} that the pole of the propagator is not shifted. To do this we define 
+\be 
+\label{eqn:SigmaBar}
+    \overline{\Sigma}(p) = \Sigma(p) - \Sigma_{ct}(p),
+\ee 
+where $\Sigma_{ct}(p)$ are the counter term parts of $\Sigma(p)$. That is $\overline{\Sigma}(p)$ contains just the finite parts. Our propagator correction is then 
+\bse 
+    S_f^{-1}(p) = \slashed{p} - m_R - \overline{\Sigma}(p).
+\ese
+We can now demand that the pole of the Fermion corresponds to the physical mass by requiring\footnote{The condition $\slashed{p}=m_R$ here is meant to be understood as "the result of $\slashed{p}$ acting on the Fermion gives the same result as $m_R$ acting on it".}
+\bse 
+    \Big[ \slashed{p} - m_R - \overline{\Sigma}(p)\Big]\Big|_{\slashed{p}=m_R} \overset{!}{=} 0.
+\ese
+This obviously gives us one condition on $\overline{\Sigma}(p)$, however we also need to make sure that the residue of the pole is not shifted. We achieve this by employing a condition on the $\slashed{p}$-derivative of $\overline{\Sigma}(p)$,\footnote{See QFT II questions for why this is the case.} so in total we have:
+\mybox{
+\be 
+\label{eqn:OnShellRenormalisationSigma}
+    \overline{\Sigma}(p)\big|_{\slashed{p}=m_R} = 0, \qand \frac{d \overline{\Sigma}}{d \slashed{p}}\bigg|_{\slashed{p}=m_R} = 0
+\ee 
+}
+\noindent From here we get the conditions for $Z_2$ and $Z_m$ as 
+\bse 
+    Z_2 - 1 = \frac{d \Sigma}{d\slashed{p}}\bigg|_{\slashed{p}=m_R}, \qand Z_2Z_m - 1 = -\frac{d \Sigma}{dm}\bigg|_{\slashed{p}=m_R}
+\ese 
+where we note that this is the unbarred $\Sigma$. 
+
+\br 
+    There is an important side effect of this renormalisation scheme: external legs with loops are proportional to $\overline{\Sigma}(\slashed{p}=m_R)$ and so they vanish. Note this is not the same as saying we only consider amputated diagrams, as these terms \textit{actually} vanish. This is more powerful then amputated diagrams, as these terms do not contribute to \textit{anything} in the theory at all, whereas it is only the S-matrix that amputated diagrams don't contribute to. 
+\er 
+
+\br 
+    Note that the on-shell scheme works in the opposite direction to the subtraction schemes. That is, for the subtraction schemes we first defined the $Z$s and then used those to find the finite terms in $\Sigma(p)$, whereas in the on-shell scheme we fix the finite terms in $\Sigma(p)$ and use that to determine the $Z$s. 
+\er 
+
+\br 
+    It would be a fair question to ask "why even bother considering MS or $\overline{\text{MS}}$? Why not always use on-shell renormalisation?" Well the answer is that on-shell renormalisation isn't always well defined. The main example being QCD, where confinement tells us that we cannot measure the mass of a single quark. 
+\er 
+
+\subsection{The Photon Propagator}
+
+Just as we denoted the Fermion propagator with a $S_f(p)$, we denote the photon propagator by $D_{\mu\nu}(\xi)$. The zeroth order (i.e. no loops, just the plain propagator) term is 
+\bse 
+    D_{\mu\nu}^0(\xi_B) = \frac{-i}{p^2}\bigg( \eta_{\mu\nu} + \big(\xi_B-1\big) \frac{p_{\mu}p_{\nu}}{p^2}\bigg),
+\ese 
+where $\xi_B$ is our bare gauge parameter. The one loop correction is given by 
+\bse 
+    D^1_{\mu\nu}(\xi_B) = D_{\mu\nu}^0(\xi_B) + D_{\mu\rho}^0(\xi_B) \big(-i\Pi^{\rho\sig}\big) D_{\sig\nu}^0(\xi_B).
+\ese 
+Diagrammatically this corresponds to 
+\begin{center}
+    \btik 
+        \wavey (-1.5,0) -- (0.5,0);
+        \node at (-1.8,0) {$\mu$};
+        \node at (0.8,0) {$\nu$};
+        \node at (1.5,0) {$+$};
+        \wavey (2.5,0) -- (3.5,0);
+        \node at (2.2,0) {$\mu$};
+        \node at (3.7,0) {$\rho$};
+        \beforemidarrow (4,0) circle [radius=0.5cm];
+        \beforemidarrow (4,0) circle [radius=-0.5cm];
+        \wavey (4.5,0) -- (5.5,0);
+        \node at (5.8,0) {$\nu$};
+        \node at (4.3,0) {$\sig$};
+    \etik 
+\end{center}
+
+Now we recall the result for $\Pi^{\mu\nu}$, \Cref{eqn:PiMuNuOneLoop}:
+\bse 
+    \begin{split}
+        \Pi^{\mu\nu}(p) &= - \frac{\overline{\a}}{3\pi} (p^{\mu}p^{\nu} - p^2\eta^{\mu\nu}) \frac{1}{\epsilon} + \text{finite} \\
+        & = - \frac{\overline{\a}}{3\pi} p^2\bigg(\frac{p^{\mu}p^{\nu}}{p^2} - \eta^{\mu\nu}\bigg) \frac{1}{\epsilon} + \text{finite}
+    \end{split}
+\ese 
+along with the Ward identity result \Cref{eqn:WardIdentityPi}:
+\bse 
+    p_{\mu}\Pi^{\mu\nu}(p) = 0 = \p_{\nu}\Pi^{\mu\nu}(p),
+\ese 
+which tells us that the $p_{\mu}p_{\nu}\Pi^{\mu\nu}$ term vanishes, giving us 
+\bse 
+    \begin{split}
+        D_{\mu\nu}^1(\xi_B) & = -\frac{i}{p^2}\bigg( \eta_{\mu\nu} + \big(\xi_B-1\big) \frac{p_{\mu}p_{\nu}}{p^2}\bigg) + \frac{-i}{p^2}\eta_{\mu\rho} (-i) \Bigg[ - \frac{\overline{\a}}{3\pi} p^2\bigg(\frac{p^{\rho}p^{\sig}}{p^2} - \eta^{\rho\sig}\bigg) \frac{1}{\epsilon} \Bigg] \frac{-i}{p^2}\eta_{\sig\nu} + \text{finite} \\
+        & = \frac{-i}{p^2}\bigg[ \eta_{\mu\nu} + (\xi_B-1)\frac{p_{\mu}p_{\nu}}{p^2} - \frac{\overline{\a}}{3\pi}\bigg(\eta_{\mu\nu}-\frac{p_{\mu}p_{\nu}}{p^2}\bigg)\frac{1}{\epsilon}\bigg] + \text{finite} \\
+        & = \frac{-i}{p^2} \bigg[ \eta_{\mu\nu} \bigg(1-\frac{\overline{\a}}{3\pi}\frac{1}{\epsilon}\bigg) - \frac{p_{\mu}p_{\nu}}{p^2} \bigg(1-\frac{\overline{\a}}{3\pi}\frac{1}{\epsilon}\bigg) + \xi_B \frac{p_{\mu}p_{\nu}}{p^2}\bigg] + \text{finite} \\
+        & = \frac{-i}{p^2}\bigg(1-\frac{\overline{\a}}{3\pi}\frac{1}{\epsilon}\bigg) \bigg[ \eta_{\mu\nu} - \frac{p_{\mu}p_{\nu}}{p^2} + \xi_B \bigg(1+\frac{\overline{\a}}{3\pi}\frac{1}{\epsilon}\bigg) \frac{p_{\mu}p_{\nu}}{p^2} \bigg] + \text{finite}
+    \end{split}
+\ese 
+where the last line follows because we are only working to order $\overline{\a}$ (so the $\overline{\a}^2$ term that comes from the factorisation is dropped). If we compare this to our desired renormalised result\footnote{Note the appearance of $Z_3$, this is here because the photon propagator comes from terms containing $A^{\mu}$s, which renormalise with $Z_3$; see \Cref{eqn:RenormalisedParameters}.}
+\bse 
+    D_{\mu\nu}^1(\xi_B) = Z_3 D_{\mu\nu, R}^1(\xi_R)
+\ese 
+along with $\xi_B = Z_{\xi}\xi_R$, we simply read off 
+\mybox{
+\be 
+\label{eqn:ZxiAndZ3}
+    Z_{\xi} = 1+\frac{\overline{\a}}{3\pi}\frac{1}{\epsilon} + \text{finite}, \qand Z_3 = 1-\frac{\overline{\a}}{3\pi}\frac{1}{\epsilon} + \text{finite}.
+\ee 
+}
+
+\br 
+    Note that the renormalised photon propagator still has its pole at $p^2=0$, as this is where the denominators blow up. This is an important result because it tells us that the renormalised photon is still massless. 
+\er 
+
+\subsubsection{On-Shell Renormalisation}
+
+Let's now fix the finite terms using on-shell renormalisation. First we introduce the non-indexed $\Pi(p^2)$ via
+\bse 
+    i\Pi^{\mu\nu}(p^2) = \big(p^2\eta^{\mu\nu} - p^{\mu}p^{\nu}\big) \Pi(p^2).
+\ese 
+Our renormalised photon propagator then takes the form (in Feynman gauge) 
+\bse 
+    D_{\mu\nu,R}(p^2) = \frac{-i\eta_{\mu\nu}}{p^2\big[Z_3-\Pi(p^2)\big]}
+\ese 
+so if we are to keep our residue fixed we have to impose 
+\bse 
+    Z_3-1 = \Pi(p^2) \big|_{p^2=0}.
+\ese 
+This is just the definition of our counter-term, see \Cref{eqn:LagrangianWithCounterTerms}. That is 
+\bse
+    \begin{split}
+        \overline{\Pi}(p^2) & := \Pi(p^2) - \Pi_{ct}(p^2) \\
+        & = \Pi(p^2) - \Pi(p^2)\big|_{p^2=0}.
+    \end{split}
+\ese 
+It follows from this that our renoramlised photon propagator is 
+\bse 
+    D_{\mu\nu,R}(p^2) = \frac{-ig_{\mu\nu}}{p^2\big[1-\overline{\Pi}(p^2)\big]},
+\ese 
+and so our on-shell renormalisation condition is simply 
+\mybox{
+    \be 
+    \label{eqn:OnShellRenormalisationPi}
+        \overline{\Pi}(p^2)\big|_{p^2=0} = 0. 
+    \ee 
+}
+
+\subsection{Vertex Correction}
+
+Just as we introduced the symbol $D_{\mu\nu}$ for the photon propagator, we introduce the symbol $\Gamma_{\mu}$ for the vertex terms. The tree level term is simply 
+\bse 
+    -ie_B\overline{\psi}_B \Gamma_{\mu}^0 \psi_B A_{B}^{\mu} = -ie_B\overline{\psi}_B \g_{\mu} \psi_B A_B^{\mu},
+\ese 
+and to one loop, we have 
+\bse 
+    -ie_B\overline{\psi}_B \Gamma_{\mu}^1 \psi_B A_{B}^{\mu} = -ie_B\overline{\psi}_B  \g_{\mu} \psi_B A_B^{\mu}  - -ie_B\overline{\psi}_B  \Lambda_{\mu}(p_1,p_2) \psi_B A_B^{\mu}. 
+\ese 
+So inserting \Cref{eqn:LambdaMuOneLoop}, we have 
+\bse 
+    \overline{\psi}_B \Gamma_{\mu}^1 \psi_B A_{B}^{\mu} = -ie_B\overline{\psi}_B  \g_{\mu}\bigg( 1 + \frac{\overline{\a}}{4\pi}\frac{1}{\epsilon} + \text{finite} \bigg) \psi_B A_B^{\mu} 
+\ese 
+which, comparing to \Cref{eqn:RenormalisedParameters,eqn:LagrangianWithCounterTerms}, allows us to read off
+\bse
+    Z_1^{-1} = 1 + \frac{\overline{\a}}{4\pi} \frac{1}{\epsilon} + \text{finite}
+\ese 
+which we can invert to give
+\mybox{
+\be 
+\label{eqn:Z1}
+    Z_1 = 1 - \frac{\overline{\a}}{4\pi} \frac{1}{\epsilon} + \text{finite}
+\ee 
+}
+
+We now notice a very nice, and physically pleasing, result: recalling \Cref{eqn:Z2}, we see that
+\be 
+\label{eqn:Z1=Z2}
+    Z_1 = Z_2.
+\ee 
+We have only shown this to first order in $\overline{\a}$, but it turns out that \Cref{eqn:Z1=Z2} holds to all orders. This can be shown using the Ward identities, but a proof is not given here.\footnote{See Peskin and Schroeder for more details.} Why is this result physically pleasing? Well we recall that 
+\bse 
+    e_B = \frac{Z_1}{Z_2 Z_3^{1/2}} e_R,
+\ese 
+so if \Cref{eqn:Z1=Z2} holds then we see that the renormalised coupling constant is related to the bare coupling constant purely by contributions from the photon corrections, 
+\bse 
+    e_R = Z_3^{1/3}e_B.
+\ese 
+In other words, the renormalisation of the electric charge is due only to the vacuum polarisation effects of the photon propagator. This gives us the idea you might have seen before about the electron charge not being a constant at all, but its value being `obscured' by vacuum polarisations around it. Essentially we have electron-positron pairs creating dipoles around our bare charge and so screen the value. 
+
+\begin{center}
+    \btik 
+        \draw[thick] (0,0) circle [radius=0.5cm];
+        \node at (0,0) {$e_B$};
+        \begin{scope}
+            \draw[thick] (1.5,0) ellipse (0.5 and 0.3);
+            \node at (1.25,0) {$+$};
+            \node at (1.75,0) {$-$};
+        \end{scope}
+        \begin{scope}[rotate around = {45:(0,0)}]
+            \draw[thick] (1.5,0) ellipse (0.5 and 0.3);
+            \node at (1.25,0) {$+$};
+            \node at (1.75,0) {$-$};
+        \end{scope}
+        \begin{scope}[rotate around = {80:(0,0)}]
+            \draw[thick] (2,0) ellipse (0.5 and 0.3);
+            \node at (1.75,0) {$+$};
+            \node at (2.25,0) {$-$};
+        \end{scope}
+        \begin{scope}[rotate around = {120:(0,0)}]
+            \draw[thick] (1.5,0) ellipse (0.5 and 0.3);
+            \node at (1.25,0) {$+$};
+            \node at (1.75,0) {$-$};
+        \end{scope}
+        \begin{scope}[rotate around = {170:(0,0)}]
+            \draw[thick] (1.5,0) ellipse (0.5 and 0.3);
+            \node at (1.25,0) {$+$};
+            \node at (1.75,0) {$-$};
+        \end{scope}
+        \begin{scope}[rotate around = {-60:(0,0)}]
+            \draw[thick] (1.5,0) ellipse (0.5 and 0.3);
+            \node at (1.25,0) {$+$};
+            \node at (1.75,0) {$-$};
+        \end{scope}
+        \begin{scope}[rotate around = {-120:(0,0)}]
+            \draw[thick] (1.5,0) ellipse (0.5 and 0.3);
+            \node at (1.25,0) {$+$};
+            \node at (1.75,0) {$-$};
+        \end{scope}
+        \begin{scope}[rotate around = {25:(0,0)}]
+            \draw[thick] (2.5,0) ellipse (0.5 and 0.3);
+            \node at (2.25,0) {$+$};
+            \node at (2.75,0) {$-$};
+        \end{scope}
+        \begin{scope}[rotate around = {-30:(0,0)}]
+            \draw[thick] (2.25,0) ellipse (0.5 and 0.3);
+            \node at (2.,0) {$+$};
+            \node at (2.5,0) {$-$};
+        \end{scope}
+        \begin{scope}[rotate around = {-160:(0,0)}]
+            \draw[thick] (2,0) ellipse (0.5 and 0.3);
+            \node at (1.75,0) {$+$};
+            \node at (2.25,0) {$-$};
+        \end{scope}
+        \begin{scope}[rotate around = {145:(0,0)}]
+            \draw[thick] (2.5,0) ellipse (0.5 and 0.3);
+            \node at (2.25,0) {$+$};
+            \node at (2.75,0) {$-$};
+        \end{scope}
+    \etik 
+\end{center}
+
+The other important thing to note is that our relation is independent of Fermion dependent factors, and so it is the same for all different Fermion species. That is, our renormalised coupling term is the same for all Fermions up to the values of $Q$ for each Fermion. This is what we had for the bare charges, and it's what we would want physically, so its a very nice result indeed. 
+
+\subsubsection{On-Shell Renormalisation}
+
+Similarly to before, we introduce the indexless $\Lambda(p,p')$
+\bse 
+    \Lambda^{\mu}(p,p') = \Lambda(p,p') \g^{\mu}
+\ese 
+and the definition
+\bse 
+    \overline{\Lambda}(p,p') := \Lambda(p,p') - \Lambda_{ct}(p,p') = \Lambda(p,p') - (Z_1-1).
+\ese 
+Here the on-shell condition here corresponds to saying that our vertex factor equals $-ie_R\g^{\mu}$ when $p=p'$. This corresponds to saying the loop photon carries no momentum (so is basically not there), and so the Fermions coming into the vertex are on-shell. Mathematically what we're talking about is 
+\bse 
+    -ie_R\overline{\Gamma}_{\mu}(p,p') \big|_{p=p'} = -ie_R\g_{\mu},
+\ese 
+which translates to the now familiar form 
+\mybox{
+\be 
+\label{eqn:OnShellRenormalisationLambda}
+    \overline{\Lambda}(p,p')\big|_{p=p'} = 0.
+\ee 
+}
+This translates to 
+\bse 
+    Z_1 - 1 = - \Lambda(p,p')\big|_{p=p'}.
+\ese 
+
+\subsection{Running Coupling}
+
+\br 
+    \textcolor{red}{To be honest, I am confused why we don't consider the $\mu$ dependence of the $\overline{\a}$ inside the brackets or in the finite terms in what follows. I've already spent quite a bit of time trying to understand it, and I need to get on with finishing the course, so I'm just accepting its true here and moving on. If you know why please let me know!}
+\er 
+
+We have seen that $e_R = Z_3^{1/2}e_B$, and that $Z_3$ contains a $\overline{\a}$ term. This $\overline{\a}$ term itself has $\mu$ dependence by its definition, and so recalling again that $\mu\sim p$ we see that our renormalised coupling has momentum dependence. First let's find this dependence and we'll explain what is going on physically. We have 
+\bse 
+    \begin{split}
+        \overline{\a}_R & := \mu^{-2\epsilon}\a_R \\
+        & = \mu^{-2\epsilon}  \a_B \bigg(1- \frac{\overline{\a}}{3\pi} \frac{1}{\epsilon} + \text{finite} \bigg),
+    \end{split}
+\ese 
+so taking the derivative w.r.t. $\mu$, we have\footnote{Note we have multiplied by $\mu$ so that the powers on the right-hand side don't change}
+\bse 
+    \begin{split}
+        \mu \frac{d \overline{\a}_R}{d \mu} & = -2\epsilon \mu^{-2\epsilon}\a_B \bigg(1- \frac{\overline{\a}_B}{3\pi} \frac{1}{\epsilon} + \text{finite} \bigg) \\
+        & = \frac{2}{3\pi} \big(\a_B \mu^{-2\epsilon}\big)^2 + \cO(\epsilon) \\
+        & = \frac{2}{3\pi} \overline{\a}_B^2 + \cO(\epsilon) \\
+        & = \frac{2}{3\pi}\overline{\a}_R^2 + \cO(\a_R^3) + \cO(\epsilon) \\ 
+        \implies \qquad \frac{d \overline{\a}_R}{d \mu} \frac{1}{\overline{\a}_R^2} & = \frac{1}{\mu} \frac{2}{3\pi},
+    \end{split}
+\ese 
+which we can integrate relative to some reference scale $\mu_0$. The result is
+\mybox{
+\be  
+\label{eqn:RunningCoupling}
+    \overline{\a}_R(\mu) = \frac{\overline{\a}(\mu_0)}{1 - \frac{2}{3\pi}\overline{\a}(\mu_0)\log(\mu/\mu_0)}. 
+\ee 
+}
+
+So as we increase our momentum $\mu$ our renormalised coupling gets bigger. This actually makes, let's see why. Physically to measure the coupling we would probe it, say using a photon. As we saw above, the actual charge is `shielded' by the effective dipoles that form from the $e^+e^-$ production around it. However if we increase the energy of the photon, i.e. increase $\mu$, we can penetrate deeper into this shielded region and get a more accurate result. The other way to think about it is that high energies correspond to small distances and so the resolution capacity of our incoming photon increases, which allows it to differentiate the bare charge from the dipoles better. 
+
+Now we note that when 
+\bse 
+    \frac{2}{3\pi}\overline{\a}(\mu_0)\log(\mu/\mu_0) = 1
+\ese 
+our coupling blows us. This is known as a \textit{Landau pole}, and it says that the coupling constant gets arbitrary large at high energy scales. This might seem like a huge problem, both physically and because we're meant to be considering perturbation theory so we need $\overline{\a}_R$ to be small. However if we use the experimentally measured approximate value of 
+\bse 
+    \overline{\a}(\mu_0) \sim \frac{1}{128}
+\ese 
+we see that the Landau pole occurs at 
+\bse 
+    \mu \sim 10^{262}.
+\ese 
+This is an absurdly high number and we expect our QED theory to break down \textit{long} before that anyway. Therefore \Cref{eqn:RunningCoupling} is really more of an intriguing theoretical result than anything else. 
+
+\section{Example Of One-Loop Calculation}
+
+Let's have a look at an actual calculation using our renormalisaion at one-loop. We will consider the simple process of an electron scattering off some heavy source, which we denote $A$. We take the source to be heavy so that it doesn't recoil significantly because of the interaction, this tells us that we cannot have both the electrons being on-shell. We therefore treat them as internal propagators in what follows. So we're looking at the following diagram 
+\begin{center}
+    \btik 
+        \midarrow[rotate around = {-25:(0,0)}] (-1.5,0) -- (0,0);
+        \node at (-1.5,0.75) {$e^-$};
+        \draw[->, rotate around = {-25:(0,0)}] (-1.25,0.2) -- (-0.25,0.2) node [midway, above] {$p_1$};
+        \midarrow[rotate around = {25:(0,0)}] (0,0) -- (1.5,0);
+        \node at (1.6,0.8) {$e^-$};
+        \draw[->, rotate around = {25:(0,0)}] (0.25,0.2) -- (1.25,0.2) node [midway, above] {$p_2$};
+        \wavey (0,0) -- (0,-1);
+        \draw[thick] (0,-1.5) circle [radius=0.5cm];
+        \node at (0,-1.5) {\Large{$A$}};
+    \etik 
+\end{center}
+which gives us the mathematical expression of the form  
+\bse 
+    \frac{i(\slashed{p}_2+m_B)}{p_2^2-m_B^2} e_B \g^{\mu}  \frac{i(\slashed{p}_1+m_B)}{p_2^1-m_B^2} = \frac{i}{\slashed{p}_2-m_B} e_B\g^{\mu} \frac{i}{\slashed{p}_1-m_B},
+\ese 
+where the equality follows from 
+\bse 
+    \frac{i(\slashed{p}+m)}{p^2-m^2} =  \frac{i(\slashed{p}+m)}{(\slashed{p}-m)(\slashed{p}+m)}, \qand \slashed{p}\slashed{p} = p^2.
+\ese
+
+\br 
+    Note we have only considered part of the expression here, e.g. we haven't included the photon propagator term. As will be clear going froward, the part that we have written contains all the correction terms and so there's no need to carry around all the other terms too.
+\er 
+
+There are four one-loop terms, let's look at them in turn. We will work in MS just so we don't have to keep writing $+$ finite. 
+\ben[label=(\roman*)]
+    \item First we have a loop on the outgoing external leg
+    \begin{center}
+        \btik 
+            \midarrow[rotate around = {-25:(0,0)}] (-1.5,0) -- (0,0);
+            \midarrow[rotate around = {25:(0,0)}] (0,0) -- (1.5,0);
+            \begin{scope}[rotate around = {25:(0,0)}]
+                \clip (0,0) -- (1.5,0) -- (1.5,0.6) -- (0,0.6) -- (0,0);
+                \wavey (0.75,0) circle [radius=0.4cm];
+            \end{scope}
+            \wavey (0,0) -- (0,-1);
+            \draw[thick] (0,-1.5) circle [radius=0.5cm];
+            \node at (0,-1.5) {\Large{$A$}};
+        \etik 
+    \end{center}
+    which corresponds to 
+    \bse 
+        \begin{split}
+            \frac{i}{\slashed{p}_2-m_B} \big(-i\Sigma(p_2)\big) \frac{i}{\slashed{p}_2-m_B} & e_B\g^{\mu} \frac{i}{\slashed{p}_1-m_B} \\
+            & = \frac{i}{\slashed{p}_2-m_B} \frac{\a_B}{4\pi}\frac{1}{\epsilon} \frac{-\slashed{p}_2+4m_B}{\slashed{p}_2-m_B} e_B\g^{\mu} \frac{i}{\slashed{p}_1-m_B} \\
+            & = -\frac{1}{\slashed{p}_2-m_B} \bigg[ -\frac{\a_B}{4\pi}\frac{1}{\epsilon}e_B\g^{\mu} + \frac{\a_B}{4\pi}\frac{1}{\epsilon} \frac{3m_B}{\slashed{p}_2-m_B} e_B\g^{\mu} \bigg] \frac{1}{\slashed{p}_1-m_B}
+        \end{split}
+    \ese 
+    %
+    \item Next we have the same thing but with the loop on the incoming leg:
+    \begin{center}
+        \btik 
+            \midarrow[rotate around = {-25:(0,0)}] (-1.5,0) -- (0,0);
+            \midarrow[rotate around = {25:(0,0)}] (0,0) -- (1.5,0);
+            \begin{scope}[rotate around = {-25:(0,0)}]
+                \clip (0,0) -- (-1.5,0) -- (-1.5,0.6) -- (0,0.6) -- (0,0);
+                \wavey (-0.75,0) circle [radius=0.4cm];
+            \end{scope}
+            \wavey (0,0) -- (0,-1);
+            \draw[thick] (0,-1.5) circle [radius=0.5cm];
+            \node at (0,-1.5) {\Large{$A$}};
+        \etik 
+    \end{center}
+    the result of which follows trivially from the previous calculation:
+    \bse 
+        -\frac{1}{\slashed{p}_2-m_B} \bigg[ -\frac{\a_B}{4\pi}\frac{1}{\epsilon}e_B\g^{\mu} + \frac{\a_B}{4\pi}\frac{1}{\epsilon} \frac{3m_B}{\slashed{p}_1-m_B} e_B\g^{\mu} \bigg] \frac{1}{\slashed{p}_1-m_B}
+    \ese 
+    % 
+    \item We also have the vertex correction:
+    \begin{center}
+        \btik 
+            \midarrow[rotate around = {-25:(0,0)}] (-1.5,0) -- (-0.75,0);
+            \midarrow[rotate around = {-25:(0,0)}] (-0.75,0) -- (0,0);
+            \midarrow[rotate around = {25:(0,0)}] (0,0) -- (0.75,0);
+            \midarrow[rotate around = {25:(0,0)}] (0.75,0) -- (1.5,0);
+            \wavey (-0.75,0.35) .. controls (-0.25,0.75) and (0.25,0.75) ..(0.75,0.35);
+            \wavey (0,0) -- (0,-1);
+            \draw[thick] (0,-1.5) circle [radius=0.5cm];
+            \node at (0,-1.5) {\Large{$A$}};
+        \etik 
+    \end{center}
+    which gives us 
+    \bse 
+        \frac{i}{\slashed{p}_2-m_B} \Lambda^{\mu} \frac{i}{\slashed{p}_1-m_B} = -\frac{1}{\slashed{p}_2-m_B} \frac{\a_B}{4\pi} \frac{1}{\epsilon} e_B\g^{\mu} \frac{1}{\slashed{p}_1-m_B}.
+    \ese 
+    %
+    \item Finally we have the photon correction 
+    \begin{center}
+        \btik 
+            \midarrow[rotate around = {-25:(0,0)}] (-1.5,0) -- (0,0);
+            \midarrow[rotate around = {25:(0,0)}] (0,0) -- (1.5,0);
+            \wavey (0,0) -- (0,-0.75);
+            \midarrow (0,-1.25) circle [radius=0.5cm];
+             \midarrow (0,-1.25) circle [radius=-0.5cm];
+            \wavey (0,-1.75) -- (0,-2.5);
+            \draw[thick] (0,-3) circle [radius=0.5cm];
+            \node at (0,-3) {\Large{$A$}};
+        \etik 
+    \end{center}
+    which gives the contribution of the form
+    \bse 
+        \begin{split}
+            \frac{i}{\slashed{p}_2-m_B} & e_B \g^{\nu} \frac{i}{\slashed{p}_1-m_B}  \frac{-i\eta_{\nu\sig}}{(p_1-p_2)^2}\big(-i\Pi^{\sig\mu}(p_1-p_2)\big) \\
+            & = \frac{1}{\slashed{p}_2-m_B} e_B \g_{\sig} \frac{1}{\slashed{p}_1-m_B} \frac{1}{(p_1-p_2)^2} \bigg(-\frac{\a}{3\pi}\frac{1}{\epsilon}\bigg) \Big[ (p_1-p_2)^{\sig} (p_1-p_2)^{\mu} - (p_1-p_2)^2 \eta^{\sig\mu}\Big].
+        \end{split}
+    \ese 
+    Now we use the fact that $\Pi^{\sig\mu}$ is transverse to drop the first term in the square brackets.\footnote{Dr. Schoenherr says the $(p_1-p_2)^{\mu}$ term contracts with a polarisation so the Ward identity makes it vanish. To be honest I don't see where this polarisation is coming from as the final photon, i.e. the one that meets $A$ is internal and so won't come with a $\epsilon^{\mu}$. \textcolor{red}{As with the above, I am a bit too busy to spend all day trying to work this out, so just going to continue accepting it.}} So we are just left with 
+    \bse 
+        \frac{1}{\slashed{p}_2-m_B} e_B\g^{\mu} \frac{1}{\slashed{p}_1-m_B} \bigg(-\frac{\a}{3\pi}\frac{1}{\epsilon}\bigg).
+    \ese 
+\een 
+
+Putting these all together, we get the 2-point Green's function:
+\bse 
+    \bra{0}\cT[\overline{\psi}_B A_B^{\mu}\psi_B]\ket{0} = \frac{e_B}{\slashed{p}_2-m_B} \bigg[ 1 -\frac{\a_B}{4\pi} \frac{1}{\epsilon}  -\frac{\a_B}{3\pi} \frac{1}{\epsilon} + \frac{\a_B}{4\pi}\frac{1}{\epsilon}\bigg(\frac{3m_B}{\slashed{p}_1-m_B} + \frac{3m_B}{\slashed{p}_1-m_B}\bigg)\bigg]\g^{\mu}\frac{1}{\slashed{p}_1 -m_B}.
+\ese 
+
+Now let's consider the renormalised quantities. Firstly we have 
+\bse 
+    \begin{split}
+        \frac{1}{\slashed{p}_2-m_B} & = \frac{1}{\slashed{p}_2-m_R\big(1-\frac{3\a_B}{4\pi}\frac{1}{\epsilon}\big)} \\
+        & = \frac{1}{\slashed{p}_2-m_R} - \frac{3\a_Bm_R}{4\pi(\slashed{p}_2-m_R)^2}\frac{1}{\epsilon} + \cO(\a^2),
+    \end{split}
+\ese 
+where the second line follows from
+\bse 
+    (a+b)^{-1} = \frac{1}{a} - \frac{b}{a^2} + \cO(b^2) \qquad b < a.
+\ese 
+Now we note that $m_R = m_B + \cO(\a)$, so we can replace 
+\bse 
+    \frac{m_R \a_B}{(\slashed{p}_2-m_R)^2} = \frac{m_B \a_B}{(\slashed{p}_2-m_B)^2} + \cO(\a^2),
+\ese 
+to give us 
+\bse 
+    \frac{1}{\slashed{p}_2-m_B} = \frac{1}{\slashed{p}_2-m_R} - \frac{3\a_Bm_B}{4\pi(\slashed{p}_2-m_B)^2}\frac{1}{\epsilon} + \cO(\a^2).
+\ese
+This is the correction term corresponding to (i) above, and as we see it will exactly cancel the divergent term coming from there. Similarly (ii) will be cancelled by 
+\bse 
+    \frac{1}{\slashed{p}_1-m_B} = \frac{1}{\slashed{p}_1-m_R} - \frac{3\a_Bm_B}{4\pi(\slashed{p}_1-m_B)^2}\frac{1}{\epsilon} + \cO(\a^2).
+\ese
+
+So our 2-point function is reduced to 
+\bse 
+    \bra{0}\cT[\overline{\psi}_B A_B^{\mu}\psi_B]\ket{0} = \frac{e_B}{\slashed{p}_2-m_R} \bigg[ 1 -\frac{\a_B}{4\pi} \frac{1}{\epsilon}  -\frac{\a_B}{3\pi} \frac{1}{\epsilon} \bigg]\g^{\mu}\frac{1}{\slashed{p}_1 -m_R} + \cO(\a^2).
+\ese 
+We now use the renormalised fields, i.e. 
+\bse 
+    \bra{0}\cT[\overline{\psi}_R A_R^{\mu}\psi_R]\ket{0} = Z_2^{-1} Z_3^{-1/2} \bra{0}\cT[\overline{\psi}_B A_B^{\mu}\psi_B]\ket{0}
+\ese 
+with 
+\bse 
+    \begin{split}
+        Z_2^{-1}Z_3^{-1/2} & = \bigg(1 - \frac{\a_B}{4\pi} \frac{1}{\epsilon}\bigg)^{-1}\bigg(1 - \frac{\a_B}{3\pi}\frac{1}{\epsilon}\bigg)^{-1/2} + \cO(\a^2) \\
+        & = \bigg(1 + \frac{\a_B}{4\pi} \frac{1}{\epsilon}\bigg)\bigg(1 + \frac{\a_B}{6\pi}\frac{1}{\epsilon}\bigg) + \cO(\a^2) \\
+        & = 1 + \frac{\a_B}{4\pi} \frac{1}{\epsilon} + \frac{\a_B}{6\pi}\frac{1}{\epsilon} + \cO(\a^2),
+    \end{split}
+\ese 
+where the second line follows using 
+\bse 
+    (1+x)^{-n} = 1 - \frac{x}{n} + \cO(x^2).
+\ese 
+We therefore have 
+\bse 
+    \bra{0}\cT[\overline{\psi}_R A_R^{\mu}\psi_R]\ket{0} = \frac{e_B}{\slashed{p}_2-m_R} \bigg[ 1  -\frac{\a_B}{6\pi} \frac{1}{\epsilon} \bigg]\g^{\mu}\frac{1}{\slashed{p}_1 -m_R} + \cO(\a^2).
+\ese 
+
+Finally we use the renormalised coupling 
+\bse 
+    e_B = Z_3^{-1/2} e_R = \bigg(1+\frac{\a_B}{6\pi}\frac{1}{\epsilon}\bigg)e_R + \cO(\a^2),
+\ese
+so in total we have 
+\mybox{
+    \bse 
+        \bra{0}\cT[\overline{\psi}_R A_R^{\mu}\psi_R]\ket{0} = \frac{1}{\slashed{p}_2-m_R} e_R\g^{\mu} \frac{1}{\slashed{p}_1-m_R},
+    \ese 
+}
+which is \textit{exactly} the result we want!
+
+\section{Infrared Divergences}
+
+We have just spent 30 pages discussing UV divergences, but remember that these were not the only kind; we also have IR divergences which correspond to the photon going \textit{soft}, i.e. $k^{\mu} \to 0$. How do we deal with these? Luckily we have done a lot of the work we need, and so we don't need another 30 pages. Let's look at tackling these IR divergences now. 
+
+What we're going to consider here is the real emission\footnote{The case of a virtual photon is treated in quite some detail in the exercises for the course. I will not present any of that here because its not a trivial calculation, and I don't want to type the answer as it was an exercise on the course.} of a soft photon, i.e. a diagram of the form 
+\begin{center}
+    \btik 
+        \midarrow (-1.5,0) -- (0,0);
+        \draw[->] (-1,-0.3) -- (-0.5,-0.3) node [midway, below] {$p+k$};
+        \midarrow (0,0) -- (1.5,0);
+        \draw[->] (0.5,-0.3) -- (1,-0.3) node [midway, below] {$p$};
+        \wavey (0,0) -- (1.5,1);
+        \draw[->] (0.65,0.7) -- (1.25,1.1);
+        \node at (0.9,1.1) {$k$};
+    \etik 
+\end{center}
+where we take the photon and out going electron to be on-shell but we do \textit{not} take the incoming electron to be on shell. That is we have\footnote{Obviously the $...$ here is meant to be the rest of the diagram.} 
+\bse 
+    p^2 = m^2, \qquad k^2 =0, \qquad \text{but} \qquad (p+k)^2 \neq m^2.
+\ese 
+This diagram gives corresponds to the expression 
+\bse 
+    ... \frac{\slashed{p}+\slashed{k}+m}{(p+k)^2-m^2} \g^{\mu} u(p) = ... \frac{\slashed{p}+\slashed{k}+m}{p^2+ 2p\cdot k + k^2 - m^2} \g^{\mu} u(p) = ... \frac{\slashed{p}+\slashed{k}+m}{2p\cdot k} \g^{\mu} u(p),
+\ese 
+where we have used on on shell conditions in the last equality. If we now take the soft photon limit $k^{\mu} \to 0$ the $\slashed{k}$ term vanishes and we are left with 
+\bse 
+    \frac{\slashed{p}+m}{2p\cdot k} \g^{\mu} u(p) = \frac{2p^{\mu}}{2p\cdot k} + \g^{\mu}\frac{-\slashed{p}+m}{2p\cdot k} u(p),
+\ese 
+where we have used the Clifford algebra relation $\{\g^{\mu},\g^{\nu}\}=2\eta^{\mu\nu}$. Now we note that the second term is proportional to 
+\bse 
+    (\slashed{p}-m)u(p),
+\ese 
+which is just the Dirac equation acting on an external field, and so it vanishes.\footnote{If this result isn't familiar, see, e.g., equation 11.3 of my IFT notes.}
+
+So our problem is reduced to studying 
+\bse 
+    \frac{p^{\mu}}{p\cdot k}u(p).
+\ese 
+Now obviously in the $k^{\mu}\to 0$ this expression diverges with $1/\epsilon$ type behaviour. We also have another $1/\epsilon$ divergence, which we see by picking a frame:
+\bse 
+    p^{\mu} = (E,0,0,p_z), \qand k^{\mu} = (E_{\g}, E_{\g}\sin\theta, 0, E_{\g}\cos\theta)
+\ese
+to obtain 
+\bse 
+    p\cdot k = E_{\g}( E - p_z\cos\theta).
+\ese 
+In the massless limit we have $E=p_z$ and so 
+\bse 
+    p\cdot k = E_{\g} E (1-\cos\theta)
+\ese 
+which gives a $1/\epsilon$ divergence for $\theta\to 0$. 
+
+We therefore see that the so-called soft-colinear limit will give us a $1/\epsilon^2$ divergence behaviour, and so we want to find a counter term that contains both $1/\epsilon$ and $1/\epsilon^2$ poles. Let's consider the vertex correction 
+\begin{center}
+    \btik 
+        \midarrow (-1,1) -- (-2,2);
+        \draw[->] (-1.8,2.2) -- (-1.2,1.6);
+        \node at (-1.3,2.2) {$p_1$};
+        \midarrow (0,0) -- (-1,1);
+        \draw[->] (-0.6,1) -- (0,0.4);
+        \node at (0.1,1.1) {$p_1+k$};
+        \midarrow (-2,-2) -- (-1,-1);
+        \draw[->] (-1.8,-2.2) -- (-1.2,-1.6);
+        \node at (-1.3,-2.2) {$p_2$};
+        \midarrow (-1,-1) -- (0,0);
+        \draw[->] (-0.6,-1) -- (0,-0.4);
+        \node at (0.1,-1) {$p_2-k$};
+        \wavey (0,0) -- (2,0);
+        \node at (2.3,0) {$\mu$};
+        \draw[->] (0.75,0.3) -- (1.75,0.3) node [above, midway] {$p_1+p_2$};
+        \wavey (-1,1) .. controls (-1.5,0.33) and (-1.5,-0.33) .. (-1,-1);
+        \draw[->, rotate around={25:(0,0)}] (-1.75,0) arc (0:-60:-1.5) node [midway, left] {$k$};
+        \draw[fill=black] (0,0) circle [radius=0.07cm];
+        \draw[fill=black] (-1,1) circle [radius=0.07cm] node [above] {$\nu$};
+        \draw[fill=black] (-1,-1) circle [radius=0.07cm] node [below] {$\rho$};
+    \etik 
+\end{center}
+in the soft-colinear limit, that is we take both $k^{\mu}\to 0$ and massless limit $p_1^2=p_2^2=0$ (with $\theta\to 0$). 
+
+As we said when first discussing the different renormalisation schemes, we can also use dimensional reduction to deal with the IR divergences, and that's what we do here. This diagram then corresponds to 
+\bse 
+    \Lambda^{\mu}(p_1,p_2) = -2ie^2 \int \frac{d^Dk}{(2\pi)^D} \int_0^1 dx \int_0^{1-x}dy \frac{\g^{\nu} \big(\slashed{k}+(1-x)\slashed{p}_1 + y\slashed{p}_2\big)\g^{\mu}\big(\slashed{k}-x\slashed{p}_1 - (1-y)\slashed{p}_2\big)\g_{\nu} }{\big[k^2-(-2xyp_1\cdot p_2)\big]^3},
+\ese 
+where we have obviously used our Feynman parameter relation. The first thing we notice is that this expression will appear as 
+\be 
+\label{eqn:LambdaSandwiched}
+    \overline{v}(p_1) \Lambda^{\mu}(p_1,p_2) u(p_2)
+\ee 
+for the incoming states, so so we can use the massless Dirac equations
+\bse 
+    \slashed{p}_2u(p_2) = 0 = \overline{v}(p_1)\slashed{p}_1
+\ese 
+so we can drop any terms that appear in this form. 
+
+We then consider the other other terms in groups. 
+\ben[label=(\roman*)]
+    \item First let's consider the term containing $\g^{\nu} \slashed{k} \g^{\mu} \slashed{k}\g_{\nu}$. We have actually already considered this term leading up to \Cref{eqn:LambdaMuOneLoop}, the only difference being the form of $m(x,y)$. Here we have $m(x,y) = -2xyp_1\cdot p_2$, whereas before it also had terms with $p_1^2, p_2^2$ and $m^2$, all of which we've set to zero. So we can just quote the result as 
+    \bse 
+        \Lambda^{\mu}(p_1,p_2)\Big|_{k^2} = \frac{\overline{\a}}{4\pi} \frac{1}{\epsilon} \g^{\mu} + \text{finite}. 
+    \ese 
+    \item The terms that go as $\slashed{k}$ with a $\slashed{p}_{1,2}$ will vanish by symmetry (same as before). 
+    \item Now consider the rest of the numerator, 
+    \bse 
+        \Lambda^{\mu}(p_1,p_2)\Big|_{k^0} = -2ie^2 \int_0^1 dx \int_0^{1-x} dy \int \frac{d^Dk}{(2\pi)^D} \frac{\g^{\nu} \big((1-x)\slashed{p}_1 + y\slashed{p}_2\big) \g^{\mu} \big(-x\slashed{p}_1 - (1-y)\slashed{p}_2\big) \g_{\nu} }{\big[k^2 - m(x,y)\big]^3}.
+    \ese 
+    The numerator contains a product of five $\g$s, and so we use our trace relation 
+    \bse 
+        \g^{\nu} \g^{\sig} \g^{\mu} \g^{\rho} \g_{\nu} = (4-D)\g^{\sig}\g^{\mu}\g^{\rho} - 2\g^{\rho}\g^{\mu}\g^{\sig}.
+    \ese 
+    We then see the terms that contain two $\slashed{p}_1$s or $\slashed{p}_2$s will vanish via our Dirac equations and \Cref{eqn:LambdaSandwiched}. So we just have to consider the terms
+    \bse 
+        \begin{split}
+            \g^{\nu}\slashed{p}_1 \g^{\mu} \slashed{p}_2 \g_{\nu} & = (4-D) \slashed{p}_1 \g^{\mu} \slashed{p}_2 - 2 \slashed{p}_2 \g^{\mu} \slashed{p}_1 \to  - 2 \slashed{p}_2 \g^{\mu} \slashed{p}_1 \\
+            \g^{\nu}\slashed{p}_2 \g^{\mu} \slashed{p}_1 \g_{\nu} & = (4-D) \slashed{p}_2 \g^{\mu} \slashed{p}_1 - 2 \slashed{p}_1 \g^{\mu} \slashed{p}_2 \to (4-D) \slashed{p}_2 \g^{\mu} \slashed{p}_1,
+        \end{split}
+    \ese 
+    where the $\to$ bits drop the Dirac equation terms. We can do a bit more, actually, by using $\{\g^{\mu},\slashed{p}_1\} = 2p_1^{\mu} - \slashed{p}_1 \g^{\nu}$ 
+    \bse 
+        \begin{split}
+            \slashed{p}_2 \g^{\mu} \slashed{p}_1 = \slashed{p}_2 \big( 2p_1^{\mu} - \slashed{p}_1 \g^{\mu}\big),
+        \end{split}
+    \ese 
+    and then again we drop the first term as it lets the $\slashed{p}_2$ act on our $u(p_2)$. Finally we use 
+    \bse 
+        -\slashed{p}_2 \slashed{p}_1 = - 2p_2\cdot p_1 + \slashed{p}_1\slashed{p}_2,
+    \ese 
+    which also follows from the Clifford algebra anticommutation relation, and we again drop the final term. We are therefore just left with 
+    \bse 
+        \begin{split}
+            \Lambda^{\mu}(p_1,p_2)\Big|_{k^0} & = -2ie^2 \int_0^1 dx \int_0^{1-x} dy \int \frac{d^Dk}{(2\pi)^D} \frac{\g^{\mu}(-2p_2\cdot p_1)\big[2(1-x)(1-y) -xy(4-D)\big]}{\big[k^2-m(x,y)\big]^3} \\
+            & = -2ie^2 \g^{\mu} (-2p_2\cdot p_1) \frac{-i}{(4\pi)^{D/2}} \frac{\Gamma(3-D/2)}{\Gamma(3)} \\
+            & \qquad \times \int_0^1 dx \int_0^{1-x} dy  \big[2(1-x)(1-y) + xy(D-4)\big] \big[ -2xy p_1\cdot p_2\big]^{-3+D/2},
+        \end{split}
+    \ese
+    where the second line follows from our previous integrals. Now let's take the limit $\epsilon\to 0$ ($D\to 4$):
+    \bse 
+        \Lambda^{\mu}(p_1,p_2)\Big|_{k^0} = -4ie^2 \g^{\mu} \big(-2p_1\cdot p_2\big)^{-\epsilon} \frac{-i}{16\pi^2} \frac{\Gamma(1-\epsilon)}{2} \int_0^1 dx \int_0^{1-x} dy (1-x)x^{-1-\epsilon} (1-y)y^{-1-\epsilon}.
+    \ese 
+    \textcolor{red}{My algebra differs vastly from Dr. Schoenherr's and I can't see how to get it to agree with the answer. His result gives this containing both a $1/\epsilon^2$ and $1/\epsilon$ pole. I have spent quite a bit of time trying to see where I've gone wrong but I can't see it and I need to revise for other modules too, so I'm just going to skip it for now. This is a note to remind myself to try fix this.}
+\een 
+
+\subsection{How To Deal With IR Divergences}
+
+So far all we have done is demonstrate the IR divergences occur, we are yet to explain how we deal with them. We have seen that they arise in two places, namely the real emission of a soft photon and the exchange of a virtual soft photon: 
+\begin{center}
+    \btik
+        \begin{scope}
+            \midarrow (-1.5,1.5) -- (-0.75,0.75);
+            \midarrow (-0.75,0.75) -- (0,0);
+            \midarrow (0,0) -- (0.75,0.75);
+            \midarrow (0.75,0.75) -- (1.5,1.5);
+            \wavey (-0.75,0.75) .. controls (-0.25,1) and (0.25,1) .. (0.75,0.75);
+            \wavey (0,0) -- (0,-1);
+            \draw[fill=black] (0,0) circle [radius=0.07cm];
+            \draw[fill=black] (0.75,0.75) circle [radius=0.07cm];
+            \draw[fill=black] (-0.75,0.75) circle [radius=0.07cm];
+        \end{scope}
+        \begin{scope}[xshift = 5cm]
+            \midarrow (-1.5,1.5) -- (-0.75,0.75);
+            \midarrow (-0.75,0.75) -- (0,0);
+            \midarrow (0,0) -- (1.5,1.5);
+            \wavey (-0.75,0.75) -- (-0.4,1.5);
+            \wavey (0,0) -- (0,-1);
+            \draw[fill=black] (0,0) circle [radius=0.07cm];
+            \draw[fill=black] (-0.75,0.75) circle [radius=0.07cm];
+        \end{scope}
+    \etik 
+\end{center}
+
+In order to show that we get a finite result when considering the combination of these diagrams, we need to point out a couple things: 
+\ben[label=(\roman*)]
+    \item We \textit{cannot} observe the real emission (right diagram) and so we must integrate over its phase space. 
+    \item It is the squared matrix element we care about, and we always work to a set order in coupling. Therefore when we take the sum of diagrams and then take the squared matrix element the cross terms between the above two diagrams are not considered (at $\cO(\a^2)$). This will be more clear in just a moment. 
+\een 
+
+\subsubsection{Loop Integral To Phase Space}
+
+First let's derive a relation that will be useful with (i) above in mind. Recall the relation from complex analysis
+\bse 
+    \Im \bigg[\lim_{\epsilon\to 0} \frac{1}{x+i\epsilon}\bigg] = -\pi \del(x).
+\ese 
+Now consider our virtual photon exchange (left diagram), the propagator will give a contribution 
+\bse 
+    \int \frac{d^4k}{(2\pi)^4} \frac{i}{k^2 -i\epsilon}
+\ese 
+where we remember that really we should take the limit $\epsilon\to 0$ (it was just introduced to go around the poles, remember). We can then use the above relation in the following manipulation
+\be 
+\label{eqn:LoopIntegralToPhaseSpace}
+    \begin{split}
+        \Im \bigg[ \int \frac{d^4k}{(2\pi)^4}\frac{1}{k^2-i\epsilon} \bigg] & = -\pi \int \frac{d^4k}{(2\pi)^4} \del(k^2) \\
+        & = -\pi \int \frac{d^3k}{(2\pi)^3} \frac{dk^0}{2\pi} \del\big((k^0)^2 -\Vec{k}^2\big) \\
+        & = -\pi \int \frac{d^3\vec{k}}{(2\pi)^3} \cdot \frac{1}{2\pi} \int \frac{dk^0}{2k^0} \big[ \del\big(k^0-|\Vec{k}|\big) + \del\big(k^0+|\Vec{k}|\big)\big] \\
+        & = -\pi \int \frac{d^3\vec{k}}{(2\pi)^3} \cdot \frac{1}{2\pi} \int \frac{dk^0}{2k^0} 2\del\big(k^0-|\Vec{k}|\big) \\
+        & = - \int \frac{d^3\vec{k}}{(2\pi)^3} \frac{1}{2|\Vec{k}|},
+    \end{split}
+\ee 
+where we have used the relation 
+\bse 
+    \del(x^2-x_0^2) = \frac{1}{2|x|} \big[ \del(x-x_0) + \del(x+x_0)\big]
+\ese 
+and then used the change of variables $k^0 \to -k^0$ to get to the penultimate line. 
+
+So why have we done this? Well it relates the loop integral over the virtual photon propagator to the phase space integral over the real emission. Note the minus sign, though, this will be important shortly. 
+
+\subsubsection{The Cancellation}
+
+Ok let's actually show the cancellation now. We're looking at calculating
+\bse
+    \begin{split}
+        |i\cM|^2 & = | i\cM_0 +  i\cM_{\text{loop}} + i\cM_{\g\text{-emission}} |^2 \\
+        & = \underbrace{|i\cM_0|^2}_{e^2} + \underbrace{2\Re \big( \cM_{\text{loop}}\cM_0^*\big) + |i\cM_{\g\text{-emission}}|^2}_{e^4}
+    \end{split}
+\ese 
+where the subscripts mean the tree level, loop and real photon emission. Note we haven't considered the $\cM_{\text{loop}}$ and $\cM_{\g\text{-emission}}$ cross term as per (ii) above. 
+
+To proceed we obviously need find the contributions from each diagram: 
+\ben[label=(\alph*)]
+    \item The tree level diagram
+    \begin{center}
+        \btik 
+            \midarrow (-1,1) -- (0,0);
+            \midarrow (0,0) -- (1,1);
+            \wavey (0,0) -- (0,-1);
+            \draw[fill=black] (0,0) circle [radius=0.07cm];
+            \node[right] at (1.5,0) {\Large{$\sim -ie\overline{u}(p_2) \g^{\mu} u(p_1)$}};
+        \etik 
+    \end{center}
+    \item The loop diagram
+    \begin{center}
+        \btik 
+            \midarrow (-1.5,1.5) -- (-0.75,0.75);
+            \midarrow (-0.75,0.75) -- (0,0);
+            \midarrow (0,0) -- (0.75,0.75);
+            \midarrow (0.75,0.75) -- (1.5,1.5);
+            \wavey (-0.75,0.75) .. controls (-0.25,1) and (0.25,1) .. (0.75,0.75);
+            \wavey (0,0) -- (0,-1);
+            \draw[fill=black] (0,0) circle [radius=0.07cm];
+            \draw[fill=black] (0.75,0.75) circle [radius=0.07cm];
+            \draw[fill=black] (-0.75,0.75) circle [radius=0.07cm];
+        \etik 
+    \end{center}
+    Gives the contribution\footnote{Hopefully the momentum labels are easy to see, just wanted to try save some Tikzing.}
+    \bse 
+        \begin{split}
+            \int \frac{d^4k}{(2\pi)^4} \overline{u}(p_2) \g^{\nu} \frac{i(\slashed{p}_2 + \slashed{k})}{(p_2+k)^2} \g^{\mu} \frac{i(\slashed{p}_1 + \slashed{k})}{(p_1+k)^2} \g^{\rho} \frac{-i\eta_{\nu\rho}}{k^2} u(p_1) & = \int \frac{d^4k}{(2\pi)^4} i\overline{u}(p_2) \frac{2p_2^{\nu}}{2p_2\cdot k} \g^{\mu} \frac{2(p_1)_{\nu}}{2p_1\cdot k} \frac{1}{k^2} u(p_1) \\
+            & = \int \frac{d^4k}{(2\pi)^4} i \overline{u}(p_2) \g^{\mu} u(p_1) \frac{p_2\cdot p_1}{k^2(p_1\cdot k)(p_2\cdot k)},
+        \end{split}
+    \ese 
+    where we have used the limit $k\to 0$, the massless limit $p^2\to 0$ and the (massless) Dirac equations $\slashed{p}_1 u(p_1) = 0 = \overline{u}(p_2)\slashed{p}_2$. 
+    \item We then have two real emissions: one on the incoming Fermion and the one of the outgoing one. These give the results
+    \begin{center}
+        \btik
+            \begin{scope}
+                \midarrow (-1.5,1.5) -- (-0.75,0.75);
+                \midarrow (-0.75,0.75) -- (0,0);
+                \midarrow (0,0) -- (1.5,1.5);
+                \wavey (-0.75,0.75) -- (-0.4,1.5);
+                \wavey (0,0) -- (0,-1);
+                \draw[fill=black] (0,0) circle [radius=0.07cm];
+                \draw[fill=black] (-0.75,0.75) circle [radius=0.07cm]; 
+                \node[right] at (2,0) {\Large{$\sim \overline{u}(p_2) \g^{\mu} \frac{ip_1^{\nu}}{p_1\cdot k} u(p_1) \epsilon_{\nu}(k)$}}; 
+            \end{scope}
+            \begin{scope}[yshift=-4cm]
+                \midarrow (-1.5,1.5) -- (0,0);
+                \midarrow (0,0) -- (0.75,0.75);
+                \midarrow (0.75,0.75) -- (1.5,1.5);
+                \wavey (0.75,0.75) -- (0.4,1.5);
+                \wavey (0,0) -- (0,-1);
+                \draw[fill=black] (0,0) circle [radius=0.07cm];
+                \draw[fill=black] (0.75,0.75) circle [radius=0.07cm]; 
+                \node[right] at (2,0) {\Large{$\sim \overline{u}(p_2) \frac{ip_2^{\nu}}{p_2\cdot k} \g^{\mu} u(p_1) \epsilon_{\nu}(k)$}}; 
+            \end{scope}
+        \etik 
+    \end{center}
+\een 
+
+\bbox 
+    Show the last two results are true. \textit{Hint: Use the same tricks that we used to obtain the loop diagram result.}
+\ebox   
+
+Now we return to (ii) above: we want to truncate our matrix element squared to some fixed order in coupling. Now we note if we `combine' the tree level diagram and the loop diagram we get something of order $\a^2$ (i.e. four vertices). Similarly if we `combine' the two real emission diagrams with get something of order $\a^2$. However if we combined the loop diagram with one of the real emission ones we would get a higher order, so we ignore them. 
+
+\br 
+    Perhaps a nicer way to make the above argument is that we have seen that the poles enter at set orders of $\a$, and so if we want to show the $\a^2$ pole vanishes we only want to consider the terms in the squared matrix element that appear at $\a^2$. 
+\er 
+
+Let's look at the contribution from the two real emission lines first. We have the emission of a real photon and so we need to sum over the polarisations of that as well as the spin sum. The polarisation sum relation\footnote{I forget if this is included above, and I'm currently too lazy to search for it. So for safety we include it here.} is
+\bse 
+    \sum_{\l} \epsilon^{\mu}_{\l}(p) (\epsilon^*)^{\nu}_{\l}(p) = - \eta^{\mu\nu}
+\ese 
+Combining this with our usual trick of noticing the trace from the closed Fermion loop we have 
+\begin{center}
+    \btik 
+        \begin{scope}[xshift=-2cm]
+            \node[left] at (-2.5,0) {\Huge{$\underset{\l,s,s'}{\sum}$}};
+            \draw (-2,-1.2) -- (-2,1.7);
+            \midarrow (-1.5,1.5) -- (-0.75,0.75);
+            \midarrow (-0.75,0.75) -- (0,0);
+            \midarrow (0,0) -- (1.5,1.5);
+            \wavey (-0.75,0.75) -- (-0.4,1.5);
+            \wavey (0,0) -- (0,-1);
+            \draw[fill=black] (0,0) circle [radius=0.07cm];
+            \draw[fill=black] (-0.75,0.75) circle [radius=0.07cm];
+        \end{scope}
+        \node at (0,0) {\Large{$+$}};
+        \begin{scope}[xshift=2cm]
+            \midarrow (-1.5,1.5) -- (0,0);
+            \midarrow (0,0) -- (0.75,0.75);
+            \midarrow (0.75,0.75) -- (1.5,1.5);
+            \wavey (0.75,0.75) -- (0.4,1.5);
+            \wavey (0,0) -- (0,-1);
+            \draw[fill=black] (0,0) circle [radius=0.07cm];
+            \draw[fill=black] (0.75,0.75) circle [radius=0.07cm];
+            \draw (2,-1.2) -- (2,1.7);
+            \node at (2.2,1.75) {\Large{$2$}};
+        \end{scope}
+    \etik 
+\end{center}
+giving the contribution 
+\bse 
+    e^4\Tr[\slashed{p}_1 \g^{\mu} \slashed{p}_2 \g^{\mu'}] \bigg[ -\eta_{\nu\nu'} \bigg( \frac{p_1^{\nu}}{p_1\cdot k} + \frac{p_2^{\nu'}}{p_2\cdot k}\bigg)\bigg]^2 = e^4\Tr[\slashed{p}_1 \g^{\mu} \slashed{p}_2 \g^{\mu'}] \frac{2p_1\cdot p_2}{(p_1\cdot k)(p_2\cdot k)},
+\ese 
+where again we have used the fact that we're considering the massless limit $p_1^2 = 0 = p_2^2$. We finally then include the integral over phase space as per (i) above to give us 
+\be 
+\label{eqn:TwoRealEmission}
+    |i\cM_{\g\text{-emission}}|^2 \sim e^4 \int \frac{d^3 \vec{k}}{(2\pi)^3} \frac{1}{2|\vec{k}|} \Tr[\slashed{p}_1 \g^{\mu} \slashed{p}_2 \g^{\mu'}] \frac{2p_1\cdot p_2}{(p_1\cdot k)(p_2\cdot k)}.
+\ee 
+
+\bbox 
+    In the above expression we only considered the cross term, i.e. the term 
+    \begin{center}
+        \btik 
+            \midarrow (-3.5,1.5) -- (-2.75,0.75);
+            \midarrow (-2.75,0.75) -- (-2,0);
+            \midarrow (-2,0) -- (-0.5,1.5);
+            \wavey (-2.75,0.75) -- (-2.4,1.5);
+            \wavey (-2,0) -- (-2,-1);
+            \draw[fill=black] (-2,0) circle [radius=0.07cm];
+            \draw[fill=black] (-2.75,0.75) circle [radius=0.07cm];
+            %
+            \draw[ultra thick, blue, dashed] (0,1.7) -- (0,-1.2);
+            %
+            \midarrow (0.5,1.5) -- (2,0);
+            \midarrow (2,0) -- (2.75,0.75);
+            \midarrow (2.75,0.75) -- (3.5,1.5);
+            \wavey (2.75,0.75) -- (2.4,1.5);
+            \wavey (2,0) -- (2,-1);
+            \draw[fill=black] (2,0) circle [radius=0.07cm];
+            \draw[fill=black] (2.75,0.75) circle [radius=0.07cm];
+            % 
+            \draw[ultra thick, blue, dashed] (3.5,1.5) .. controls (1.17,2) and (-1.17,2)  ..  (-3.5,1.5);
+            \draw[ultra thick, blue, dashed] (2,-1) .. controls (0.67,-1.5) and (-0.67,-1.5)  .. (-2,-1);
+        \etik 
+    \end{center}
+    but we didn't consider the other terms, i.e. both incoming emission or outgoing emission. Explain why we did this. \textit{Hint: Remember we're looking at the massless limit.}
+\ebox 
+
+Now let's look at the term coming from the tree level and loop term. Recall this term came in the form 
+\bse 
+    \begin{split}
+        2\Re\big( \cM_{\text{loop}} \cM_0^*\big) & \sim  2\Re \Bigg[ \bigg( (-ie)^3 \int \frac{d^4k}{(2\pi)^4} i \overline{u}(p_2) \g^{\mu} u(p_1) \frac{p_2\cdot p_1}{k^2(p_1\cdot k)(p_2\cdot k)} \bigg) \cdot \big(-i e \overline{u}(p_2) \g^{\mu'} u(p_1)\big)^*  \Bigg] \\
+        & = 2\Re \Bigg[ \Tr[\slashed{p}_1\g^{\mu}\slashed{p}_2 \g^{\mu'}] (-ie)^4 i \int \frac{d^4k}{(2\pi)^4} \frac{p_2\cdot p_1}{k^2(p_1\cdot k)(p_2\cdot k)} \bigg) \Bigg] \\
+        & = e^4\Tr[\slashed{p}_1 \g^{\mu} \slashed{p}_2 \g^{\mu'}] \Im\bigg[ \frac{d^4k}{(2\pi)^4} \frac{p_2\cdot p_1}{k^2(p_1\cdot k)(p_2\cdot k)} \bigg) \Bigg] \\
+        & = e^4\Tr[\slashed{p}_1 \g^{\mu} \slashed{p}_2 \g^{\mu'}] \bigg( - \int \frac{d^3\vec{k}}{(2\pi)^3} \frac{p_2\cdot p_1}{(p_1\cdot k)(p_2\cdot k)}\bigg)
+    \end{split}
+\ese 
+where we have used \Cref{eqn:LoopIntegralToPhaseSpace}. We now see why the minus sign in that result was important: it gives us that the sum of the above result and \Cref{eqn:TwoRealEmission} exactly cancel, which is what we wanted. 
+
+\subsubsection{Physical Interpretation}
+
+We conclude these notes with a short explanation of the physical interpretation of the above result. 
+
+We are working in the soft photon limit, $k\to 0$. This is equivalent to the ultra-long wavelength limit $\l\to \infty$. So in our position space Feynman diagram the virtual photon is `stretched' to infinity as indicated by the first step in the following diagram. Therefore if we can only see the interaction locally (which is obviously true) it's like `chopping' the diagram off at some height as indicated by the second step in the diagram. 
+\begin{center}
+    \btik
+        \begin{scope}[xshift = -2.5cm]
+            \midarrow (-1.5,1.5) -- (-0.75,0.75);
+            \midarrow (-0.75,0.75) -- (0,0);
+            \midarrow (0,0) -- (0.75,0.75);
+            \midarrow (0.75,0.75) -- (1.5,1.5);
+            \wavey (-0.75,0.75) .. controls (-0.25,1) and (0.25,1) .. (0.75,0.75);
+            \wavey (0,0) -- (0,-1);
+            \draw[fill=black] (0,0) circle [radius=0.07cm];
+            \draw[fill=black] (0.75,0.75) circle [radius=0.07cm];
+            \draw[fill=black] (-0.75,0.75) circle [radius=0.07cm];
+        \end{scope}
+        \draw[->] (-1,0) -- (1,0) node [above, midway] {$k\to 0$};
+        \begin{scope}[xshift = 2.5cm]
+            \midarrow (-1.5,1.5) -- (-0.75,0.75);
+            \midarrow (-0.75,0.75) -- (0,0);
+            \midarrow (0,0) -- (0.75,0.75);
+            \midarrow (0.75,0.75) -- (1.5,1.5);
+            \wavey (-0.75,0.75) .. controls (-0.25,4) and (0.25,4) .. (0.75,0.75);
+            \wavey (0,0) -- (0,-1);
+            \draw[fill=black] (0,0) circle [radius=0.07cm];
+            \draw[fill=black] (0.75,0.75) circle [radius=0.07cm];
+            \draw[fill=black] (-0.75,0.75) circle [radius=0.07cm];
+        \end{scope}
+        \draw[->] (4,0) -- (6,0) node [above, midway] {local};
+        \begin{scope}[xshift = 7.5cm]
+            \clip (-1.7,-1) -- (-1.7,1.5) -- (1.7,1.5) -- (1.7,-1) -- (-1.7,-1);
+            \midarrow (-1.5,1.5) -- (-0.75,0.75);
+            \midarrow (-0.75,0.75) -- (0,0);
+            \midarrow (0,0) -- (0.75,0.75);
+            \midarrow (0.75,0.75) -- (1.5,1.5);
+            \wavey (-0.75,0.75) .. controls (-0.25,4) and (0.25,4) .. (0.75,0.75);
+            \wavey (0,0) -- (0,-1);
+            \draw[fill=black] (0,0) circle [radius=0.07cm];
+            \draw[fill=black] (0.75,0.75) circle [radius=0.07cm];
+            \draw[fill=black] (-0.75,0.75) circle [radius=0.07cm];
+        \end{scope}
+    \etik 
+\end{center}
+
+Now the final diagram looks just like the real emission of a photon, which is why they take the same form in our result above. To be clear, when we `stitch it together' with the tree level diagram we get something that looks \textit{exactly} like the `stitching' of the two real photon emission graphs. This is what are result above said.  We don't, however, have a nice physical reason for the relative minus sign between the two terms --- it comes from the difference in the integration measures. 
